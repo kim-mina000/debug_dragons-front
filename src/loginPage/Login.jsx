@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import login from '../loginPage/Login.jsx';
 
 const Container = styled.div`
   display: flex;
@@ -80,7 +81,7 @@ const Icon = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-`;
+`;  
 
 const Login = () => {
   const [id, setId] = useState('');
@@ -110,9 +111,14 @@ const Login = () => {
         onChange={(e) => setPassword(e.target.value)}
       />
       <Button onClick={handleLogin}>로그인 하기</Button>
+      <div className='image'>
+        <img src='../기타제작파일/btnG_완성형.png' className='login' />
+        <img src="../ 기타제작파일/kakao_login_medium_narrow.png" className='login'/>
+      </div>
       <Links>
-        <a href="#">아이디 찾기</a> | <a href="#">비밀번호 찾기</a> | <a href="#">회원가입하기</a>
+        <a href="#">아이디 찾기</a> | <a href="#">비밀번호 찾기</a>
       </Links>
+      <Links><a href="#">회원가입하기</a></Links>
       <IconContainer>
         <Icon>🏠</Icon>
         <Icon>🔍</Icon>
