@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
-import Loading from './loadingItem/Loading';
-import Login from './loginPage/Login';
+import Loading from './components/loadingItem/Loading';
+import Login from './components/loginPage/Login';
 
 const GlobalStyles = createGlobalStyle`
   @font-face {
