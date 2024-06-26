@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import login from '../loginPage/Login.jsx';
 
+
+// 컨테이너 틀
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f0f0f0;
 `;
 
+// "아띠버스" 제목
 const Title = styled.h1`
   font-size: 80px;
   margin-bottom: 20px;
 `;
 
+// 아이디 비밀번호 input
 const Input = styled.input`
   width: 700px;
   height: 70px;
@@ -31,6 +33,7 @@ const Input = styled.input`
 
 `;
 
+// "로그인하기" 버튼
 const Button = styled.button`
   width: 720px;
   height: 70px;
@@ -47,6 +50,7 @@ const Button = styled.button`
   }
 `;
 
+// 아이디, 비밀번호 찾기 + 회원가입하기
 const Links = styled.div`
   margin-top: 20px;
   a {
@@ -60,17 +64,18 @@ const Links = styled.div`
   }
 `;
 
+// 하단 메뉴탭 컨테이너
 const IconContainer = styled.div`
   display: flex;
   justify-content: space-around;
   width: 50%;
   position: absolute;
   bottom: 20px;
-  background-color: #f0f0f0;
   padding: 10px 0; 
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #ccc; 
 `;
 
+// 하단 메뉴탭
 const Icon = styled.div`
   width: 70px;
   height: 70px;
@@ -82,6 +87,7 @@ const Icon = styled.div`
   justify-content: center;
   cursor: pointer;
 `;  
+
 
 const Login = () => {
   const [id, setId] = useState('');
@@ -112,8 +118,8 @@ const Login = () => {
       />
       <Button onClick={handleLogin}>로그인 하기</Button>
       <div className='image'>
-        <img src='../기타제작파일/btnG_완성형.png' className='login' />
-        <img src="../ 기타제작파일/kakao_login_medium_narrow.png" className='login'/>
+        <img src='/btnG_완성형.png' className='login' style={{width: '200px', height: '50px', marginRight: '50px'}} />
+        <img src="/kakao_login_medium_narrow.png" className='login' style={{width: '200px', height: '50px'}}/>
       </div>
       <Links>
         <a href="#">아이디 찾기</a> | <a href="#">비밀번호 찾기</a>
