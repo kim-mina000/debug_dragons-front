@@ -1,7 +1,9 @@
+
+import {displayToken} from'./login_kakao.js';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-
+const {Kakao} = window;
 // 컨테이너 틀
 const Container = styled.div`
   display: flex;
@@ -101,6 +103,12 @@ const Login = () => {
     }
   };
 
+  const kakaoLoginHandler = ()=> {
+    Kakao.Auth.authorize({
+      redirectUri: 'http://localhost:3001/search-main',
+    })
+
+  }
   return (
     <Container>
       <Title>아띠버스</Title>
@@ -119,7 +127,7 @@ const Login = () => {
       <Button onClick={handleLogin}>로그인 하기</Button>
       <div className='image'>
         <img src='/btnG_완성형.png' className='login' style={{width: '200px', height: '50px', marginRight: '50px'}} />
-        <img src="/kakao_login_medium_narrow.png" className='login' style={{width: '200px', height: '50px'}}/>
+        <img src="/kakao_login_medium_narrow.png" className='login' style={{width: '200px', height: '50px'}} onClick={kakaoLoginHandler}/>
       </div>
       <Links>
         <a href="#">아이디 찾기</a> | <a href="#">비밀번호 찾기</a>

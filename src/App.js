@@ -3,6 +3,8 @@ import styled, { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 import Loading from './components/loadingItem/Loading';
 import Login from './components/loginPage/Login';
+import SearchMain from './components/1.searchPage/SearchMain';
+import { Route, Routes } from 'react-router-dom';
 
 const GlobalStyles = createGlobalStyle`
   @font-face {
@@ -36,7 +38,12 @@ function App() {
   return (
     <>
       <GlobalStyles />  
-      <Login />
+      <Routes>
+        <Route path='/*' element={<Login />} />
+        <Route path='/search-main' element={<SearchMain />} />
+      </Routes>
+      {/* <SearchMain /> */}
+
 
       {/* <div className="App">
         {isLoading ? <Loading /> : <h1>메인페이지</h1>}
