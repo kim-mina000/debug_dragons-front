@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import MenuBar from '../menuBar/MenuBar';
 
 
 // 컨테이너 틀
@@ -74,6 +75,14 @@ const LineContainer = styled.div`
   }  
 `;
 
+const Image = styled.div`
+  img {
+    width: 200px;
+    height: 50px;
+    cursor: pointer;
+  }
+`;
+
 // 아이디, 비밀번호 찾기 + 회원가입하기
 const Links = styled.div`
   margin-top: 20px;
@@ -89,28 +98,6 @@ const Links = styled.div`
     }
   }
 `;
-
-// 하단 메뉴탭 컨테이너
-const IconContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  width: 50%;
-  position: absolute;
-  bottom: 20px;
-  padding: 15px 0; 
-  border-top: 1px solid #ccc; 
-`;
-
-// 하단 메뉴탭
-const Icon = styled.div`
-  width: 70px;
-  height: 70px;
-  font-size: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-`;  
 
 const Login = () => {
   const [id, setId] = useState('');
@@ -139,29 +126,20 @@ const Login = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+
       <Button onClick={handleLogin}>시작하기</Button>
-      <LineContainer>
-        간편 로그인 하기
-      </LineContainer>
-      <div className='image'>
-        <a href="#">
-          <img src='/btnG_완성형.png' style={{width: '200px', height: '50px', marginRight: '50px'}} />
-        </a>
-        <a href="#">
-          <img src="/kakao_login_medium_narrow.png" style={{width: '200px', height: '50px'}}/>
-        </a> 
-      </div>
-      <Links>
-        <a href="#">아이디 찾기</a> | <a href="#">비밀번호 찾기</a>
-      </Links>
+
+      <LineContainer>간편 로그인 하기</LineContainer>
+
+        <Image>
+          <img src='/btnG_완성형.png' style={{ marginRight: '50px'}} />
+          <img src="/kakao_login_medium_narrow.png"/>
+        </Image>
+
+      <Links><a href="#">아이디 찾기</a> | <a href="#">비밀번호 찾기</a></Links>
       <Links><a href="#">회원가입하기</a></Links>
-      <IconContainer>
-        <Icon><img src='/리스트.png'/></Icon>
-        <Icon><img src='/둘러보기.png'/></Icon>
-        <Icon><img src='/홈.png'/></Icon>
-        <Icon><img src='/스크랩.png'/></Icon>
-        <Icon><img src='/마이페이지.png'/></Icon>
-      </IconContainer>
+
+      <MenuBar/>
     </Container>
   );
 };
