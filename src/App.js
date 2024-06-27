@@ -3,6 +3,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 import Loading from './components/loadingItem/Loading';
 import Login from './components/loginPage/Login';
+import Startpage from './components/loadingItem/Startpage';
 
 const GlobalStyles = createGlobalStyle`
 ${reset}
