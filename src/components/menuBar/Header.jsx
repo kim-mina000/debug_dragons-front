@@ -47,7 +47,7 @@ const Header = ({ userName, onLogout }) => {
   return (
     <HeaderContainer>
       <LeftContainer>
-        <ProfileImage src="/profileimg.png" alt="프로필 이미지" />
+        <ProfileImage src="/profile_img.png" alt="프로필 이미지" />
         <UserName>{userName ? `${userName} 님 환영합니다` : '환영합니다'}</UserName>
       </LeftContainer>
       <RightContainer>
