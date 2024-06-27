@@ -35,22 +35,20 @@ ${reset}
 `;
 
 function App() {
-  // const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 3000);
-  // }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);  
+  }, []);
 
   return (
     <>
-      <GlobalStyles />  
-      <Login />
-{/* 
+      <GlobalStyles />
       <div className="App">
-        {isLoading ? <Loading /> : <h1>메인페이지</h1>}
-      </div> */}
+        {isLoading ? <Loading/> : <Startpage/> }  
+      </div>
     </>
   );
 }
