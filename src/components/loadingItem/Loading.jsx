@@ -9,6 +9,7 @@ const Container = styled.div`
   height: 100vh;
   align-items: center;
   background-color: #4ca8ff;
+  // 수정확인
   `
 const Text = styled.p`
   font-size: 20px;
