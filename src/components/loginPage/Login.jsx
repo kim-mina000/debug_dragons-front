@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import MenuBar from '../menuBar/MenuBar';
+import TitleLogo from './TitleLogo';
+import { Link } from 'react-router-dom';
 
 
 // 컨테이너 틀
@@ -10,12 +12,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-`;
-
-// "아띠버스" 제목
-const Title = styled.h1`
-  font-size: 80px;
-  margin-bottom: 20px;
 `;
 
 // 아이디 비밀번호 input
@@ -113,7 +109,8 @@ const Login = () => {
 
   return (
     <Container>
-      <Title>아띠버스</Title>
+      <TitleLogo/>
+
       <Input
         type="text"
         placeholder="아이디를 입력해주세요."
@@ -137,7 +134,9 @@ const Login = () => {
         </Image>
 
       <Links><a href="#">아이디 찾기</a> | <a href="#">비밀번호 찾기</a></Links>
-      <Links><a href="#">회원가입하기</a></Links>
+      <Links>
+        <Link to={"/signup"}>회원가입</Link>
+      </Links>
 
       <MenuBar/>
     </Container>

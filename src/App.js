@@ -3,8 +3,13 @@ import styled, { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 import Loading from './components/loadingItem/Loading';
 import Login from './components/loginPage/Login';
+<<<<<<< HEAD
+import SignUp from './components/loginPage/SignUp';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+=======
 import Startpage from './components/loadingItem/Startpage';
 import Header from './components/menuBar/Header';
+>>>>>>> develope
 
 const GlobalStyles = createGlobalStyle`
 ${reset}
@@ -33,6 +38,7 @@ ${reset}
     background-color: #DCEEF2; 
 
     font-family: 'MaplestoryOTFBold', sans-serif;
+
   }
 `;
 
@@ -52,13 +58,19 @@ function App() {
   }, []);
 
   return (
-    <>
-      <GlobalStyles />
+    <BrowserRouter>
+      <GlobalStyles />  
+      <Routes>
+
+        <Route path='/' element={<Login />}/>
+        <Route path='/signup' element={<SignUp />}/>
+      {/* <SignUp /> */}
+{/* 
       <div className="App">
-        {isLoading ? <Loading/> : <Startpage/> }  
-        <Header userName={userName} onLogout={handleLogout} />
-      </div>
-    </>
+        {isLoading ? <Loading /> : <h1>메인페이지</h1>}
+      </div> */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
