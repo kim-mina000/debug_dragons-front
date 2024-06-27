@@ -4,6 +4,7 @@ import reset from 'styled-reset';
 import Loading from './components/loadingItem/Loading';
 import Login from './components/loginPage/Login';
 import Startpage from './components/loadingItem/Startpage';
+import Header from './components/menuBar/Header';
 
 const GlobalStyles = createGlobalStyle`
 ${reset}
@@ -38,6 +39,12 @@ ${reset}
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
+  const [userName, setUserName] = useState('사용자'); 
+
+  const handleLogout = () => {
+    setUserName(null); 
+  };
+
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
@@ -49,6 +56,7 @@ function App() {
       <GlobalStyles />
       <div className="App">
         {isLoading ? <Loading/> : <Startpage/> }  
+        <Header userName={userName} onLogout={handleLogout} />
       </div>
     </>
   );
