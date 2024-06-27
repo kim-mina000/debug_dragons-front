@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 // 하단 메뉴탭 컨테이너
@@ -27,7 +28,11 @@ function MenuBar() {
   <IconContainer>
     <Icon><img src='/리스트.png'/></Icon>
     <Icon><img src='/둘러보기.png'/></Icon>
-    <Icon><img src='/홈.png'/></Icon>
+    <Icon>
+      <Link to={"/"}>
+        <img src='/홈.png'/>
+      </Link>
+    </Icon>
     <Icon><img src='/스크랩.png'/></Icon>
     <Icon><img src='/마이페이지.png'/></Icon>
   </IconContainer>
