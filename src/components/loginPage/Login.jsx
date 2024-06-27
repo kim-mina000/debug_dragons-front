@@ -50,50 +50,14 @@ const Button = styled.button`
   }
 `;
 
-// 아이디, 비밀번호 찾기 + 회원가입하기
-const Links = styled.div`
-  margin-top: 20px;
-  a {
-    font-size: 25px;
-    font-family: 'NEXON Lv1 Gothic OTF', sans-serif;
-    color: #555;
-    margin: 0 10px;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-`;
-
-// 하단 메뉴탭 컨테이너
-const IconContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  width: 70%;
-  position: absolute;
-  bottom: 20px;
-  padding: 10px 0; 
-  border-top: 1px solid #ccc; 
-`;
-
-// 하단 메뉴탭
-const Icon = styled.div`
-  width: 70px;
-  height: 70px;
-  font-size: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-`;  
-
+// 간편 로그인하기
 const LineContainer = styled.div`
   display: flex;
   align-items: center;
   text-align: center;
-  font-size: 20px;
-  padding: 20px 0;
-  width: 700px;
+  font-size: 15px;
+  padding: 25px 0;
+  width: 720px;
 
   &::before {
     content: '';
@@ -109,6 +73,44 @@ const LineContainer = styled.div`
     margin-left: 10px;
   }  
 `;
+
+// 아이디, 비밀번호 찾기 + 회원가입하기
+const Links = styled.div`
+  margin-top: 20px;
+  padding-left: 25px;
+  a {
+    font-size: 20px;
+    font-family: 'NEXON Lv1 Gothic OTF', sans-serif;
+    color: #555;
+    margin: 0 10px;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
+
+// 하단 메뉴탭 컨테이너
+const IconContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 50%;
+  position: absolute;
+  bottom: 20px;
+  padding: 15px 0; 
+  border-top: 1px solid #ccc; 
+`;
+
+// 하단 메뉴탭
+const Icon = styled.div`
+  width: 70px;
+  height: 70px;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+`;  
 
 const Login = () => {
   const [id, setId] = useState('');
@@ -137,7 +139,7 @@ const Login = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Button onClick={handleLogin}>시작 하기</Button>
+      <Button onClick={handleLogin}>시작하기</Button>
       <LineContainer>
         간편 로그인 하기
       </LineContainer>
@@ -150,7 +152,6 @@ const Login = () => {
         </a> 
       </div>
       <Links>
-
         <a href="#">아이디 찾기</a> | <a href="#">비밀번호 찾기</a>
       </Links>
       <Links><a href="#">회원가입하기</a></Links>
