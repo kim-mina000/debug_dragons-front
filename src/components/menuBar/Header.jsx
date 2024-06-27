@@ -17,6 +17,9 @@ const LeftContainer = styled.div`
   align-items: center;
 `;
 
+// 오른쪽 컨테이너 스타일
+const RightContainer = styled.div``;
+
 // 프로필 이미지 스타일
 const ProfileImage = styled.img`
   width: 40px;
