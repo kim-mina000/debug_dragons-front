@@ -9,7 +9,7 @@ const Container = styled.div`
   height: 100vh;
   align-items: center;
   background-color: #4ca8ff;
-  /* width: 100vh; //삭제요망 */
+
   `
 const Text = styled.p`
   font-size: 20px;
