@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
+import { Link } from 'react-router-dom';
 import logo from '../../image/메인로고.png';
 
 const GlobalStyle = createGlobalStyle`
@@ -57,6 +58,37 @@ const Button = styled.button`
   }
 `;
 
+const StyledLink = styled(Link)`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
+  background-color: white;
+  border: none;
+  font-size: 30px;
+  font-family: 'MaplestoryOTFBold';
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+  transition: background-color 0.3s;
+  padding: 0 100px;
+
+  &:hover {
+    background-color: lightgray;
+  }
+  
+  &.load-login {
+    text-align: right; 
+    direction: rtl; 
+  }
+
+  &.load-around {
+    text-align: left;
+    direction: ltr; 
+  }
+`;
+
 function Startpage() {
   return (
     <>
@@ -64,7 +96,7 @@ function Startpage() {
       <Container>
         <Logo src={logo} alt="메인 로고" />
         <ButtonContainer className="start_btn">
-          <Button type="button" className="load-login">로그인하기</Button>
+         <StyledLink to="/login" className="load-login">로그인하기</StyledLink>
           <Button type="button" className="load-around">둘러보기</Button>
         </ButtonContainer>
       </Container>
