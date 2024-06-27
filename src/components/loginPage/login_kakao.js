@@ -6,12 +6,7 @@ export const {Kakao} = window;
 Kakao.init('02a031fabfd172ce7cd288e0d8cd83a9');
 Kakao.isInitialized();
 
-// 로그인 과정 예시
-function loginWithKakao() {
-    Kakao.Auth.authorize({
-      redirectUri: 'https://developers.kakao.com/tool/demo/oauth',
-    });
-}
+
 
   // 아래는 데모를 위한 UI 코드입니다.
 export function displayToken() {
@@ -39,9 +34,8 @@ function getCookie(name) {
   if (parts.length === 2) { return parts[1].split(';')[0]; }
 }
 
-const getToken = async code => {
+const getToken = async (code) => {
   const grant_type = 'authorization_code';
-  // const client_id = '02a031fabfd172ce7cd288e0d8cd83a9'; JS키
   const client_id = '9d4de3df4c7c5e0199e412627381f00a';
   const REDIRECT_URI = 'http://localhost:3001/search-main';
   const AUTHORIZE_CODE = code;
@@ -59,36 +53,26 @@ const getToken = async code => {
     console.error(err);
   });
 
-  const token = await res.data.access_token;
+  const token = res.data.access_token;
   console.log(token);
-  return token;
-
+  return await token;
 }
 
 
-  export function getCodeParam() {
-    const params = new URL(document.location.toString()).searchParams;
-    const code = params.get('code');
+export const getUserData = async () => {
+  // 코드에서 파람을 추출하여 토큰 발급 -> 유저데이터 반환
+  const params = new URL(document.location.toString()).searchParams;
+  const code = params.get('code');
 
-    if (code) {
-      const token = getToken(code);
-      return token;
+  if (code) {
+    const token = await getToken(code);
+    console.log("getCodeParam token:: "+token);
+    const kakaoUser = await axios.get('https://kapi.kakao.com/v2/user/me', { headers :{Authorization: `Bearer ${token}`} });  
+    console.log("getCodeParam kakaoUser:: "+kakaoUser.data);
+    return kakaoUser.data;
 
-    } else {
-      console.error("토큰을 발행할수 없습니다");
-      return ;
-    }
-  };
-
-//   const getKaKaoUserData = async token => {
-//     const kakaoUser = await axios.get(`https://kapi.kakao.com/v2/user/me`, {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//     })
-    
-//     return await kakaoUser.data
-// }
-  
-// getKaKaoUserData(token);
-
+  } else {
+    console.error("토큰을 발행할수 없습니다");
+    return ;
+  }
+};

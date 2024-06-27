@@ -106,6 +106,7 @@ const Login = () => {
   const kakaoLoginHandler = ()=> {
     Kakao.Auth.authorize({
       redirectUri: 'http://localhost:3001/search-main',
+      state: 'userme'
     })
 
   }

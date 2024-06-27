@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {getCodeParam, Kakao} from "../loginPage/login_kakao.js";
+import {getUserData, Kakao} from "../loginPage/login_kakao.js";
 
 // 해보는중,, 
 
@@ -58,8 +58,9 @@ const SaveButton = styled.button`
 
 function SearchMain() {
 
-  const token = getCodeParam();
-  // Kakao.Auth.setAccessToken(token);
+  const userInfo = getUserData();
+  console.log(userInfo.then(response => console.log(response)));
+
   return (
     <Container>
       <LeftWrap>
