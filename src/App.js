@@ -4,7 +4,10 @@ import reset from 'styled-reset';
 import Loading from './components/loadingItem/Loading';
 import Login from './components/loginPage/Login';
 import SignUp from './components/loginPage/SignUp';
+import Startpage from './components/loadingItem/Startpage';
+import Header from './components/menuBar/Header';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 
 const GlobalStyles = createGlobalStyle`
 ${reset}
@@ -57,14 +60,16 @@ function App() {
     <BrowserRouter>
       <GlobalStyles />  
       <Routes>
-
-        <Route path='/' element={<Login />}/>
-        <Route path='/signup' element={<SignUp />}/>
-      {/* <SignUp /> */}
-{/* 
-      <div className="App">
-        {isLoading ? <Loading /> : <h1>메인페이지</h1>}
-      </div> */}
+      <Route path='/startpage' element={
+          <>
+            <Header userName={userName} onLogout={handleLogout} />
+            {isLoading ? <Loading /> : <Startpage />}
+          </>
+        } />
+        
+        <Route path='/' element={<Login />} />
+        <Route path='/signup' element={<SignUp />} />
+        
       </Routes>
     </BrowserRouter>
   );
