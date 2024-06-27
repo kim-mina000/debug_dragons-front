@@ -5,6 +5,10 @@ import Loading from './components/loadingItem/Loading';
 import Login from './components/loginPage/Login';
 import SignUp from './components/loginPage/SignUp';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Startpage from './components/loadingItem/Startpage';
+import Header from './components/menuBar/Header';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 
 const GlobalStyles = createGlobalStyle`
 ${reset}
@@ -27,6 +31,7 @@ ${reset}
   body {
 
     // 백그라운드컬러 후보1
+    // 수정중입니다.
     /* background-color: #FFFFD2; */
 
     // 백그라운드컬러 후보2
@@ -56,14 +61,16 @@ function App() {
     <BrowserRouter>
       <GlobalStyles />  
       <Routes>
-
-        <Route path='/' element={<Login />}/>
-        <Route path='/signup' element={<SignUp />}/>
-      {/* <SignUp /> */}
-{/* 
-      <div className="App">
-        {isLoading ? <Loading /> : <h1>메인페이지</h1>}
-      </div> */}
+      <Route path='/startpage' element={
+          <>
+            <Header userName={userName} onLogout={handleLogout} />
+            {isLoading ? <Loading /> : <Startpage />}
+          </>
+        } />
+        
+        <Route path='/' element={<Login />} />
+        <Route path='/signup' element={<SignUp />} />
+        
       </Routes>
     </BrowserRouter>
   );
