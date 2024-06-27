@@ -63,20 +63,6 @@ function App() {
       <GlobalStyles />  
         <Routes>
 
-<<<<<<< HEAD
-          <Route path='/startpage' element={
-            <>
-              <Header userName={userName} onLogout={handleLogout} />
-                {isLoading ? <Loading /> : <Startpage />}
-              </>
-          } />
-            
-          <Route path='/' element={<Login />} />
-          <Route path='/signup' element={<SignUp />} />
-          <Route path='/main' element={<MainContainer />} />
-          
-        </Routes>
-=======
         <Route path="/" element={<Navigate to="/startpage" replace />} />
         <Route path="/startpage" element={
           isLoading ? (
@@ -90,9 +76,10 @@ function App() {
         } />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
+        <Route path='/main' element={<MainContainer />} />
 
       </Routes>
->>>>>>> 39795dfc33c3c950e2ea0e90e4bdfbe8394ac341
+
     </BrowserRouter>
 
   );
