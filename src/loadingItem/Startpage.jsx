@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import logo from '../image/메인로고.png';
+// 수정
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
