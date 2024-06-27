@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import login from '../loginPage/Login.jsx';
 
+
+// 컨테이너 틀
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f0f0f0;
 `;
 
+// "아띠버스" 제목
 const Title = styled.h1`
   font-size: 80px;
   margin-bottom: 20px;
 `;
 
+// 아이디 비밀번호 input
 const Input = styled.input`
   width: 700px;
   height: 70px;
@@ -31,6 +33,7 @@ const Input = styled.input`
 
 `;
 
+// "로그인하기" 버튼
 const Button = styled.button`
   width: 720px;
   height: 70px;
@@ -47,10 +50,37 @@ const Button = styled.button`
   }
 `;
 
+// 간편 로그인하기
+const LineContainer = styled.div`
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-size: 15px;
+  padding: 25px 0;
+  width: 720px;
+
+  &::before {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #000;
+    margin-right: 10px;
+  }
+  
+  &::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #000;
+    margin-left: 10px;
+  }  
+`;
+
+// 아이디, 비밀번호 찾기 + 회원가입하기
 const Links = styled.div`
   margin-top: 20px;
+  padding-left: 25px;
   a {
-    font-size: 25px;
+    font-size: 20px;
+    font-family: 'NEXON Lv1 Gothic OTF', sans-serif;
     color: #555;
     margin: 0 10px;
     text-decoration: none;
@@ -60,23 +90,22 @@ const Links = styled.div`
   }
 `;
 
+// 하단 메뉴탭 컨테이너
 const IconContainer = styled.div`
   display: flex;
   justify-content: space-around;
   width: 50%;
   position: absolute;
   bottom: 20px;
-  background-color: #f0f0f0;
-  padding: 10px 0; 
-  border-top: 1px solid #ccc;
+  padding: 15px 0; 
+  border-top: 1px solid #ccc; 
 `;
 
+// 하단 메뉴탭
 const Icon = styled.div`
   width: 70px;
   height: 70px;
   font-size: 30px;
-  background-color: #eee;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,21 +139,28 @@ const Login = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Button onClick={handleLogin}>로그인 하기</Button>
+      <Button onClick={handleLogin}>시작하기</Button>
+      <LineContainer>
+        간편 로그인 하기
+      </LineContainer>
       <div className='image'>
-        <img src='../기타제작파일/btnG_완성형.png' className='login' />
-        <img src="../ 기타제작파일/kakao_login_medium_narrow.png" className='login'/>
+        <a href="#">
+          <img src='/btnG_완성형.png' style={{width: '200px', height: '50px', marginRight: '50px'}} />
+        </a>
+        <a href="#">
+          <img src="/kakao_login_medium_narrow.png" style={{width: '200px', height: '50px'}}/>
+        </a> 
       </div>
       <Links>
         <a href="#">아이디 찾기</a> | <a href="#">비밀번호 찾기</a>
       </Links>
       <Links><a href="#">회원가입하기</a></Links>
       <IconContainer>
-        <Icon>🏠</Icon>
-        <Icon>🔍</Icon>
-        <Icon>📁</Icon>
-        <Icon>📞</Icon>
-        <Icon>👤</Icon>
+        <Icon><img src='/리스트.png'/></Icon>
+        <Icon><img src='/둘러보기.png'/></Icon>
+        <Icon><img src='/홈.png'/></Icon>
+        <Icon><img src='/스크랩.png'/></Icon>
+        <Icon><img src='/마이페이지.png'/></Icon>
       </IconContainer>
     </Container>
   );
