@@ -76,3 +76,18 @@ export const getUserData = async () => {
     return ;
   }
 };
+
+// 백서버로 데이터 전송
+export const addUserData = async () => {
+  try {
+    const response = await axios.post("http://localhost:8080/member/register",{"no":0, "title":"제목","content":"내용~","writer":"user"});
+    
+    if (response.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
+      return response.data;
+    } else {
+      throw new Error(`api error: ${response.status} ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error(error);     
+  }
+};
