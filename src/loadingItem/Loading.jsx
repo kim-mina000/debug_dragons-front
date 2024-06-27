@@ -3,6 +3,12 @@ import LoadingAnimation from "../lottie/Animation - 1718980687326.json";
 import styled from "styled-components";
 
 const Container = styled.div`
+@font-face {
+    font-family: 'MaplestoryOTFBold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/MaplestoryOTFBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -13,6 +19,7 @@ const Container = styled.div`
   `
 const Text = styled.p`
   font-size: 20px;
+  font-family: 'MaplestoryOTFBold';
 `;
 
 function Loading() {
@@ -28,7 +35,8 @@ function Loading() {
   return (
     <>
       <Container>
-        <Text>잠시만 기다려주세요 !</Text>
+        <Text>잠시만 기다려주세요!! <br/>
+              아띠버스가 user님을 태우러 가고 있어요!</Text>
         <Lottie options={defaultOptions} height={400} width={400} />
       </Container>
     </>
