@@ -5,7 +5,7 @@ import Loading from './components/loadingItem/Loading';
 import Login from './components/loginPage/Login';
 
 import SignUp from './components/loginPage/SignUp';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate  } from 'react-router-dom';
 import Startpage from './components/loadingItem/Startpage';
 import Header from './components/menuBar/Header';
 import MainContainer from './components/MainContainer';
@@ -63,6 +63,7 @@ function App() {
       <GlobalStyles />  
         <Routes>
 
+<<<<<<< HEAD
           <Route path='/startpage' element={
             <>
               <Header userName={userName} onLogout={handleLogout} />
@@ -75,6 +76,23 @@ function App() {
           <Route path='/main' element={<MainContainer />} />
           
         </Routes>
+=======
+        <Route path="/" element={<Navigate to="/startpage" replace />} />
+        <Route path="/startpage" element={
+          isLoading ? (
+            <Loading />
+          ) : (
+            <>
+              <Header userName={userName} onLogout={handleLogout} />
+              <Startpage />
+            </>
+          )
+        } />
+        <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<SignUp />} />
+
+      </Routes>
+>>>>>>> 39795dfc33c3c950e2ea0e90e4bdfbe8394ac341
     </BrowserRouter>
 
   );
