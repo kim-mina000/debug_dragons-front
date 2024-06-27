@@ -27,6 +27,7 @@ ${reset}
   body {
 
     // 백그라운드컬러 후보1
+    // 수정중입니다.
     /* background-color: #FFFFD2; */
 
     // 백그라운드컬러 후보2

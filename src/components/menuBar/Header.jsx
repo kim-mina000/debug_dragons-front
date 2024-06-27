@@ -30,9 +30,6 @@ const UserName = styled.span`
   font-size: 16px;
 `;
 
-// 오른쪽 컨테이너 스타일
-const RightContainer = styled.div``;
-
 // 로그아웃 버튼 스타일
 const LogoutButton = styled.button`
   background: none;
@@ -47,7 +44,7 @@ const Header = ({ userName, onLogout }) => {
   return (
     <HeaderContainer>
       <LeftContainer>
-        <ProfileImage src="/profileimg.png" alt="프로필 이미지" />
+        <ProfileImage src="/profile_img.png" alt="프로필 이미지" />
         <UserName>{userName ? `${userName} 님 환영합니다` : '환영합니다'}</UserName>
       </LeftContainer>
       <RightContainer>
