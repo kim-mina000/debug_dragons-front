@@ -3,8 +3,13 @@ import styled, { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 import Loading from './components/loadingItem/Loading';
 import Login from './components/loginPage/Login';
+<<<<<<< HEAD
 import SignUp from './components/loginPage/SignUp';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+=======
+import Startpage from './components/loadingItem/Startpage';
+import Header from './components/menuBar/Header';
+>>>>>>> develope
 
 const GlobalStyles = createGlobalStyle`
 ${reset}
@@ -38,13 +43,19 @@ ${reset}
 `;
 
 function App() {
-  // const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 3000);
-  // }, []);
+  const [userName, setUserName] = useState('사용자'); 
+
+  const handleLogout = () => {
+    setUserName(null); 
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);  
+  }, []);
 
   return (
     <BrowserRouter>
