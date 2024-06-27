@@ -4,12 +4,11 @@ import reset from 'styled-reset';
 import Loading from './components/loadingItem/Loading';
 import Login from './components/loginPage/Login';
 
-import SearchMain from './components/1.searchPage/SearchMain';
-import { Route, Routes } from 'react-router-dom';
 import SignUp from './components/loginPage/SignUp';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Startpage from './components/loadingItem/Startpage';
 import Header from './components/menuBar/Header';
+import MainContainer from './components/MainContainer';
 
 
 const GlobalStyles = createGlobalStyle`
@@ -62,19 +61,20 @@ function App() {
   return (
     <BrowserRouter>
       <GlobalStyles />  
-      <Routes>
+        <Routes>
 
-      <Route path='/startpage' element={
-        <>
-          <Header userName={userName} onLogout={handleLogout} />
-            {isLoading ? <Loading /> : <Startpage />}
-          </>
-      } />
-        
-      <Route path='/' element={<Login />} />
-      <Route path='/signup' element={<SignUp />} />
-        
-      </Routes>
+          <Route path='/startpage' element={
+            <>
+              <Header userName={userName} onLogout={handleLogout} />
+                {isLoading ? <Loading /> : <Startpage />}
+              </>
+          } />
+            
+          <Route path='/' element={<Login />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/main' element={<MainContainer />} />
+          
+        </Routes>
     </BrowserRouter>
 
   );
