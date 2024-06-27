@@ -30,9 +30,6 @@ const UserName = styled.span`
   font-size: 16px;
 `;
 
-// 오른쪽 컨테이너 스타일
-const RightContainer = styled.div``;
-
 // 로그아웃 버튼 스타일
 const LogoutButton = styled.button`
   background: none;
