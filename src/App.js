@@ -3,6 +3,8 @@ import styled, { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 import Loading from './components/loadingItem/Loading';
 import Login from './components/loginPage/Login';
+import SignUp from './components/loginPage/SignUp';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 const GlobalStyles = createGlobalStyle`
 ${reset}
@@ -31,6 +33,7 @@ ${reset}
     background-color: #DCEEF2; 
 
     font-family: 'MaplestoryOTFBold', sans-serif;
+
   }
 `;
 
@@ -44,14 +47,19 @@ function App() {
   // }, []);
 
   return (
-    <>
+    <BrowserRouter>
       <GlobalStyles />  
-      <Login />
+      <Routes>
+
+        <Route path='/' element={<Login />}/>
+        <Route path='/signup' element={<SignUp />}/>
+      {/* <SignUp /> */}
 {/* 
       <div className="App">
         {isLoading ? <Loading /> : <h1>메인페이지</h1>}
       </div> */}
-    </>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
