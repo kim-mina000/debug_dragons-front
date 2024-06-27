@@ -142,7 +142,9 @@ const Login = () => {
           <img src="/kakao_login_medium_narrow.png"/>
         </Image>
 
-      <Links><a href="#">아이디 찾기</a> | <a href="#">비밀번호 찾기</a></Links>
+        <Links>
+          <Link to="/find">아이디 찾기 / 비밀번호 찾기</Link>
+        </Links>
 
       <Links>
         <Link to={"/signup"}>회원가입</Link>
