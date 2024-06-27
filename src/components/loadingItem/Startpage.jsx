@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import logo from '../image/메인로고.png';
+import logo from '../../image/메인로고.png';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -10,7 +10,6 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
   }
 `;
-// develop 수정
 
 const Container = styled.div`
   display: flex;
