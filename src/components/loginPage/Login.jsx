@@ -1,12 +1,11 @@
-
-import {displayToken} from'./login_kakao.js';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import MenuBar from '../menuBar/MenuBar';
+import MenuBar from '../0.menuBar/MenuBar';
 import TitleLogo from './TitleLogo';
 import { Link } from 'react-router-dom';
+import { kakaoLoginHandler } from './login_kakao';
 
-const {Kakao} = window;
+
 // 컨테이너 틀
 const Container = styled.div`
   display: flex;
@@ -109,13 +108,13 @@ const Login = () => {
     }
   };
 
-  const kakaoLoginHandler = ()=> {
+  const {Kakao} = window;
+  const kakaoLoginHandler = ()=>{
     Kakao.Auth.authorize({
-      redirectUri: 'http://localhost:3001/search-main',
-      state: 'userme'
+      redirectUri: `http://localhost:3001/search-main`,
     })
-
   }
+
   return (
     <Container>
       <TitleLogo/>
@@ -139,12 +138,15 @@ const Login = () => {
 
         <Image>
           <img src='/btnG_완성형.png' style={{ marginRight: '50px'}} />
-          <img src="/kakao_login_medium_narrow.png"/>
+          <img src="/kakao_login_medium_narrow.png" onClick={kakaoLoginHandler}/>
         </Image>
+
 
         <Links>
           <Link to="/find">아이디 찾기 / 비밀번호 찾기</Link>
         </Links>
+
+
 
       <Links>
         <Link to={"/signup"}>회원가입</Link>

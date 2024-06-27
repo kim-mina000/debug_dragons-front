@@ -3,11 +3,17 @@ import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 import Loading from './components/loadingItem/Loading';
 import Login from './components/loginPage/Login';
+
 import SignUp from './components/loginPage/SignUp';
 import Startpage from './components/loadingItem/Startpage';
 import Header from './components/menuBar/Header';
+
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Find from './components/loginPage/Find';
+
+import MainContainer from './components/MainContainer';
+
+
 
 const GlobalStyles = createGlobalStyle`
   ${reset}
@@ -48,8 +54,9 @@ function App() {
 
   return (
     <>
-      <GlobalStyles />
-      <Routes>
+    <BrowserRouter>
+      <GlobalStyles />  
+        <Routes>
         <Route path="/" element={<Navigate to="/startpage" replace />} />
         <Route path="/startpage" element={
           isLoading ? (
@@ -64,8 +71,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/find" element={<Find />} />
+        <Route path='/main' element={<MainContainer />} />
       </Routes>
-    </>
+    </BrowserRouter>
+
   );
 }
 

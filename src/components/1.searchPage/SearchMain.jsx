@@ -58,8 +58,8 @@ const SaveButton = styled.button`
 
 function SearchMain() {
 
-  const userInfo = getUserData();
-  console.log(userInfo.then(response => console.log(response)));
+  // const userInfo = getUserData();
+  // console.log(userInfo.then(response => console.log(response)));
 
   return (
     <Container>
