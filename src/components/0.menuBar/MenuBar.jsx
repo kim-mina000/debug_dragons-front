@@ -7,7 +7,6 @@ const IconContainer = styled.div`
   display: flex;
   justify-content: space-around;
   width: 100%;
-  position: absolute;
   bottom: 20px;
   padding: 15px 0;
   border-top: 1px solid #ccc;
