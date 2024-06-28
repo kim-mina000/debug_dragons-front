@@ -17,6 +17,8 @@ const LeftContainer = styled.div`
   align-items: center;
 `;
 
+const RightContainer = styled.div``;
+
 // 프로필 이미지 스타일
 const ProfileImage = styled.img`
   width: 40px;
@@ -46,7 +48,7 @@ const Header = ({ userName, onLogout }) => {
       <LeftContainer>
         <ProfileImage src="/profile_img.png" alt="프로필 이미지" />
         <UserName>{userName ? `${userName} 님 환영합니다` : '환영합니다'}</UserName>
-      </LeftContainer>
+      </LeftContainer >
       <RightContainer>
         <LogoutButton onClick={onLogout}>로그아웃</LogoutButton>
       </RightContainer>

@@ -6,7 +6,7 @@ import Login from './components/loginPage/Login';
 
 import SignUp from './components/loginPage/SignUp';
 import Startpage from './components/loadingItem/Startpage';
-import Header from './components/menuBar/Header';
+import Header from './components/0.menuBar/Header';
 
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Find from './components/loginPage/Find';
@@ -76,7 +76,7 @@ function App() {
       </Routes>
 
     </BrowserRouter>
-
+  </>
   );
 }
 

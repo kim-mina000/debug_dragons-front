@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 
-import Header from '../menuBar/Header';
-import MenuBar from '../menuBar/MenuBar';
+import Header from '../0.menuBar/Header';
+import MenuBar from '../0.menuBar/MenuBar';
 
 const StyledTabs = styled(Tabs)`
   font-family: 'MaplestoryOTFBold';

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import SearchMain from "./1.searchPage/SearchMain";
 import MenuBar from "./0.menuBar/MenuBar";
-import Headers from "./0.menuBar/Headers";
+import Headers from "./0.menuBar/Header";
 
 const Wrap = styled.div`
   width: 100vw;
