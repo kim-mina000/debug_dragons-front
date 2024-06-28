@@ -62,7 +62,6 @@ const StyledLink = styled(Link)`
   flex: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
   height: 90px;
   background-color: white;
   border: none;
@@ -96,7 +95,7 @@ function Startpage() {
       <Container>
         <Logo src={logo} alt="메인 로고" />
         <ButtonContainer className="start_btn">
-         <StyledLink to="/login" className="load-login">로그인하기</StyledLink>
+          <StyledLink to="/login" className="load-login">로그인하기</StyledLink>
           <Button type="button" className="load-around">둘러보기</Button>
         </ButtonContainer>
       </Container>
