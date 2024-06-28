@@ -4,7 +4,7 @@ import MenuBar from "../0.menuBar/MenuBar";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+
 
 // 컨테이너 틀
 const Container = styled.div`

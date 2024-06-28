@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {getUserData, Kakao} from "../loginPage/login_kakao.js";
+import { useEffect, useRef } from "react";
 
 // 해보는중,, 
 
@@ -57,9 +57,30 @@ const SaveButton = styled.button`
 `;
 
 function SearchMain() {
+  const { kakao } = window;
+  const container = useRef(null);
 
-  // const userInfo = getUserData();
-  // console.log(userInfo.then(response => console.log(response)));
+  // 화면이 처음 렌더링 될때 지도를 가져옴!
+  useEffect(() => {
+    // 지도가 전부 렌더링 된 후에 실행~!
+    kakao.maps.load(()=>{
+    
+      // center와 level값은 고정
+      const options = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+        level: 3 //지도의 레벨(확대, 축소 정도)
+      };
+
+      kakao.maps.load(function() {
+        const  map = new window.kakao.maps.Map(container.current, options);
+    });
+
+      const kakaoMap = new kakao.maps.Map(container.current, options);
+    })
+
+  }, []);
+
+  //  지도 초기 생성 옵션
 
   return (
     <Container>
@@ -73,7 +94,7 @@ function SearchMain() {
           
         </MyCourseContainer>
       </LeftWrap>
-      <MapContainer>
+      <MapContainer ref={container}>
         <SaveButton>저장하기→</SaveButton>
       </MapContainer>
     </Container>

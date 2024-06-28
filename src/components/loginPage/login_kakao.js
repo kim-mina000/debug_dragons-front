@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const {Kakao} = window;
+const {Kakao} = window;
 
 // 내 어플리케이션의 자바스크립트 키 입력
 Kakao.init('02a031fabfd172ce7cd288e0d8cd83a9'); // 자바 키

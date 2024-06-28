@@ -55,12 +55,12 @@ const Header = ({ userName }) => {
 
   const handleLogout = async () => {
     const token = localStorage.getItem('userToken');
-    console.log(token);
+
 
     const result = await axios.get(`http://localhost:8080/logout`, {headers:{
       Authorization: token,
     }});
-    console.log(result);
+
     dispatch(logout());
     
     localStorage.removeItem('userToken');
