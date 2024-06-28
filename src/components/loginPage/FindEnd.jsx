@@ -5,6 +5,7 @@ import MenuBar from "../0.menuBar/MenuBar";
 import styled from 'styled-components';
 import 'react-tabs/style/react-tabs.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import TitleLogo from './TitleLogo';
 
 const StyledTabs = styled(Tabs)`
   font-family: 'MaplestoryOTFBold';
@@ -101,6 +102,7 @@ function FindEnd() {
 
   return (
     <>
+    <TitleLogo/>
       <StyledTabs>
         <StyledTabList>
           <StyledTab>아이디 찾기</StyledTab>
