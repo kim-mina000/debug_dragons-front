@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import profile_fake from '../../image/profile_fake_img.png';
+
 
 // 헤더 컨테이너 스타일
 const HeaderContainer = styled.div`
@@ -47,7 +49,7 @@ const Header = ({ userName, onLogout }) => {
   return (
     <HeaderContainer>
       <LeftContainer>
-        <ProfileImage src="/profile_img.png" alt="프로필 이미지" />
+        <ProfileImage src={profile_fake} alt="메인 로고" />
         <UserName>{userName ? `${userName} 님 환영합니다` : '환영합니다'}</UserName>
       </LeftContainer>
       <RightContainer>
