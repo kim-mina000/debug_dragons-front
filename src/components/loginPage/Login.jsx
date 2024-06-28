@@ -4,6 +4,9 @@ import MenuBar from '../0.menuBar/MenuBar';
 import TitleLogo from './TitleLogo';
 import { Link } from 'react-router-dom';
 import { REDIRECT_URI } from './login_kakao';
+import { useDispatch } from 'react-redux';
+import { getUserInfo } from '../../features/member/memberSlice';
+import axios from 'axios';
 
 
 // 컨테이너 틀
@@ -99,14 +102,30 @@ const Links = styled.div`
 const Login = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
 
-  const handleLogin = () => {
-    if (id && password) {
-      console.log('로그인 성공');
-    } else {
-      console.log('아이디와 비밀번호를 입력하세요');
-    }
-  };
+  // const handleLogin = () => {
+  //   if (id && password) {
+  //     console.log('로그인 성공');
+  //   } else {
+  //     console.log('아이디와 비밀번호를 입력하세요');
+  //   }
+  // };
+  
+const handleLogin = async (id,pw) =>{
+  try {
+    const response = await axios.get(`http://localhost:8080/login?userId=${id}&userPw=${pw}`);
+    console.log(response.data);
+
+    dispatch(getUserInfo(response.data));
+
+    return console.log("로그인성공");;
+    
+  } catch (error) {
+    console.error(error);
+    return console.error("로그인실패");
+  }
+};
 
   const {Kakao} = window;
   const kakaoLoginHandler = ()=>{
@@ -131,13 +150,13 @@ const Login = () => {
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <Button onClick={handleLogin}>시작하기</Button>
+      <Button onClick={()=>{handleLogin(id,password)}}>시작하기</Button>
 
       <LineContainer>간편 로그인 하기</LineContainer>
 
       <Image>
         <img src='/btnG_완성형.png' style={{ marginRight: '50px'}} />
-        <img src="/kakao_login_medium_narrow.png" onClick={kakaoLoginHandler}/>
+        <img src="/kakao_login_medium_narrow.png" onClick={kakaoLoginHandler} />
       </Image>
 
       <Links>

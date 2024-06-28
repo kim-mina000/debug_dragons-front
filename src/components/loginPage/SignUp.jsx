@@ -5,7 +5,6 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getUserInfo } from "../../features/member/memberSlice";
 
 // 컨테이너 틀
 const Container = styled.div`
@@ -78,7 +77,6 @@ const DoSign = styled.button`
 function SignUp() {
 
   const nevigate = useNavigate();
-  const dispatch = useDispatch();
 
   const [userInfo, setUserInfo] = useState({'userId':null, 'userPw':null,'userName':null,'userEmail':null,'profile':null, 'userRole':false});
 
@@ -101,7 +99,7 @@ function SignUp() {
       const response = await axios.post('http://localhost:8080/member/register',userInfo);
   
       if (response.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
-        return nevigate('//thanks-for-singup');
+        return nevigate('/thanks-for-signup');
 
       } else { 
         throw new Error(`api error: ${response.status} ${response.statusText}`);
