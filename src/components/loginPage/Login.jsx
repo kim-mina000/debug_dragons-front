@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import MenuBar from '../0.menuBar/MenuBar';
 import TitleLogo from './TitleLogo';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { REDIRECT_URI } from './login_kakao';
 import { useDispatch } from 'react-redux';
-import { getUserInfo } from '../../features/member/memberSlice';
+import { getUserToken } from '../../features/member/memberSlice';
 import axios from 'axios';
 
 
@@ -103,6 +103,7 @@ const Login = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // const handleLogin = () => {
   //   if (id && password) {
@@ -115,10 +116,11 @@ const Login = () => {
 const handleLogin = async (id,pw) =>{
   try {
     const response = await axios.get(`http://localhost:8080/login?userId=${id}&userPw=${pw}`);
-    console.log(response.data);
+    console.log(response);
 
-    dispatch(getUserInfo(response.data));
-
+    dispatch(getUserToken(response.data));
+    localStorage.setItem('userToken',response.data);
+    navigate('/main');
     return console.log("로그인성공");;
     
   } catch (error) {
