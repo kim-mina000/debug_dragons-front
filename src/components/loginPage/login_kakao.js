@@ -3,9 +3,11 @@ import axios from 'axios';
 export const {Kakao} = window;
 
 // 내 어플리케이션의 자바스크립트 키 입력
-Kakao.init('02a031fabfd172ce7cd288e0d8cd83a9');
+Kakao.init('02a031fabfd172ce7cd288e0d8cd83a9'); // 자바 키
 Kakao.isInitialized();
 
+const client_id = '9d4de3df4c7c5e0199e412627381f00a'; // REST API 키
+export const REDIRECT_URI = 'http://localhost:3001/main';
 
 
   // 아래는 데모를 위한 UI 코드입니다.
@@ -36,8 +38,6 @@ function getCookie(name) {
 
 const getToken = async (code) => {
   const grant_type = 'authorization_code';
-  const client_id = '9d4de3df4c7c5e0199e412627381f00a';
-  const REDIRECT_URI = 'http://localhost:3001/search-main';
   const AUTHORIZE_CODE = code;
   
   const res = await axios.post(

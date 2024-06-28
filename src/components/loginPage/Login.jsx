@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import MenuBar from '../0.menuBar/MenuBar';
 import TitleLogo from './TitleLogo';
 import { Link } from 'react-router-dom';
-import { kakaoLoginHandler } from './login_kakao';
+import { REDIRECT_URI } from './login_kakao';
 
 
 // 컨테이너 틀
@@ -111,7 +111,7 @@ const Login = () => {
   const {Kakao} = window;
   const kakaoLoginHandler = ()=>{
     Kakao.Auth.authorize({
-      redirectUri: `http://localhost:3001/search-main`,
+      redirectUri: `${REDIRECT_URI}`,
     })
   }
 

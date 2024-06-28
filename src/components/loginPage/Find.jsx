@@ -38,7 +38,7 @@ const TabContent = styled.div`
   padding: 5%;
   margin: 0 auto;
   width: 70%;
-  text-align: center;
+  font-size: 30px;
 `;
 
 const FormField = styled.div`
@@ -46,18 +46,36 @@ const FormField = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin: 10px 0;
-  width: 90%;
+  width: 100%;
 `;
 
 const Label = styled.label`
-  margin-bottom: 5px;
-  font-size: 14px;
+  margin: 20px 0 5px 0;
+  font-size: 25px;
 `;
 
 const Input = styled.input`
   width: 100%;
-  padding: 10px;
+  padding: 20px 0;
   border: 1px solid #ccc;
+  font-size: 20px; /* 입력 필드의 기본 폰트 크기 */
+
+  &::placeholder {
+    font-size: 18px; /* 플레이스홀더의 폰트 크기 */
+    color: #888; /* 플레이스홀더의 색상 */
+    padding-left: 10px; /* 플레이스홀더의 왼쪽 패딩 */
+  }
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+`;
+
+const PhoneInput = styled(Input)`
+  flex-grow: 1;
 `;
 
 const Button = styled.button`
@@ -74,6 +92,20 @@ const Button = styled.button`
   }
 `;
 
+const VerifyButton = styled(Button)`
+  width: 120px;
+  margin-left: 10px;
+  margin-top: 0;
+  padding: 10px;
+  margin-bottom: 0;
+`;
+
+const SubmitButton = styled(Button)`
+  width: 100%;
+  margin: 20px 0;
+  padding: 15px;
+`;
+
 const Find = () => {
   const [id, setId] = useState('');
   const [birthday, setBirthday] = useState('');
@@ -81,7 +113,8 @@ const Find = () => {
 
   return (
     <>
-      <Header userName="저장된 데이터" onLogout={() => console.log('로그아웃')} />
+      {/* <Header userName="저장된 데이터" onLogout={() => console.log('로그아웃')} /> */}
+      {/* 아이디/비밀번호 찾기 페이지에서는 회원정보가 필요없음 */}
       <StyledTabs>
         <StyledTabList>
           <StyledTab>아이디 찾기</StyledTab>
@@ -105,21 +138,24 @@ const Find = () => {
               <Label>생년월일을 입력해주세요:</Label>
               <Input
                 type="text"
-                placeholder="생년월일을 입력해주세요."
+                placeholder="0000-00-00"
                 value={birthday}
                 onChange={(e) => setBirthday(e.target.value)}
               />
             </FormField>
             <FormField>
-              <Label>전화번호를 입력해주세요:</Label>
-              <Input
-                type="text"
-                placeholder="010-0000-0000"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
+              <Label>휴대전화:</Label>
+              <InputContainer>
+                <PhoneInput
+                  type="text"
+                  placeholder="010-0000-0000"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+                <VerifyButton type="button">인증하기</VerifyButton>
+              </InputContainer>
             </FormField>
-            <Button type="button">아이디 찾기</Button>
+            <SubmitButton type="button">아이디 찾기</SubmitButton>
           </TabContent>
         </TabPanel>
         <TabPanel>
@@ -148,21 +184,24 @@ const Find = () => {
               <Label>생년월일을 입력해주세요:</Label>
               <Input
                 type="text"
-                placeholder="생년월일을 입력해주세요."
+                placeholder="0000-00-00"
                 value={birthday}
                 onChange={(e) => setBirthday(e.target.value)}
               />
             </FormField>
             <FormField>
-              <Label>전화번호를 입력해주세요:</Label>
-              <Input
-                type="text"
-                placeholder="010-0000-0000"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
+              <Label>휴대전화:</Label>
+              <InputContainer>
+                <PhoneInput
+                  type="text"
+                  placeholder="010-0000-0000"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+                <VerifyButton type="button">인증하기</VerifyButton>
+              </InputContainer>
             </FormField>
-            <Button type="button">비밀번호 찾기</Button>
+            <SubmitButton type="button">비밀번호 찾기</SubmitButton>
           </TabContent>
         </TabPanel>
       </StyledTabs>

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import profile_fake from '../../image/profile_fake_img.png';
 
+
 // 헤더 컨테이너 스타일
 const HeaderContainer = styled.div`
   display: flex;
@@ -18,6 +19,7 @@ const LeftContainer = styled.div`
   align-items: center;
 `;
 
+// 오른쪽 컨테이너 스타일
 const RightContainer = styled.div``;
 
 // 프로필 이미지 스타일
@@ -47,9 +49,9 @@ const Header = ({ userName, onLogout }) => {
   return (
     <HeaderContainer>
       <LeftContainer>
-        <ProfileImage src={profile_fake} alt="프로필 이미지" />
+        <ProfileImage src={profile_fake} alt="메인 로고" />
         <UserName>{userName ? `${userName} 님 환영합니다` : '환영합니다'}</UserName>
-      </LeftContainer >
+      </LeftContainer>
       <RightContainer>
         <LogoutButton onClick={onLogout}>로그아웃</LogoutButton>
       </RightContainer>
