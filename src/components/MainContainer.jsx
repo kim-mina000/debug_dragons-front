@@ -9,17 +9,26 @@ const Wrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  
+  position: relative;
 `;
 
+const FixedMenubar = styled(MenuBar)`
+  position: fixed;
+  bottom: 0;
+`;
 
 function MainContainer() {
   return (
-    <Wrap>
+    <>    
       <Headers />
+      <Wrap>
+      
         <SearchMain />
+      
       <MenuBar />
-    </Wrap>
+      </Wrap>
+    </>
+
   );
 };
 

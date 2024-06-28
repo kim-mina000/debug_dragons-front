@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import TitleLogo from "./TitleLogo";
 import MenuBar from "../0.menuBar/MenuBar";
+import { useState } from "react";
+import axios from "axios";
 
 // 컨테이너 틀
 const Container = styled.div`
@@ -70,24 +72,59 @@ const DoSign = styled.button`
 
 
 function SignUp() {
+
+  const [userInfo, setUserInfo] = useState({'id':null, 'password':null,'userName':null,'email':null,'profile':null});
+
+  const handleID = (e) =>{
+    setUserInfo({...userInfo, 'id': e.target.value})
+  }
+  const handlePassword = (e)=> {
+    setUserInfo({...userInfo, 'password': e.target.value})
+  }
+  const handleUsername = (e) => {
+    setUserInfo({...userInfo, 'userName': e.target.value})
+  }
+  const handleEmail = (e) => {
+    setUserInfo({...userInfo, 'email': e.target.value})
+  }
+  
+  const handleSignUp = async () => {
+    
+    try {
+      console.log(userInfo);
+      const response = await axios.post('http://localhost:8080/member/register',userInfo);
+  
+      if (response.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
+        return response.data;
+
+      } else { 
+        throw new Error(`api error: ${response.status} ${response.statusText}`);
+      }
+
+    } catch (error) {
+      console.error(error);     
+    }
+  }
+  
+
   return (
     <Container>
       <TitleLogo />
       <SignUpBox>
         <SignUpBoxWrap>
           <Text>ID</Text>
-          <Input type="text"/>
+          <Input onChange={handleID} value={userInfo.id} type="text"/>
 
           <Text>PASSWORD</Text>
           <Input
-            type="password" placeholder="6~15자의 영문 대/소문자,숫자 조합으로 입력해주세요."
+            type="password" placeholder="6~15자의 영문 대/소문자,숫자 조합으로 입력해주세요." value={userInfo.password} onChange={handlePassword}
           />
       
           <Text>NAME</Text>
-          <Input type="text"/>
+          <Input type="text" value={userInfo.userName} onChange={handleUsername}/>
 
           <Text>E-MAIL</Text>
-          <Input type="text" placeholder="e-mail@naver.com"/>
+          <Input type="text" placeholder="e-mail@naver.com" value={userInfo.email} onChange={handleEmail}/>
         </SignUpBoxWrap>
         <div>
           <Text>ProFile</Text>  
@@ -95,7 +132,7 @@ function SignUp() {
         </div>
       </SignUpBox>
 
-      <DoSign>회원 가입 하기 ➡</DoSign>
+      <DoSign onClick={handleSignUp}>회원 가입 하기 ➡</DoSign>
 
       <MenuBar />
     </Container>
