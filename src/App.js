@@ -10,6 +10,8 @@ import Header from './components/0.menuBar/Header';
 
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Find from './components/loginPage/Find';
+import FindEnd from './components/loginPage/FindEnd';
+
 
 import MainContainer from './components/MainContainer';
 import SignUpComplete from './components/loginPage/SignUpComplete';
@@ -74,6 +76,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path='/thanks-for-signup' element={<SignUpComplete />} />
         <Route path="/find" element={<Find />} />
+        <Route path="/FindEnd" element={<FindEnd />} />
         <Route path='/main' element={<MainContainer />} />
       </Routes>
         
