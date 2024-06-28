@@ -35,7 +35,7 @@ const StyledTab = styled(Tab)`
 `;
 
 const TabContent = styled.div`
-  padding: 5%;
+  padding: 1.5%;
   margin: 0 auto;
   width: 70%;
   font-size: 30px;
