@@ -12,6 +12,7 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Find from './components/loginPage/Find';
 
 import MainContainer from './components/MainContainer';
+import SignUpComplete from './components/loginPage/SignUpComplete';
 
 
 
@@ -75,7 +76,7 @@ function App() {
         <Route path="/find" element={<Find />} />
         <Route path='/main' element={<MainContainer />} />
       </Routes>
-
+        
     </BrowserRouter>
   </>
   );

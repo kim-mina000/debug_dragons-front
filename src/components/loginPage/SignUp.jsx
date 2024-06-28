@@ -54,11 +54,13 @@ const Input = styled.input`
   }
 `;
 
+// 인풋 제목들
 const Text = styled.h4`
   width: 400px;
   align-items: start;
 `;
 
+// 버튼
 const DoSign = styled.button`
   width: 840px;
   height: 70px;
@@ -71,8 +73,7 @@ const DoSign = styled.button`
   &:hover {
     background-color: #b4c3d9;
   }
-`;
-
+  `;
 
 function SignUp() {
 
@@ -118,30 +119,38 @@ function SignUp() {
       <SignUpBox>
         <SignUpBoxWrap>
           <Text>ID</Text>
-          <Input onChange={handleID} value={userInfo.id} type="text"/>
-
+          <Input
+            type="text"
+            value={userInfo.id}
+            onChange={handleID}
+          />
           <Text>PASSWORD</Text>
           <Input
-            type="password" placeholder="6~15자의 영문 대/소문자,숫자 조합으로 입력해주세요." value={userInfo.password} onChange={handlePassword}
+            type="password"
+            placeholder="6~15자의 영문 대/소문자,숫자 조합으로 입력해주세요."
+            value={userInfo.password}
+            onChange={handlePassword}
           />
-      
           <Text>NAME</Text>
-          <Input type="text" value={userInfo.userName} onChange={handleUsername}/>
-
+          <Input type="text"
+            value={userInfo.userName}
+            onChange={handleUsername}
+          />
           <Text>E-MAIL</Text>
-          <Input type="text" placeholder="e-mail@naver.com" value={userInfo.email} onChange={handleEmail}/>
+          <Input type="text"
+            placeholder="e-mail@naver.com"
+            value={userInfo.email}
+            onChange={handleEmail}
+          />
         </SignUpBoxWrap>
         <div>
           <Text>ProFile</Text>  
           <ImageBox>본인을 표현할 수 있는 이미지를 추가해보세요!</ImageBox>
         </div>
       </SignUpBox>
-
       <DoSign onClick={handleSignUp}>회원 가입 하기 ➡</DoSign>
-
       <MenuBar />
     </Container>
   );
 };
-
 export default SignUp;
