@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState ={
   userInfo : {},
-  userToken : "",
+  userToken : null,
   
 }
 
@@ -15,6 +15,9 @@ const memberSlice = createSlice({
     },
     getUserToken : (state,{payload})=>{
       state.userToken = payload;
+    },
+    logout : (state)=>{
+      state.userToken = null;
     }
 
   }
@@ -22,4 +25,4 @@ const memberSlice = createSlice({
 });
 
 export default memberSlice.reducer;
-export const {getUserInfo} = memberSlice.actions;
+export const {getUserInfo,getUserToken,logout} = memberSlice.actions;
