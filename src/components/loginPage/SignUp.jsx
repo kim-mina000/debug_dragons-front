@@ -74,8 +74,6 @@ const DoSign = styled.button`
 
 function SignUp() {
 
-<<<<<<< HEAD
-=======
   const [userInfo, setUserInfo] = useState({'id':null, 'password':null,'userName':null,'email':null,'profile':null});
 
   const handleID = (e) =>{
@@ -110,7 +108,6 @@ function SignUp() {
   }
   
 
->>>>>>> develope
   return (
     <Container>
       <TitleLogo />
