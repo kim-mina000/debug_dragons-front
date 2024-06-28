@@ -118,7 +118,6 @@ const Login = () => {
   return (
     <Container>
       <TitleLogo/>
-
       <Input
         type="text"
         placeholder="아이디를 입력해주세요."
@@ -136,17 +135,14 @@ const Login = () => {
 
       <LineContainer>간편 로그인 하기</LineContainer>
 
-        <Image>
-          <img src='/btnG_완성형.png' style={{ marginRight: '50px'}} />
-          <img src="/kakao_login_medium_narrow.png" onClick={kakaoLoginHandler}/>
-        </Image>
+      <Image>
+        <img src='/btnG_완성형.png' style={{ marginRight: '50px'}} />
+        <img src="/kakao_login_medium_narrow.png" onClick={kakaoLoginHandler}/>
+      </Image>
 
-
-        <Links>
-          <Link to="/find">아이디 찾기 / 비밀번호 찾기</Link>
-        </Links>
-
-
+      <Links>
+        <Link to="/find">아이디 찾기 / 비밀번호 찾기</Link>
+      </Links>
 
       <Links>
         <Link to={"/signup"}>회원가입</Link>
