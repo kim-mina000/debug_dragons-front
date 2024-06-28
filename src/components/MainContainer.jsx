@@ -30,6 +30,8 @@ function MainContainer() {
       <Wrap>
       
         <SearchMain />
+        {/* 헤더, 메뉴바 고정시켜놓고 */}
+        {/* 다른거 이케이케하면 좋을것같아요 */}
       
       <MenuBar />
       </Wrap>
