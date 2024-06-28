@@ -101,7 +101,7 @@ function SignUp() {
       const response = await axios.post('http://localhost:8080/member/register',userInfo);
   
       if (response.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
-        return nevigate('/login');
+        return nevigate('//thanks-for-singup');
 
       } else { 
         throw new Error(`api error: ${response.status} ${response.statusText}`);
