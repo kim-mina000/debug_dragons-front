@@ -7,10 +7,13 @@ const IconContainer = styled.div`
   display: flex;
   justify-content: space-around;
   width: 100%;
-  position: absolute;
-  bottom: 20px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
   padding: 15px 0;
   border-top: 1px solid #ccc;
+  background-color: #fff;
+  z-index: 1000; /* 메뉴바를 다른 요소들 위로 올리기 위해 z-index 설정 */
 `;
 
 // 하단 메뉴탭

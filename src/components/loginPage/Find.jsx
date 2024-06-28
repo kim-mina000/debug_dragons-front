@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRef } from "react";
 import styled from 'styled-components';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -35,7 +36,7 @@ const StyledTab = styled(Tab)`
 `;
 
 const TabContent = styled.div`
-  padding: 5%;
+  padding: 1.5%;
   margin: 0 auto;
   width: 70%;
   font-size: 30px;
