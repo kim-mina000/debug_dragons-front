@@ -6,6 +6,7 @@ import 'react-tabs/style/react-tabs.css';
 
 import Header from '../0.menuBar/Header';
 import MenuBar from '../0.menuBar/MenuBar';
+import TitleLogo from './TitleLogo';
 
 const StyledTabs = styled(Tabs)`
   font-family: 'MaplestoryOTFBold';
@@ -121,8 +122,7 @@ const Find = () => {
 
   return (
     <>
-      {/* <Header userName="저장된 데이터" onLogout={() => console.log('로그아웃')} /> */}
-      {/* 아이디/비밀번호 찾기 페이지에서는 회원정보가 필요없음 */}
+      <TitleLogo/>
       <StyledTabs>
         <StyledTabList>
           <StyledTab>아이디 찾기</StyledTab>
