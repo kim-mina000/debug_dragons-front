@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState ={
-  userInfo : null,
+  userInfo : {},
   
 
 }
@@ -13,9 +13,11 @@ const memberSlice = createSlice({
     getUserInfo : (state,{payload})=>{
       state.userInfo = payload;
     },
+    
 
   }
 
 });
 
 export default memberSlice.reducer;
+export const {getUserInfo} = memberSlice.actions;

@@ -2,6 +2,8 @@ import styled from "styled-components";
 import SearchMain from "./1.searchPage/SearchMain";
 import MenuBar from "./0.menuBar/MenuBar";
 import Headers from "./0.menuBar/Header";
+import { useSelector } from "react-redux";
+import { store } from "../store/store";
 
 const Wrap = styled.div`
   width: 100vw;
@@ -18,9 +20,13 @@ const FixedMenubar = styled(MenuBar)`
 `;
 
 function MainContainer() {
+  const userInfo = useSelector(state => state.member.userInfo);
+  console.log(userInfo);
+
+
   return (
     <>    
-      <Headers />
+      <Headers userName={userInfo.userName} />
       <Wrap>
       
         <SearchMain />
