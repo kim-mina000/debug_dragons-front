@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useRef } from "react";
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -111,6 +111,12 @@ const Find = () => {
   const [id, setId] = useState('');
   const [birthday, setBirthday] = useState('');
   const [phone, setPhone] = useState('');
+  
+  const navigate = useNavigate();
+
+  const handleSubmit = () => {
+      navigate('/FindEnd');
+  };
 
   return (
     <>
@@ -156,7 +162,7 @@ const Find = () => {
                 <VerifyButton type="button">인증하기</VerifyButton>
               </InputContainer>
             </FormField>
-            <SubmitButton type="button">아이디 찾기</SubmitButton>
+            <SubmitButton type="button" onClick={handleSubmit}>아이디 찾기</SubmitButton>
           </TabContent>
         </TabPanel>
         <TabPanel>
@@ -202,7 +208,7 @@ const Find = () => {
                 <VerifyButton type="button">인증하기</VerifyButton>
               </InputContainer>
             </FormField>
-            <SubmitButton type="button">비밀번호 찾기</SubmitButton>
+            <SubmitButton type="button" onClick={handleSubmit}>비밀번호 찾기</SubmitButton>
           </TabContent>
         </TabPanel>
       </StyledTabs>

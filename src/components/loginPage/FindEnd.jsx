@@ -1,3 +1,4 @@
+import React from 'react';
 import Header from "../0.menuBar/Header";
 import MenuBar from "../0.menuBar/MenuBar";
 
@@ -33,24 +34,39 @@ const StyledTab = styled(Tab)`
   }
 `;
 
+const TabContent = styled.div`
+  padding: 5%;
+  margin: 0 auto;
+  width: 70%;
+  font-size: 20px;
+  text-align: center;
+`;
 
 function FindEnd() {
   return (
     <>
-    <Header/>
-        <StyledTabs>
+      <Header />
+      <StyledTabs>
         <StyledTabList>
           <StyledTab>아이디 찾기</StyledTab>
           <StyledTab>비밀번호 찾기</StyledTab>
         </StyledTabList>
-        </StyledTabs>
-
-
-
-
-    <MenuBar/>
+        <TabPanel>
+          <TabContent>
+            <h2>아이디 찾기 완료</h2>
+            <p>아이디 찾기가 완료되었습니다.</p>
+          </TabContent>
+        </TabPanel>
+        <TabPanel>
+          <TabContent>
+            <h2>비밀번호 찾기 완료</h2>
+            <p>비밀번호 찾기가 완료되었습니다.</p>
+          </TabContent>
+        </TabPanel>
+      </StyledTabs>
+      <MenuBar />
     </>
   );
-};
+}
 
 export default FindEnd;
