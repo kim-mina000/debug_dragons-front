@@ -51,11 +51,13 @@ const Input = styled.input`
   }
 `;
 
+// 인풋 제목들
 const Text = styled.h4`
   width: 400px;
   align-items: start;
 `;
 
+// 버튼
 const DoSign = styled.button`
   width: 840px;
   height: 70px;
@@ -68,11 +70,12 @@ const DoSign = styled.button`
   &:hover {
     background-color: #b4c3d9;
   }
-`;
-
+  `;
 
 function SignUp() {
 
+<<<<<<< HEAD
+=======
   const [userInfo, setUserInfo] = useState({'id':null, 'password':null,'userName':null,'email':null,'profile':null});
 
   const handleID = (e) =>{
@@ -107,6 +110,7 @@ function SignUp() {
   }
   
 
+>>>>>>> develope
   return (
     <Container>
       <TitleLogo />
