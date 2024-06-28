@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import TitleLogo from "./TitleLogo";
-import MenuBar from "../menuBar/MenuBar";
+import MenuBar from "../0.menuBar/MenuBar";
 
 // 컨테이너 틀
 const Container = styled.div`

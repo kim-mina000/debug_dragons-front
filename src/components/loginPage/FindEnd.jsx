@@ -1,5 +1,5 @@
-import Header from "../menuBar/Header";
-import MenuBar from "../menuBar/MenuBar";
+import Header from "../0.menuBar/Header";
+import MenuBar from "../0.menuBar/MenuBar";
 
 function FindEnd() {
   return (
