@@ -115,7 +115,8 @@ const Find = () => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-      navigate('/FindEnd');
+    const foundId = id; 
+    navigate('/findend', { state: { id: foundId } });
   };
 
   return (
