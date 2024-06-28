@@ -5,7 +5,7 @@ import styled, { keyframes } from 'styled-components';
 const IconContainer = styled.div`
   display: flex;
   justify-content: space-around;
-  width: 50%;
+  width: 100%;
   position: absolute;
   bottom: 20px;
   padding: 15px 0; 
@@ -14,7 +14,7 @@ const IconContainer = styled.div`
 
 // 하단 메뉴탭
 const Icon = styled.div`
-  width: 70px;
+  width: 100px;
   height: 70px;
   font-size: 30px;
   display: flex;
