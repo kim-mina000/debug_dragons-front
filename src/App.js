@@ -59,7 +59,7 @@ function App() {
   return (
     <>
     <BrowserRouter>
-      {/* <GlobalStyles />  
+      <GlobalStyles />  
         <Routes>
         <Route path="/" element={<Navigate to="/startpage" replace />} />
         <Route path="/startpage" element={
@@ -79,10 +79,10 @@ function App() {
         <Route path="/find" element={<Find />} />
         <Route path="/FindEnd" element={<FindEnd />} />
         <Route path='/main' element={<MainContainer />} />
-      </Routes> */}
+      </Routes>
 
-    <GlobalStyles />  
-    <SignUpComplete />
+    {/* <GlobalStyles />  
+    <SignUpComplete /> */}
     </BrowserRouter>
   </>
   );
