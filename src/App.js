@@ -17,7 +17,6 @@ import MainContainer from './components/MainContainer';
 import SignUpComplete from './components/loginPage/SignUpComplete';
 
 
-
 const GlobalStyles = createGlobalStyle`
   ${reset}
 
@@ -81,6 +80,8 @@ function App() {
         <Route path='/main' element={<MainContainer />} />
       </Routes>
 
+    {/* <GlobalStyles />   */}
+    {/* <SignUpComplete /> */}
     {/* <GlobalStyles />  
     <SignUpComplete /> */}
     </BrowserRouter>
