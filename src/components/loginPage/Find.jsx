@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 
 import Header from '../0.menuBar/Header';
 import MenuBar from '../0.menuBar/MenuBar';
+import TitleLogo from './TitleLogo';
 
 const StyledTabs = styled(Tabs)`
   font-family: 'MaplestoryOTFBold';
@@ -35,7 +37,7 @@ const StyledTab = styled(Tab)`
 `;
 
 const TabContent = styled.div`
-  padding: 5%;
+  padding: 1.5%;
   margin: 0 auto;
   width: 70%;
   font-size: 30px;
@@ -110,11 +112,17 @@ const Find = () => {
   const [id, setId] = useState('');
   const [birthday, setBirthday] = useState('');
   const [phone, setPhone] = useState('');
+  
+  const navigate = useNavigate();
+
+  const handleSubmit = () => {
+    const foundId = id; 
+    navigate('/findend', { state: { id: foundId } });
+  };
 
   return (
     <>
-      {/* <Header userName="저장된 데이터" onLogout={() => console.log('로그아웃')} /> */}
-      {/* 아이디/비밀번호 찾기 페이지에서는 회원정보가 필요없음 */}
+      <TitleLogo/>
       <StyledTabs>
         <StyledTabList>
           <StyledTab>아이디 찾기</StyledTab>
@@ -155,7 +163,7 @@ const Find = () => {
                 <VerifyButton type="button">인증하기</VerifyButton>
               </InputContainer>
             </FormField>
-            <SubmitButton type="button">아이디 찾기</SubmitButton>
+            <SubmitButton type="button" onClick={handleSubmit}>아이디 찾기</SubmitButton>
           </TabContent>
         </TabPanel>
         <TabPanel>
@@ -201,7 +209,7 @@ const Find = () => {
                 <VerifyButton type="button">인증하기</VerifyButton>
               </InputContainer>
             </FormField>
-            <SubmitButton type="button">비밀번호 찾기</SubmitButton>
+            <SubmitButton type="button" onClick={handleSubmit}>비밀번호 찾기</SubmitButton>
           </TabContent>
         </TabPanel>
       </StyledTabs>

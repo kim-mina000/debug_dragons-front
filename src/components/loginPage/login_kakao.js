@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const {Kakao} = window;
+const {Kakao} = window;
 
 // 내 어플리케이션의 자바스크립트 키 입력
 Kakao.init('02a031fabfd172ce7cd288e0d8cd83a9'); // 자바 키
@@ -74,27 +74,5 @@ export const getUserData = async () => {
   } else {
     console.error("토큰을 발행할수 없습니다");
     return ;
-  }
-};
-
-// 백서버로 데이터 전송
-export const addUserData = async (user) => {
-  try {
-    const response = await axios.post("http://localhost:8080/member/register",
-    {
-      "userId": `${user.id}`,
-      "userPw": `${user}`,
-      "userName": `${user.properties.nickname}`,
-      "userProfileImagePath": `${user.properties.profile_image}`,
-      "userRole": false
-    });
-    
-    if (response.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
-      return response.data;
-    } else {
-      throw new Error(`api error: ${response.status} ${response.statusText}`);
-    }
-  } catch (error) {
-    console.error(error);     
   }
 };

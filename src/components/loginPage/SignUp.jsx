@@ -3,6 +3,8 @@ import TitleLogo from "./TitleLogo";
 import MenuBar from "../0.menuBar/MenuBar";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 // 컨테이너 틀
 const Container = styled.div`
@@ -74,29 +76,30 @@ const DoSign = styled.button`
 
 function SignUp() {
 
-  const [userInfo, setUserInfo] = useState({'id':null, 'password':null,'userName':null,'email':null,'profile':null});
+  const nevigate = useNavigate();
+
+  const [userInfo, setUserInfo] = useState({'userId':null, 'userPw':null,'userName':null,'userEmail':null,'profile':null, 'userRole':false});
 
   const handleID = (e) =>{
-    setUserInfo({...userInfo, 'id': e.target.value})
+    setUserInfo({...userInfo, 'userId': e.target.value})
   }
   const handlePassword = (e)=> {
-    setUserInfo({...userInfo, 'password': e.target.value})
+    setUserInfo({...userInfo, 'userPw': e.target.value})
   }
   const handleUsername = (e) => {
     setUserInfo({...userInfo, 'userName': e.target.value})
   }
   const handleEmail = (e) => {
-    setUserInfo({...userInfo, 'email': e.target.value})
+    setUserInfo({...userInfo, 'userEmail': e.target.value})
   }
   
   const handleSignUp = async () => {
     
     try {
-      console.log(userInfo);
       const response = await axios.post('http://localhost:8080/member/register',userInfo);
   
       if (response.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
-        return response.data;
+        return nevigate('/thanks-for-signup');
 
       } else { 
         throw new Error(`api error: ${response.status} ${response.statusText}`);

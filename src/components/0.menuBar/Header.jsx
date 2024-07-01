@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import profile_fake from '../../image/profile_fake_img.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../features/member/memberSlice';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 // 헤더 컨테이너 스타일
 const HeaderContainer = styled.div`
@@ -43,7 +47,27 @@ const LogoutButton = styled.button`
 `;
 
 // 헤더 컴포넌트 정의
-const Header = ({ userName, onLogout }) => {
+const Header = ({ userName }) => {
+  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
+
+  const handleLogout = async () => {
+    const token = localStorage.getItem('userToken');
+
+
+    const result = await axios.get(`http://localhost:8080/logout`, {headers:{
+      Authorization: token,
+    }});
+
+    dispatch(logout());
+    
+    localStorage.removeItem('userToken');
+    navigate('/');
+
+  }
+
   return (
     <HeaderContainer>
       <LeftContainer>
@@ -51,7 +75,7 @@ const Header = ({ userName, onLogout }) => {
         <UserName>{userName ? `${userName} 님 환영합니다` : '환영합니다'}</UserName>
       </LeftContainer >
       <RightContainer>
-        <LogoutButton onClick={onLogout}>로그아웃</LogoutButton>
+        <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
       </RightContainer>
     </HeaderContainer>
   );

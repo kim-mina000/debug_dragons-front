@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../image/메인로고.png';
 
 const GlobalStyle = createGlobalStyle`
@@ -89,6 +89,7 @@ const StyledLink = styled(Link)`
 `;
 
 function Startpage() {
+  const nevigate = useNavigate();
   return (
     <>
       <GlobalStyle />
@@ -96,7 +97,7 @@ function Startpage() {
         <Logo src={logo} alt="메인 로고" />
         <ButtonContainer className="start_btn">
           <StyledLink to="/login" className="load-login">로그인하기</StyledLink>
-          <Button type="button" className="load-around">둘러보기</Button>
+          <Button type="button" className="load-around" onClick={()=>{nevigate('/main')}}>둘러보기</Button>
         </ButtonContainer>
       </Container>
     </>
