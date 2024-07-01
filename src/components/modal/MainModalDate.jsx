@@ -20,17 +20,11 @@ const Content = styled.div`
   max-width: 500px;
   width: 100%;
   text-align: center;
+  position: relative;
 `;
 
 const Title = styled.h2`
   margin-bottom: 20px;
-`;
-
-const Input = styled.input`
-  width: calc(100% - 40px);
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
 `;
 
 const Line = styled.div`
@@ -38,6 +32,12 @@ const Line = styled.div`
   height: 1px;
   background: #ccc;
   margin: 20px 0;
+`;
+
+const SelectedSeasons = styled.div`
+  margin-bottom: 20px;
+  padding: 10px;
+  border: none;
 `;
 
 const ButtonContainer = styled.div`
@@ -58,7 +58,7 @@ const Button = styled.button`
   padding: 10px 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background: ${props => (props.selected ? '#00ee9f;' : 'white')};
+  background: ${props => (props.selected ? '#00ee9f' : 'white')};
   cursor: pointer;
 
   &:hover {
@@ -79,7 +79,7 @@ const SearchButton = styled.button`
   }
 `;
 
-const MainModalPlace = () => {
+function MainModalDate() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedButtons, setSelectedButtons] = useState([]);
 
@@ -98,19 +98,22 @@ const MainModalPlace = () => {
   };
 
   const buttonLabels = [
-    "전체", "경기", "경상", "전라", 
-    "제주", "서울", "강원", "부산", "인천",
-    "광주", "대전", "대구", "울산"
+    "전체", "봄", "여름", "가을", "겨울",
+    "벚꽃", "단풍", "눈", "온천", "계곡",
+    "계절", "계절", "계절"
   ];
 
   return (
     <>
-      <button onClick={() => setIsModalOpen(true)}>장소모달 열기</button>
+      <button onClick={() => setIsModalOpen(true)}>날짜모달 열기</button>
       {isModalOpen && (
         <Overlay onClick={closeModal}>
           <Content onClick={(e) => e.stopPropagation()}>
-            <Title>아띠버스가 데려다줄게요!</Title>
-            <Input type="text" placeholder="아띠버스와 같이 가고 싶은 곳 있나요?" />
+            <Title>언제 떠나볼까요?</Title>
+            <Line />
+            <SelectedSeasons>
+              {selectedButtons.map(index => buttonLabels[index]).join(', ')}
+            </SelectedSeasons>
             <Line />
             <SingleButtonContainer>
               <Button
@@ -131,12 +134,13 @@ const MainModalPlace = () => {
                 </Button>
               ))}
             </ButtonContainer>
+            <Line />
             <SearchButton>SEARCH</SearchButton>
           </Content>
         </Overlay>
       )}
     </>
   );
-};
+}
 
-export default MainModalPlace;
+export default MainModalDate;
