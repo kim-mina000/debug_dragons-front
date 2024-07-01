@@ -82,6 +82,8 @@ function App() {
 
     {/* <GlobalStyles />   */}
     {/* <SignUpComplete /> */}
+    {/* <GlobalStyles />  
+    <SignUpComplete /> */}
     </BrowserRouter>
   </>
   );
