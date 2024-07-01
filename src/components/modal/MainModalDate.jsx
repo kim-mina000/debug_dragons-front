@@ -11,6 +11,7 @@ const Overlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000; /* Overlay가 가장 위에 있도록 설정 */
 `;
 
 const Content = styled.div`
@@ -21,6 +22,8 @@ const Content = styled.div`
   width: 100%;
   text-align: center;
   position: relative;
+  z-index: 1010; 
+  /* Content가 Overlay보다 더 위에 있도록 설정 */
 `;
 
 const Title = styled.h2`
@@ -79,12 +82,7 @@ const SearchButton = styled.button`
   }
 `;
 
-function MainModalDate() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedButtons, setSelectedButtons] = useState([]);
-
-  const closeModal = () => setIsModalOpen(false);
-
+function MainModalDate({ closeModal, selectedButtons, setSelectedButtons }) {
   const handleButtonClick = (buttonIndex) => {
     if (selectedButtons.includes(buttonIndex)) {
       setSelectedButtons(selectedButtons.filter(index => index !== buttonIndex));
@@ -104,42 +102,37 @@ function MainModalDate() {
   ];
 
   return (
-    <>
-      <button onClick={() => setIsModalOpen(true)}>날짜모달 열기</button>
-      {isModalOpen && (
-        <Overlay onClick={closeModal}>
-          <Content onClick={(e) => e.stopPropagation()}>
-            <Title>언제 떠나볼까요?</Title>
-            <Line />
-            <SelectedSeasons>
-              {selectedButtons.map(index => buttonLabels[index]).join(', ')}
-            </SelectedSeasons>
-            <Line />
-            <SingleButtonContainer>
-              <Button
-                selected={selectedButtons.includes(0)}
-                onClick={() => handleButtonClick(0)}
-              >
-                {buttonLabels[0]}
-              </Button>
-            </SingleButtonContainer>
-            <ButtonContainer>
-              {buttonLabels.slice(1).map((label, index) => (
-                <Button
-                  key={index + 1}
-                  selected={selectedButtons.includes(index + 1)}
-                  onClick={() => handleButtonClick(index + 1)}
-                >
-                  {label}
-                </Button>
-              ))}
-            </ButtonContainer>
-            <Line />
-            <SearchButton>SEARCH</SearchButton>
-          </Content>
-        </Overlay>
-      )}
-    </>
+    <Overlay onClick={closeModal}>
+      <Content onClick={(e) => e.stopPropagation()}>
+        <Title>언제 떠나볼까요?</Title>
+        <Line />
+        <SelectedSeasons>
+          {selectedButtons.map(index => buttonLabels[index]).join(', ')}
+        </SelectedSeasons>
+        <Line />
+        <SingleButtonContainer>
+          <Button
+            selected={selectedButtons.includes(0)}
+            onClick={() => handleButtonClick(0)}
+          >
+            {buttonLabels[0]}
+          </Button>
+        </SingleButtonContainer>
+        <ButtonContainer>
+          {buttonLabels.slice(1).map((label, index) => (
+            <Button
+              key={index + 1}
+              selected={selectedButtons.includes(index + 1)}
+              onClick={() => handleButtonClick(index + 1)}
+            >
+              {label}
+            </Button>
+          ))}
+        </ButtonContainer>
+        <Line />
+        <SearchButton>SEARCH</SearchButton>
+      </Content>
+    </Overlay>
   );
 }
 

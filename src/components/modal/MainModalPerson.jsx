@@ -11,6 +11,7 @@ const Overlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000; /* Overlay가 가장 위에 있도록 설정 */
 `;
 
 const Content = styled.div`
@@ -21,6 +22,7 @@ const Content = styled.div`
   width: 100%;
   text-align: center;
   position: relative;
+  z-index: 1010; /* Content가 Overlay보다 더 위에 있도록 설정 */
 `;
 
 const Title = styled.h2`
@@ -102,28 +104,32 @@ const SearchButton = styled.button`
   }
 `;
 
-const MainModalPerson = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const MainModalPerson = ({ closeModal }) => {
   const [adultCount, setAdultCount] = useState(0);
   const [childCount, setChildCount] = useState(0);
   const [infantCount, setInfantCount] = useState(0);
   const [petCount, setPetCount] = useState(0);
 
-  const closeModal = () => setIsModalOpen(false);
-
   const handleCountChange = (type, age) => {
-    if (age === 'adult') {
-      if (type === 'minus' && adultCount > 0) setAdultCount(adultCount - 1);
-      if (type === 'plus') setAdultCount(adultCount + 1);
-    } else if (age === 'child') {
-      if (type === 'minus' && childCount > 0) setChildCount(childCount - 1);
-      if (type === 'plus') setChildCount(childCount + 1);
-    } else if (age === 'infant') {
-      if (type === 'minus' && infantCount > 0) setInfantCount(infantCount - 1);
-      if (type === 'plus') setInfantCount(infantCount + 1);
-    } else if (age === 'pet') {
-      if (type === 'minus' && petCount > 0) setPetCount(petCount - 1);
-      if (type === 'plus') setPetCount(petCount + 1);
+    switch (age) {
+      case 'adult':
+        if (type === 'minus' && adultCount > 0) setAdultCount(adultCount - 1);
+        if (type === 'plus') setAdultCount(adultCount + 1);
+        break;
+      case 'child':
+        if (type === 'minus' && childCount > 0) setChildCount(childCount - 1);
+        if (type === 'plus') setChildCount(childCount + 1);
+        break;
+      case 'infant':
+        if (type === 'minus' && infantCount > 0) setInfantCount(infantCount - 1);
+        if (type === 'plus') setInfantCount(infantCount + 1);
+        break;
+      case 'pet':
+        if (type === 'minus' && petCount > 0) setPetCount(petCount - 1);
+        if (type === 'plus') setPetCount(petCount + 1);
+        break;
+      default:
+        break;
     }
   };
 
@@ -141,54 +147,51 @@ const MainModalPerson = () => {
 
   return (
     <>
-      <button onClick={() => setIsModalOpen(true)}>인원 수 모달 열기</button>
-      {isModalOpen && (
-        <Overlay onClick={closeModal}>
-          <Content onClick={(e) => e.stopPropagation()}>
-            <Title>누구와 떠날까요?</Title>
-            <Line />
-            <CountBox>
-              <CountTitle>성인</CountTitle>
-              <NumberCount>
-                <CountButton onClick={() => handleCountChange('minus', 'adult')}>-</CountButton>
-                <CountInput type="number" value={adultCount} readOnly />명
-                <CountButton onClick={() => handleCountChange('plus', 'adult')}>+</CountButton>
-              </NumberCount>
-            </CountBox>
-            <CountBox>
-              <CountTitle>아동<SmallText> 24개월 ~ 12세</SmallText></CountTitle>
-              <NumberCount>
-                <CountButton onClick={() => handleCountChange('minus', 'child')}>-</CountButton>
-                <CountInput type="number" value={childCount} readOnly />명
-                <CountButton onClick={() => handleCountChange('plus', 'child')}>+</CountButton>
-              </NumberCount>
-            </CountBox>
-            <CountBox>
-              <CountTitle>영아<SmallText> 24개월 미만</SmallText></CountTitle>
-              <NumberCount>
-                <CountButton onClick={() => handleCountChange('minus', 'infant')}>-</CountButton>
-                <CountInput type="number" value={infantCount} readOnly />명
-                <CountButton onClick={() => handleCountChange('plus', 'infant')}>+</CountButton>
-              </NumberCount>
-            </CountBox>
-            <CountBox>
-              <CountTitle>반려동물<SmallText> (선택)</SmallText></CountTitle>
-              <NumberCount>
-                <CountButton onClick={() => handleCountChange('minus', 'pet')}>-</CountButton>
-                <CountInput type="number" value={petCount} readOnly />마리
-                <CountButton onClick={() => handleCountChange('plus', 'pet')}>+</CountButton>
-              </NumberCount>
-            </CountBox>
-            <Line />
-            <BottomButtonsContainer>
-              <ResetButton onClick={handleReset}>
-                🗑️ 초기화하기
-              </ResetButton>
-              <SearchButton onClick={handleSearch}>SEARCH</SearchButton>
-            </BottomButtonsContainer>
-          </Content>
-        </Overlay>
-      )}
+      <Overlay onClick={() => closeModal()}>
+        <Content onClick={(e) => e.stopPropagation()}>
+          <Title>누구와 떠날까요?</Title>
+          <Line />
+          <CountBox>
+            <CountTitle>성인</CountTitle>
+            <NumberCount>
+              <CountButton onClick={() => handleCountChange('minus', 'adult')}>-</CountButton>
+              <CountInput type="number" value={adultCount} readOnly />명
+              <CountButton onClick={() => handleCountChange('plus', 'adult')}>+</CountButton>
+            </NumberCount>
+          </CountBox>
+          <CountBox>
+            <CountTitle>아동<SmallText> 24개월 ~ 12세</SmallText></CountTitle>
+            <NumberCount>
+              <CountButton onClick={() => handleCountChange('minus', 'child')}>-</CountButton>
+              <CountInput type="number" value={childCount} readOnly />명
+              <CountButton onClick={() => handleCountChange('plus', 'child')}>+</CountButton>
+            </NumberCount>
+          </CountBox>
+          <CountBox>
+            <CountTitle>영아<SmallText> 24개월 미만</SmallText></CountTitle>
+            <NumberCount>
+              <CountButton onClick={() => handleCountChange('minus', 'infant')}>-</CountButton>
+              <CountInput type="number" value={infantCount} readOnly />명
+              <CountButton onClick={() => handleCountChange('plus', 'infant')}>+</CountButton>
+            </NumberCount>
+          </CountBox>
+          <CountBox>
+            <CountTitle>반려동물<SmallText> (선택)</SmallText></CountTitle>
+            <NumberCount>
+              <CountButton onClick={() => handleCountChange('minus', 'pet')}>-</CountButton>
+              <CountInput type="number" value={petCount} readOnly />마리
+              <CountButton onClick={() => handleCountChange('plus', 'pet')}>+</CountButton>
+            </NumberCount>
+          </CountBox>
+          <Line />
+          <BottomButtonsContainer>
+            <ResetButton onClick={handleReset}>
+              🗑️ 초기화하기
+            </ResetButton>
+            <SearchButton onClick={handleSearch}>SEARCH</SearchButton>
+          </BottomButtonsContainer>
+        </Content>
+      </Overlay>
     </>
   );
 };

@@ -11,6 +11,7 @@ const Overlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000; /* Overlay가 가장 위에 있도록 설정 */
 `;
 
 const Content = styled.div`
@@ -20,6 +21,8 @@ const Content = styled.div`
   max-width: 500px;
   width: 100%;
   text-align: center;
+  position: relative;
+  z-index: 1010; /* Content가 Overlay보다 더 위에 있도록 설정 */
 `;
 
 const Title = styled.h2`
@@ -58,7 +61,7 @@ const Button = styled.button`
   padding: 10px 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background: ${props => (props.selected ? '#00ee9f;' : 'white')};
+  background: ${props => (props.selected ? '#00ee9f' : 'white')};
   cursor: pointer;
 
   &:hover {
@@ -79,12 +82,7 @@ const SearchButton = styled.button`
   }
 `;
 
-const MainModalPlace = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedButtons, setSelectedButtons] = useState([]);
-
-  const closeModal = () => setIsModalOpen(false);
-
+const MainModalPlace = ({ closeModal, selectedButtons, setSelectedButtons }) => {
   const handleButtonClick = (buttonIndex) => {
     if (selectedButtons.includes(buttonIndex)) {
       setSelectedButtons(selectedButtons.filter(index => index !== buttonIndex));
@@ -104,38 +102,33 @@ const MainModalPlace = () => {
   ];
 
   return (
-    <>
-      <button onClick={() => setIsModalOpen(true)}>장소모달 열기</button>
-      {isModalOpen && (
-        <Overlay onClick={closeModal}>
-          <Content onClick={(e) => e.stopPropagation()}>
-            <Title>아띠버스가 데려다줄게요!</Title>
-            <Input type="text" placeholder="아띠버스와 같이 가고 싶은 곳 있나요?" />
-            <Line />
-            <SingleButtonContainer>
-              <Button
-                selected={selectedButtons.includes(0)}
-                onClick={() => handleButtonClick(0)}
-              >
-                {buttonLabels[0]}
-              </Button>
-            </SingleButtonContainer>
-            <ButtonContainer>
-              {buttonLabels.slice(1).map((label, index) => (
-                <Button
-                  key={index + 1}
-                  selected={selectedButtons.includes(index + 1)}
-                  onClick={() => handleButtonClick(index + 1)}
-                >
-                  {label}
-                </Button>
-              ))}
-            </ButtonContainer>
-            <SearchButton>SEARCH</SearchButton>
-          </Content>
-        </Overlay>
-      )}
-    </>
+    <Overlay onClick={closeModal}>
+      <Content onClick={(e) => e.stopPropagation()}>
+        <Title>아띠버스가 데려다줄게요!</Title>
+        <Input type="text" placeholder="아띠버스와 같이 가고 싶은 곳 있나요?" />
+        <Line />
+        <SingleButtonContainer>
+          <Button
+            selected={selectedButtons.includes(0)}
+            onClick={() => handleButtonClick(0)}
+          >
+            {buttonLabels[0]}
+          </Button>
+        </SingleButtonContainer>
+        <ButtonContainer>
+          {buttonLabels.slice(1).map((label, index) => (
+            <Button
+              key={index + 1}
+              selected={selectedButtons.includes(index + 1)}
+              onClick={() => handleButtonClick(index + 1)}
+            >
+              {label}
+            </Button>
+          ))}
+        </ButtonContainer>
+        <SearchButton>SEARCH</SearchButton>
+      </Content>
+    </Overlay>
   );
 };
 
