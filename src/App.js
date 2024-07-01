@@ -34,7 +34,8 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background-color: #DCEEF2;
+    background-color: #F4F9F9;
+    /* background-color: #DCEEF2; */
     font-family: 'MaplestoryOTFBold', sans-serif;
   }
 `;
@@ -56,7 +57,7 @@ function App() {
   return (
     <>
     <BrowserRouter>
-      <GlobalStyles />  
+      {/* <GlobalStyles />  
         <Routes>
         <Route path="/" element={<Navigate to="/startpage" replace />} />
         <Route path="/startpage" element={
@@ -74,8 +75,10 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/find" element={<Find />} />
         <Route path='/main' element={<MainContainer />} />
-      </Routes>
-        
+      </Routes> */}
+
+    <GlobalStyles />  
+    <SignUpComplete />
     </BrowserRouter>
   </>
   );
