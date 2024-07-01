@@ -78,38 +78,41 @@ function SignUp() {
 
   const nevigate = useNavigate();
 
-  const [userInfo, setUserInfo] = useState({'userId':null, 'userPw':null,'userName':null,'userEmail':null,'profile':null, 'userRole':false});
+  const [userInfo, setUserInfo] = useState({ 'userId': null, 'userPw': null, 'userName': null, 'userEmail': null, 'profile': null, 'userRole': false, 'userProfileImagePath': false });
 
-  const handleID = (e) =>{
-    setUserInfo({...userInfo, 'userId': e.target.value})
+  const handleID = (e) => {
+    setUserInfo({ ...userInfo, 'userId': e.target.value })
   }
-  const handlePassword = (e)=> {
-    setUserInfo({...userInfo, 'userPw': e.target.value})
+  const handlePassword = (e) => {
+    setUserInfo({ ...userInfo, 'userPw': e.target.value })
   }
   const handleUsername = (e) => {
-    setUserInfo({...userInfo, 'userName': e.target.value})
+    setUserInfo({ ...userInfo, 'userName': e.target.value })
   }
   const handleEmail = (e) => {
-    setUserInfo({...userInfo, 'userEmail': e.target.value})
+    setUserInfo({ ...userInfo, 'userEmail': e.target.value })
   }
-  
+  const handleProfileImage = (e) => {
+    setUserInfo({ ...userInfo, 'userProfileImagePath': e.target.value })
+  }
+
   const handleSignUp = async () => {
-    
+
     try {
-      const response = await axios.post('http://localhost:8080/member/register',userInfo);
-  
+      const response = await axios.post('http://localhost:8080/member/register', userInfo);
+
       if (response.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
         return nevigate('/thanks-for-signup');
 
-      } else { 
+      } else {
         throw new Error(`api error: ${response.status} ${response.statusText}`);
       }
 
     } catch (error) {
-      console.error(error);     
+      console.error(error);
     }
   }
-  
+
 
   return (
     <Container>
@@ -142,8 +145,17 @@ function SignUp() {
           />
         </SignUpBoxWrap>
         <div>
-          <Text>ProFile</Text>  
-          <ImageBox>본인을 표현할 수 있는 이미지를 추가해보세요!</ImageBox>
+          <Text>ProFile</Text>
+          <label htmlFor="profileImageUpload">
+            <ImageBox>본인을 표현할 수 있는 이미지를 추가해보세요!</ImageBox>
+          </label>
+          <input
+            type="file"
+            id="profileImageUpload"
+            style={{ display: 'none' }}
+            onChange={handleProfileImage}
+          />
+           {userInfo.userProfileImagePath && <img src={userInfo.userProfileImagePath} alt="Profile" />}
         </div>
       </SignUpBox>
       <DoSign onClick={handleSignUp}>회원 가입 하기 ➡</DoSign>
