@@ -19,4 +19,4 @@
 ### Git
 ------------------------------------------
 # 팀원소개
-[팀원소개](https://github.com/kim-mina000/debug_dragons-front/blob/develope/src/image/%ED%8C%80%EC%9B%90%EC%86%8C%EA%B0%9C.png)
+![팀원소개](https://github.com/kim-mina000/debug_dragons-front/blob/develope/src/image/%ED%8C%80%EC%9B%90%EC%86%8C%EA%B0%9C.png)
