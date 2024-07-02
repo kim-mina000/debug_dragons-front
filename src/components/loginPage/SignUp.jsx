@@ -37,6 +37,17 @@ const ImageBox = styled.div`
   border: 5px solid #CCC;
   border-radius: 15px;
   margin-top: 10px;
+  // FileReader API 로 추가함
+  overflow: hidden;
+  position: relative;
+  background-color: #f0f0f0;
+`;
+
+// FileReader API 로 추가함
+const ImagePreview = styled.img`
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
 `;
 
 // 아이디 패스워드 이름 이매일
@@ -164,9 +175,21 @@ function SignUp() {
     }
   };
 
+  // const handleProfileImage = (e) => {
+  //   setUserInfo({ ...userInfo, 'userProfileImagePath': e.target.value })
+  // }
+
+  // FileReader사용
   const handleProfileImage = (e) => {
-    setUserInfo({ ...userInfo, 'userProfileImagePath': e.target.value })
-  }
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setUserInfo({ ...userInfo, userProfileImagePath: reader.result });
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSignUp = async () => {
 
@@ -217,9 +240,14 @@ function SignUp() {
           />
         </SignUpBoxWrap>
         <div>
-          <Text>ProFile</Text>
           <label htmlFor="profileImageUpload">
-            <ImageBox>본인을 표현할 수 있는 이미지를 추가해보세요!</ImageBox>
+            <ImageBox>
+              {userInfo.userProfileImagePath ? (
+                <ImagePreview src={userInfo.userProfileImagePath} alt="Profile" />
+              ) : (
+                "본인을 표현할 수 있는 이미지를 추가해보세요!"
+              )}
+            </ImageBox>
           </label>
           <input
             type="file"
@@ -227,7 +255,6 @@ function SignUp() {
             style={{ display: 'none' }}
             onChange={handleProfileImage}
           />
-           {userInfo.userProfileImagePath && <img src={userInfo.userProfileImagePath} alt="Profile" />}
         </div>
       </SignUpBox>
       <DoSign onClick={handleSignUp}>회원 가입 하기 ➡</DoSign>
