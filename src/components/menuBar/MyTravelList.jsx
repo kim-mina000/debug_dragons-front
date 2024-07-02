@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { RiFolderAddLine, RiFolderAddFill } from "react-icons/ri";
 
 const TravelListContainer = styled.div`
-  width: 70%;
+  width: 80%;
   padding: 20px;
   box-sizing: border-box;
   margin: 0 auto; /* 가운데 정렬 */
@@ -23,7 +23,7 @@ const Category = styled.div`
 
 const CategoryButton = styled.button`
   width: 100%;
-  height: 100%; /* CategoryButton의 높이를 아이콘과 맞추기 위해 100%로 설정 */
+  height: 100%; 
   background-color: transparent; /* 백그라운드 컬러 제거 */
   display: flex;
   flex-direction: column; /* 아이콘과 텍스트를 세로로 배치 */
@@ -48,8 +48,8 @@ const CategoryButton = styled.button`
   }
 
   span {
-    margin-top: 5px; /* 아이콘과 텍스트 사이의 간격 설정 */
-    cursor: pointer; /* 마우스 포인터를 변경하여 클릭 가능한 상태로 변경 */
+    margin-top: 5px; 
+    cursor: pointer; 
     font-size: 14px;
   }
 
@@ -76,7 +76,7 @@ const IconHoverAf = styled(RiFolderAddFill)`
 `;
 
 const EditableCategoryName = styled.input`
-  width: calc(100% - 20px); /* 왼쪽에 여백 고려해서 너비 계산 */
+  width: calc(100% - 20px); 
   padding: 5px 10px;
   margin: 0 auto;
   border: 1px solid #ccc;
@@ -84,17 +84,70 @@ const EditableCategoryName = styled.input`
   font-size: 14px;
 `;
 
+const BoxesContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  margin: 20px auto;
+  max-height: 70vh; 
+  overflow-y: auto; 
+`;
+
+const Box = styled.div`
+  width: 22rem;
+  height: 22rem;
+  background-color: #353535;
+  margin: 10px; 
+`;
+
+const DropdownContainer = styled.div`
+  position: relative;
+  display: inline-block;
+  margin: 20px 0; 
+  float: right; 
+`;
+
+const DropdownButton = styled.button`
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+`;
+
+const DropdownContent = styled.div`
+  display: ${({ show }) => (show ? 'block' : 'none')};
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 5px;
+  overflow: hidden;
+  right: 0; 
+`;
+
+const DropdownOption = styled.div`
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f1f1f1;
+  }
+`;
+
 const MyTravelList = () => {
   const initialCategories = ['카테고리 01', '카테고리 02', '카테고리 03', '카테고리 04', '카테고리 05'];
   const [categories, setCategories] = useState(initialCategories);
   const [editingIndex, setEditingIndex] = useState(-1); // 편집 중인 카테고리 인덱스
-
-  const handleAddCategory = () => {
-    const newCategoryName = prompt('추가할 카테고리 이름을 입력하세요.');
-    if (newCategoryName) {
-      setCategories([...categories, newCategoryName]);
-    }
-  };
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [sortOption, setSortOption] = useState('정렬기준');
 
   const handleEditCategoryName = (index) => {
     setEditingIndex(index); // 편집 상태로 전환
@@ -105,6 +158,11 @@ const MyTravelList = () => {
     newCategories[index] = newName;
     setCategories(newCategories);
     setEditingIndex(-1); // 편집 종료
+  };
+
+  const handleSortOption = (option) => {
+    setSortOption(option);
+    setDropdownVisible(false);
   };
 
   return (
@@ -129,14 +187,29 @@ const MyTravelList = () => {
             </CategoryButton>
           </Category>
         ))}
-        <Category>
-          <CategoryButton onClick={handleAddCategory}>
-            <IconHoverBf className="add-icon" />
-            <IconHoverAf className="add-fill-icon" />
-            <span>추가</span>
-          </CategoryButton>
-        </Category>
       </Categories>
+      <DropdownContainer>
+        <DropdownButton onClick={() => setDropdownVisible(!dropdownVisible)}>
+          {sortOption}
+        </DropdownButton>
+        <DropdownContent show={dropdownVisible}>
+          <DropdownOption onClick={() => handleSortOption('최신 순')}>최신 순</DropdownOption>
+          <DropdownOption onClick={() => handleSortOption('오래된 순')}>오래된 순</DropdownOption>
+          <DropdownOption onClick={() => handleSortOption('가나다 순')}>가나다 순</DropdownOption>
+          <DropdownOption onClick={() => handleSortOption('좋아요 순')}>좋아요 순</DropdownOption>
+        </DropdownContent>
+      </DropdownContainer>
+      <BoxesContainer>
+        <Box />
+        <Box />
+        <Box />
+        <Box />
+        <Box />
+        <Box />
+        <Box />
+        <Box />
+        <Box />
+      </BoxesContainer>
     </TravelListContainer>
   );
 };
