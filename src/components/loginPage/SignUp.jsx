@@ -4,6 +4,7 @@ import MenuBar from "../0.menuBar/MenuBar";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Modal from 'react-modal';
 
 
 // 컨테이너 틀
@@ -74,24 +75,95 @@ const DoSign = styled.button`
   }
   `;
 
+  // 모달 스타일
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
+
 function SignUp() {
 
   const nevigate = useNavigate();
 
-  const [userInfo, setUserInfo] = useState({ 'userId': null, 'userPw': null, 'userName': null, 'userEmail': null, 'profile': null, 'userRole': false, 'userProfileImagePath': false });
+  // 중복값 알림 모달
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
-  const handleID = (e) => {
-    setUserInfo({ ...userInfo, 'userId': e.target.value })
-  }
+  const [userInfo, setUserInfo] = useState({
+    userId: null,
+    userPw: null,
+    userName: null,
+    userEmail: null,
+    profile: null,
+    userRole: false,
+    userProfileImagePath: false,
+  });
+
+  const openModal = (message) => {
+    setModalMessage(message);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  const checkDuplicate = async (field, value) => {
+    try {
+      const response = await axios.post(`http://localhost:8080/member/check-duplicate`, { field, value });
+      return response.data.isDuplicate;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  };
+
+  // ID 유효성 검사
+  const handleID = async (e) => {
+    const value = e.target.value;
+    if (/^[a-zA-Z0-9]*$/.test(value)) {
+      const isDuplicate = await checkDuplicate('userId', value);
+      if (isDuplicate) {
+        openModal("이미 다른 사람이 사용중이에요😥");
+      } else {
+        setUserInfo({ ...userInfo, userId: value });
+      }
+    } else {
+      alert("영문 대/소문자,숫자 조합으로 입력해주세요.");
+    }
+  };
+
+  // PASSWORD 유효성 검사
   const handlePassword = (e) => {
-    setUserInfo({ ...userInfo, 'userPw': e.target.value })
-  }
+    const value = e.target.value;
+    if (/^[a-zA-Z0-9]*$/.test(value)) {
+      setUserInfo({ ...userInfo, userPw: value });
+    } else {
+      alert("영문 대/소문자,숫자 조합으로 입력해주세요.");
+    }
+  };
+
+  // USERNAME 핸들러 (특별한 유효성 검사 없음)
   const handleUsername = (e) => {
-    setUserInfo({ ...userInfo, 'userName': e.target.value })
-  }
+    setUserInfo({ ...userInfo, userName: e.target.value });
+  };
+
+  // EMAIL 유효성 검사
   const handleEmail = (e) => {
-    setUserInfo({ ...userInfo, 'userEmail': e.target.value })
-  }
+    const value = e.target.value;
+    if (/^[a-zA-Z0-9@.]*$/.test(value)) {
+      setUserInfo({ ...userInfo, userEmail: value });
+    } else {
+      alert("영문 대/소문자,숫자 조합으로 입력해주세요.");
+    }
+  };
+
   const handleProfileImage = (e) => {
     setUserInfo({ ...userInfo, 'userProfileImagePath': e.target.value })
   }
@@ -160,6 +232,15 @@ function SignUp() {
       </SignUpBox>
       <DoSign onClick={handleSignUp}>회원 가입 하기 ➡</DoSign>
       <MenuBar />
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Notification"
+      >
+        <h2>{modalMessage}</h2>
+        <button onClick={closeModal}>닫기</button>
+      </Modal>
     </Container>
   );
 };
