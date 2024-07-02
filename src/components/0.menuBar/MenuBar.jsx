@@ -54,8 +54,19 @@ function MenuBar() {
 
   return (
     <IconContainer>
-      <Icon isVisible={isExpanded}><img src='/리스트.png' alt="리스트"/></Icon>
+
+      {/* 나의 여행 리스트 가기 */}
+      <Link to="/menuBar/MyTravelList">
+      <Icon isVisible={isExpanded}
+        onMouseEnter={handleHomeHover} 
+        onMouseLeave={handleHomeLeave}
+      >
+      <img src='/리스트.png' alt="리스트"/></Icon>      
+      </Link>
+      
       <Icon isVisible={isExpanded}><img src='/둘러보기.png' alt="둘러보기"/></Icon>
+
+      {/* 스타트 페이지 이동 */}
       <Link to="/Startpage">
         <Icon isVisible={true}
           onMouseEnter={handleHomeHover} 
