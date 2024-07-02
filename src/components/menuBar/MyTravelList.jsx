@@ -119,8 +119,8 @@ const MyTravelList = () => {
                 <EditableCategoryName
                   type="text"
                   value={category}
-                  onChange={(e) => handleInputChange(e, index)}
-                  onBlur={(e) => handleSaveCategoryName(index, e.target.value)}
+                  onChange={(e) => handleSaveCategoryName(index, e.target.value)}
+                  onBlur={() => setEditingIndex(-1)}
                   autoFocus
                 />
               ) : (

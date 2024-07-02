@@ -15,6 +15,9 @@ import FindEnd from './components/loginPage/FindEnd';
 
 import MainContainer from './components/MainContainer';
 import SignUpComplete from './components/loginPage/SignUpComplete';
+import MenuBar from './components/0.menuBar/MenuBar';
+import MyTravelList from './components/menuBar/MyTravelList'
+
 
 
 const GlobalStyles = createGlobalStyle`
@@ -78,6 +81,8 @@ function App() {
         <Route path="/find" element={<Find />} />
         <Route path="/FindEnd" element={<FindEnd />} />
         <Route path='/main' element={<MainContainer />} />
+        <Route path="/menuBar/MyTravelList" element={<MyTravelList />} />
+        <Route path="/menuBar" element={<MenuBar />} />
       </Routes>
 
     {/* <GlobalStyles />   */}
