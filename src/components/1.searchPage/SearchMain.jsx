@@ -109,62 +109,41 @@ function SearchMain() {
         level: 3 // 지도의 레벨(확대, 축소 정도)
       };
 
-      // 지도를 생성합니다
+      // 지도 생성
       const map = new kakao.maps.Map(container.current, options);
 
-      // 지도를 클릭한 위치에 표출할 마커입니다
-      const marker = new kakao.maps.Marker({
-        // 지도 중심좌표에 마커를 생성합니다
-        position: map.getCenter()
-      });
-
-      // 지도에 마커 표시하기
-      marker.setMap(map);
-
-      // 지도 클릭 이벤트 추가
+      // 지도를 클릭했을때 클릭한 위치에 마커를 추가하도록 지도에 클릭이벤트를 등록
       kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
-        const latlng = mouseEvent.latLng;
-        marker.setPosition(latlng);
+        // 클릭한 위치에 마커를 표시 
+        addMarker(mouseEvent.latLng);
       });
 
-      // 마커를 표시할 위치와 title 객체 배열 (임시)
-      const positions = [
-        {
-          title: '카카오',
-          latlng: new kakao.maps.LatLng(33.450705, 126.570677)
-        },
-        {
-          title: '생태연못',
-          latlng: new kakao.maps.LatLng(33.450936, 126.569477)
-        },
-        {
-          title: '텃밭',
-          latlng: new kakao.maps.LatLng(33.450879, 126.569940)
-        },
-        {
-          title: '근린공원',
-          latlng: new kakao.maps.LatLng(33.451393, 126.570738)
-        }
-      ];
+      // 지도에 표시된 마커 객체를 가지고 있을 배열
+      const markers = [];
 
-      // 마커 이미지의 이미지 주소
-      const imageSrc =
-        'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
+      // 마커를 생성하고 지도위에 표시하는 함수
+      function addMarker(position) {
 
-      for (let i = 0; i < positions.length; i++) {
+        // 마커 이미지의 이미지 주소
+        const imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"
+
         // 마커 이미지의 이미지 크기
         const imageSize = new kakao.maps.Size(24, 35);
 
-        // 마커 이미지를 생성합니다
+        // 마커 이미지를 생성
         const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
-        // 마커를 생성합니다
-        const marker2 = new kakao.maps.Marker({
-          map: map, // 마커를 표시할 지도
-          position: positions[i].latlng, // 마커를 표시할 위치
-          title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-          image: markerImage // 마커 이미지
+        // 마커를 생성
+        const marker = new kakao.maps.Marker({
+          map: map,
+          position: position,
+          image: markerImage // 마커 이미지 
         });
+
+        // 마커가 지도 위에 표시되도록 설정
+        marker.setMap(map);
+        // 생성된 마커를 배열에 추가
+        markers.push(marker);
       }
     });
   }, []);

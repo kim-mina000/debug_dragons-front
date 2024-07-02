@@ -155,7 +155,7 @@ function SignUp() {
             style={{ display: 'none' }}
             onChange={handleProfileImage}
           />
-           {userInfo.userProfileImagePath && <img src={userInfo.userProfileImagePath} alt="Profile" />}
+          {userInfo.userProfileImagePath && <img src={userInfo.userProfileImagePath} alt="Profile" />}
         </div>
       </SignUpBox>
       <DoSign onClick={handleSignUp}>회원 가입 하기 ➡</DoSign>
