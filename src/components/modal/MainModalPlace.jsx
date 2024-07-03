@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const Overlay = styled.div`
@@ -11,7 +11,7 @@ const Overlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Overlay가 가장 위에 있도록 설정 */
+  z-index: 1000;
 `;
 
 const Content = styled.div`
@@ -22,18 +22,11 @@ const Content = styled.div`
   width: 100%;
   text-align: center;
   position: relative;
-  z-index: 1010; /* Content가 Overlay보다 더 위에 있도록 설정 */
+  z-index: 1010;
 `;
 
 const Title = styled.h2`
   margin-bottom: 20px;
-`;
-
-const Input = styled.input`
-  width: calc(100% - 40px);
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
 `;
 
 const Line = styled.div`
@@ -41,6 +34,12 @@ const Line = styled.div`
   height: 1px;
   background: #ccc;
   margin: 20px 0;
+`;
+
+const SelectedPlaces = styled.div`
+  margin-bottom: 20px;
+  padding: 10px;
+  border: none;
 `;
 
 const ButtonContainer = styled.div`
@@ -82,34 +81,66 @@ const SearchButton = styled.button`
   }
 `;
 
-const MainModalPlace = ({ closeModal, selectedButtons, setSelectedButtons }) => {
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+`;
+
+function MainModalPlace({ closeModal, selectedButtons, setSelectedButtons, onSave }) {
+  const [tempSelectedButtons, setTempSelectedButtons] = useState([...selectedButtons]);
+
+  useEffect(() => {
+    setTempSelectedButtons([...selectedButtons]);
+  }, [selectedButtons]);
+
   const handleButtonClick = (buttonIndex) => {
-    if (selectedButtons.includes(buttonIndex)) {
-      setSelectedButtons(selectedButtons.filter(index => index !== buttonIndex));
+    if (tempSelectedButtons.includes(buttonIndex)) {
+      setTempSelectedButtons(tempSelectedButtons.filter(index => index !== buttonIndex));
     } else {
-      if (selectedButtons.length < 3) {
-        setSelectedButtons([...selectedButtons, buttonIndex]);
+      if (tempSelectedButtons.length < 3) {
+        setTempSelectedButtons([...tempSelectedButtons, buttonIndex]);
       } else {
         alert("최대 3개까지 선택 가능합니다.");
       }
     }
   };
 
+  const handleSave = () => {
+    const selectedValues = tempSelectedButtons.map(index => buttonLabels[index]);
+    setSelectedButtons(tempSelectedButtons);
+    onSave(selectedValues); // 선택된 값을 저장하는 콜백 호출
+    closeModal();
+  };
+
+  const handleClose = () => {
+    setTempSelectedButtons([]);
+    closeModal();
+  };
+
   const buttonLabels = [
-    "전체", "경기", "경상", "전라", 
+    "전체", "경기", "경상", "전라",
     "제주", "서울", "강원", "부산", "인천",
     "광주", "대전", "대구", "울산"
   ];
 
   return (
-    <Overlay onClick={closeModal}>
+    <Overlay onClick={handleClose}>
       <Content onClick={(e) => e.stopPropagation()}>
-        <Title>아띠버스가 데려다줄게요!</Title>
-        <Input type="text" placeholder="아띠버스와 같이 가고 싶은 곳 있나요?" />
+        <CloseButton onClick={handleClose}>X</CloseButton>
+        <Title>이번 여행은 어디로?</Title>
+        <Line />
+        <SelectedPlaces>
+          {tempSelectedButtons.map(index => buttonLabels[index]).join(', ')}
+        </SelectedPlaces>
         <Line />
         <SingleButtonContainer>
           <Button
-            selected={selectedButtons.includes(0)}
+            selected={tempSelectedButtons.includes(0)}
             onClick={() => handleButtonClick(0)}
           >
             {buttonLabels[0]}
@@ -119,17 +150,18 @@ const MainModalPlace = ({ closeModal, selectedButtons, setSelectedButtons }) => 
           {buttonLabels.slice(1).map((label, index) => (
             <Button
               key={index + 1}
-              selected={selectedButtons.includes(index + 1)}
+              selected={tempSelectedButtons.includes(index + 1)}
               onClick={() => handleButtonClick(index + 1)}
             >
               {label}
             </Button>
           ))}
         </ButtonContainer>
-        <SearchButton>SEARCH</SearchButton>
+        <Line />
+        <SearchButton onClick={handleSave}>SEARCH</SearchButton>
       </Content>
     </Overlay>
   );
-};
+}
 
 export default MainModalPlace;
