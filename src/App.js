@@ -17,6 +17,7 @@ import MainContainer from './components/MainContainer';
 import SignUpComplete from './components/loginPage/SignUpComplete';
 import MenuBar from './components/0.menuBar/MenuBar';
 import MyTravelList from './components/menuBar/MyTravelList'
+import MyPage from './components/myPage/MyPage';
 
 
 
@@ -85,7 +86,8 @@ function App() {
         <Route path="/menuBar" element={<MenuBar />} />
       </Routes>
 
-    {/* <GlobalStyles />   */}
+    {/* <GlobalStyles />  
+    <MyPage /> */}
     {/* <SignUpComplete /> */}
     {/* <GlobalStyles />  
     <SignUpComplete /> */}
