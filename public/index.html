@@ -25,19 +25,11 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <!-- 좌표 API -->
-    <script defer type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9d4de3df4c7c5e0199e412627381f00a"></script>
     <!-- 카카오 간편로그인 -->
     <script defer src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <!-- 카카오 지도 -->
     <script defer src="//dapi.kakao.com/v2/maps/sdk.js?appkey=02a031fabfd172ce7cd288e0d8cd83a9&autoload=false&libraries=clusterer,services"></script>
-    <script type="text/javascript">
-      kakao.maps.load(function() {
-          // v3가 모두 로드된 후, 이 콜백 함수가 실행됩니다.
-          const  map = new window.kakao.maps.Map(node, options);
-          console.log(map);
-      });
-    </script>
+
     <title>Attibus : 당신의 여행 길잡이</title>
   </head>
   <body>

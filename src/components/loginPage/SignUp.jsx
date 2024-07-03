@@ -27,6 +27,13 @@ const SignUpBoxWrap = styled.div`
   margin-right: 30px;
 `;
 
+// 아이디 input + button wrap
+const IdWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  
+`;
+
 // 이미지 첨부
 const ImageBox = styled.div`
   width: 400px;
@@ -52,7 +59,7 @@ const ImagePreview = styled.img`
 
 // 아이디 패스워드 이름 이매일
 const Input = styled.input`
-  width: 400px;
+  width: 100%;
   height: 45px;
   margin: 10px 0;
   border: 1px solid #ccc;
@@ -73,7 +80,7 @@ const Text = styled.h4`
 
 // 버튼
 const DoSign = styled.button`
-  width: 840px;
+  width: ${ props => props.detailWidth || '200px'};
   height: 70px;
   border-radius: 15px;
   font-size: 20px;
@@ -112,8 +119,8 @@ function SignUp() {
     userName: null,
     userEmail: null,
     profile: null,
-    userRole: false,
-    userProfileImagePath: false,
+    userRole: "ROLE_USER",
+    userProfileImagePath: null,
   });
 
   const openModal = (message) => {
@@ -125,10 +132,11 @@ function SignUp() {
     setModalIsOpen(false);
   };
 
-  const checkDuplicate = async (field, value) => {
+  const checkDuplicate = async (value) => {
     try {
-      const response = await axios.post(`http://localhost:8080/member/check-duplicate`, { field, value });
-      return response.data.isDuplicate;
+      const response = await axios.post(`http://localhost:8080/member/check-duplicate`, value);
+      console.log(response.data);
+      return response.data;
     } catch (error) {
       console.error(error);
       return false;
@@ -136,18 +144,30 @@ function SignUp() {
   };
 
   // ID 유효성 검사
-  const handleID = async (e) => {
+  const handleID = (e) => {
     const value = e.target.value;
-    if (/^[a-zA-Z0-9]*$/.test(value)) {
-      const isDuplicate = await checkDuplicate('userId', value);
-      if (isDuplicate) {
-        openModal("이미 다른 사람이 사용중이에요😥");
-      } else {
-        setUserInfo({ ...userInfo, userId: value });
-      }
-    } else {
+    console.log(value);
+    console.log(/^[a-zA-Z0-9]*$/.test(value));
+
+    if (!/^[a-zA-Z0-9]*$/.test(value)) {
+      setUserInfo({ ...userInfo, userId: '' });
       alert("영문 대/소문자,숫자 조합으로 입력해주세요.");
+      return null;
+    } else {
+      setUserInfo({ ...userInfo, userId: value });
     }
+
+  };
+
+  // ID 체크
+  const handleCheckDuplicate = async () => {
+    const copyUserId = userInfo.userId;
+    const isDuplicate = await checkDuplicate(copyUserId);
+    console.log(isDuplicate);
+    if (isDuplicate) {
+      openModal("이미 다른 사람이 사용중이에요😥");
+    }
+    setUserInfo({ ...userInfo, userId: copyUserId });
   };
 
   // PASSWORD 유효성 검사
@@ -182,6 +202,8 @@ function SignUp() {
   // FileReader사용
   const handleProfileImage = (e) => {
     const file = e.target.files[0];
+    console.log(e.target);
+    console.log(file);
     const reader = new FileReader();
     reader.onloadend = () => {
       setUserInfo({ ...userInfo, userProfileImagePath: reader.result });
@@ -215,11 +237,21 @@ function SignUp() {
       <SignUpBox>
         <SignUpBoxWrap>
           <Text>ID</Text>
-          <Input
-            type="text"
-            value={userInfo.id}
-            onChange={handleID}
-          />
+          <IdWrap>
+            <Input
+              type="text"
+              style={{flex:1}}
+              value={userInfo.id}
+              onChange={handleID}
+            />
+            <DoSign 
+              detailWidth="150px"
+              style={{margin: '10px 0 0 10px', height:'45px'}} 
+              onClick={handleCheckDuplicate}
+              >
+                아이디 중복검사
+              </DoSign>
+          </IdWrap>
           <Text>PASSWORD</Text>
           <Input
             type="password"
@@ -257,7 +289,7 @@ function SignUp() {
           />
         </div>
       </SignUpBox>
-      <DoSign onClick={handleSignUp}>회원 가입 하기 ➡</DoSign>
+      <DoSign onClick={handleSignUp} detailWidth='840px'>회원 가입 하기 ➡</DoSign>
       <MenuBar />
       <Modal
         isOpen={modalIsOpen}
