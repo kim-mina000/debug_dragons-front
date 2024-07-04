@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { RiFolderAddLine, RiFolderAddFill } from "react-icons/ri";
+import MenuBar from '../0.menuBar/MenuBar';
+import Header from '../0.menuBar/Header';
 
 const TravelListContainer = styled.div`
   width: 80%;
@@ -166,6 +168,8 @@ const MyTravelList = () => {
   };
 
   return (
+    <>
+    <Header/>
     <TravelListContainer>
       <Categories>
         {categories.map((category, index) => (
@@ -211,6 +215,8 @@ const MyTravelList = () => {
         <Box />
       </BoxesContainer>
     </TravelListContainer>
+    <MenuBar/>
+    </>
   );
 };
 
