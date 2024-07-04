@@ -3,6 +3,8 @@ import MenuBar from "../0.menuBar/MenuBar";
 import { MdOutlineEdit } from "react-icons/md";
 import { HiStar } from "react-icons/hi2";
 import Header from "../0.menuBar/Header";
+import { useState } from "react";
+import MyPageProfile from "../modal/MyPageProfile";
 
 
 const TopDiv = styled.div`
@@ -154,7 +156,16 @@ const CustomerServiceBox = styled.div`
   }
 `
 
+
 function MyPage() {
+
+  const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
+
+  // 프로필 편집 모달 열기 핸들러
+  const handleProfileEditClick = () => {
+    setIsProfileEditModalOpen(true);
+  };
+
   return (
     <>
       <Header />
@@ -163,7 +174,10 @@ function MyPage() {
         <ProfileDiv>
           <ProfileImage>
             <ProfileEdit>
-              <MdOutlineEdit className="EditIcon"/>  
+              <MdOutlineEdit
+                className="EditIcon"
+                onClick={handleProfileEditClick}
+              />  
             </ProfileEdit>
           </ProfileImage>
           <span className="UserId"><HiStar color="#95D7FC" />dahun_town 님의 계정입니다</span>
@@ -213,6 +227,13 @@ function MyPage() {
             <span>이용약관/개인정보</span>
           </div>
         </CustomerServiceBox>
+
+        {/* MyPageProfile 모달 */}
+        {isProfileEditModalOpen && (
+          <MyPageProfile
+            closeModal={() => setIsProfileEditModalOpen(false)}
+          />
+        )}
     </>
   );
 };
