@@ -18,6 +18,7 @@ import SignUpComplete from './components/loginPage/SignUpComplete';
 import MenuBar from './components/0.menuBar/MenuBar';
 import MyTravelList from './components/menuBar/MyTravelList'
 import MyPage from './components/myPage/MyPage';
+import Clipping from './components/menuBar/Clipping';
 
 
 
@@ -85,6 +86,7 @@ function App() {
         <Route path="/menuBar/MyTravelList" element={<MyTravelList />} />
         <Route path="/menuBar" element={<MenuBar />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/scrap" element={<Clipping />} />
       </Routes>
 
     {/* <GlobalStyles />  
