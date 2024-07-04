@@ -105,6 +105,7 @@ const customStyles = {
   },
 };
 
+
 function SignUp() {
 
   const nevigate = useNavigate();
@@ -112,6 +113,8 @@ function SignUp() {
   // 중복값 알림 모달
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [userProfileImage, setUserProfileImage] = useState("");
+  const [uploadFile, setUploadFile] = useState(null);
 
   const [userInfo, setUserInfo] = useState({
     userId: null,
@@ -195,39 +198,48 @@ function SignUp() {
     }
   };
 
-  // const handleProfileImage = (e) => {
-  //   setUserInfo({ ...userInfo, 'userProfileImagePath': e.target.value })
-  // }
-
   // FileReader사용
-  const handleProfileImage = (e) => {
+  const handleProfileImage = async (e) => {
+
     const file = e.target.files[0];
-    console.log(e.target);
-    console.log(file);
+    setUploadFile(file);
+
     const reader = new FileReader();
+
     reader.onloadend = () => {
-      setUserInfo({ ...userInfo, userProfileImagePath: reader.result });
+      // reader.result 바이너리 값으로 이미지를 바로 웹에 띄워주는 역할을 함
+      setUserProfileImage(reader.result);
     };
+
     if (file) {
       reader.readAsDataURL(file);
     }
+
   };
-
-  const handleSignUp = async () => {
-
+  
+  const handleSignUp = async (e) => {
     try {
+      // 서버에 유저정보 전송
       const response = await axios.post('http://localhost:8080/member/register', userInfo);
+      
+      // 서버에 이미지 정보 전송
+      const formData = new FormData();
+      console.log(uploadFile);
+      formData.append('file', uploadFile);
+      formData.append('userId', userInfo.userId);  
 
-      if (response.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
+      const imgResponse = await axios.post('http://localhost:8080/member/upload', formData);
+
+      if (response.status ===201 || imgResponse.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
         return nevigate('/thanks-for-signup');
-
+        
       } else {
         throw new Error(`api error: ${response.status} ${response.statusText}`);
       }
-
-    } catch (error) {
-      console.error(error);
-    }
+      
+  } catch(err){
+    console.error(err);
+  }
   }
 
 
@@ -274,8 +286,8 @@ function SignUp() {
         <div>
           <label htmlFor="profileImageUpload">
             <ImageBox>
-              {userInfo.userProfileImagePath ? (
-                <ImagePreview src={userInfo.userProfileImagePath} alt="Profile" />
+              {userProfileImage ? (
+                <ImagePreview src={userProfileImage} alt="Profile" />
               ) : (
                 "본인을 표현할 수 있는 이미지를 추가해보세요!"
               )}
@@ -302,5 +314,6 @@ function SignUp() {
       </Modal>
     </Container>
   );
-};
+
+}
 export default SignUp;
