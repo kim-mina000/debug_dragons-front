@@ -75,14 +75,14 @@ function App() {
           )
         } />
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<SignUp />} />
         <Route path='/thanks-for-signup' element={<SignUpComplete />} />
-        <Route path="/find" element={<Find />} />
-        <Route path="/FindEnd" element={<FindEnd />} />
+        <Route path='/find' element={<Find />} />
+        <Route path='/FindEnd' element={<FindEnd />} />
         <Route path='/main' element={<MainContainer />} />
-        <Route path="/menuBar/MyTravelList" element={<MyTravelList />} />
-        <Route path="/menuBar" element={<MenuBar />} />
+        <Route path='/menuBar/MyTravelList' element={<MyTravelList />} />
+        <Route path='/menuBar' element={<MenuBar />} />
       </Routes>
 
     {/* <GlobalStyles />   */}
