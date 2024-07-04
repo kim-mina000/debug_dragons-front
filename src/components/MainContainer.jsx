@@ -3,7 +3,6 @@ import SearchMain from "./1.searchPage/SearchMain";
 import MenuBar from "./0.menuBar/MenuBar";
 import Headers from "./0.menuBar/Header";
 import { useSelector } from "react-redux";
-import { store } from "../store/store";
 
 const Wrap = styled.div`
   width: 100vw;
@@ -26,7 +25,7 @@ function MainContainer() {
 
   return (
     <>    
-      <Headers userName={userInfo.userName} />
+      <Headers userName={userInfo ? userInfo.userName : "사용자"} />
       <Wrap>
       
         <SearchMain />

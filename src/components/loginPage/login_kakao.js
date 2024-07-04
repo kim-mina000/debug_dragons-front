@@ -6,7 +6,7 @@ const {Kakao} = window;
 Kakao.init('02a031fabfd172ce7cd288e0d8cd83a9'); // 자바 키
 Kakao.isInitialized();
 
-const client_id = '9d4de3df4c7c5e0199e412627381f00a'; // REST API 키
+export const client_id = '9d4de3df4c7c5e0199e412627381f00a'; // REST API 키
 export const REDIRECT_URI = 'http://localhost:3001/main';
 
 

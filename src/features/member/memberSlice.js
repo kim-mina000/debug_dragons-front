@@ -18,6 +18,7 @@ const memberSlice = createSlice({
     },
     logout : (state)=>{
       state.userToken = null;
+      state.userInfo = null;
     }
 
   }
