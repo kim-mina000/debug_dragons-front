@@ -102,10 +102,10 @@ function MainModalPlace({ closeModal, selectedButtons, setSelectedButtons, onSav
     if (tempSelectedButtons.includes(buttonIndex)) {
       setTempSelectedButtons(tempSelectedButtons.filter(index => index !== buttonIndex));
     } else {
-      if (tempSelectedButtons.length < 3) {
+      if (tempSelectedButtons.length < 1) {
         setTempSelectedButtons([...tempSelectedButtons, buttonIndex]);
       } else {
-        alert("최대 3개까지 선택 가능합니다.");
+        alert("하나만 선택 가능합니다.");
       }
     }
   };

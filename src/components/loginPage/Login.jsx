@@ -5,7 +5,7 @@ import TitleLogo from './TitleLogo';
 import { Link, useNavigate } from 'react-router-dom';
 import { REDIRECT_URI } from './login_kakao';
 import { useDispatch } from 'react-redux';
-import { getUserToken } from '../../features/member/memberSlice';
+import { getUserInfo, getUserToken } from '../../features/member/memberSlice';
 import axios from 'axios';
 
 
@@ -116,10 +116,11 @@ const Login = () => {
 const handleLogin = async (id,pw) =>{
   try {
     const response = await axios.get(`http://localhost:8080/login?userId=${id}&userPw=${pw}`);
-    console.log(response);
 
-    dispatch(getUserToken(response.data));
-    localStorage.setItem('userToken',response.data);
+    dispatch(getUserInfo(response.data.user));
+    dispatch(getUserToken(response.data.token));
+
+    localStorage.setItem('userToken',response.data.token);
     navigate('/main');
     return console.log("로그인성공");;
     
