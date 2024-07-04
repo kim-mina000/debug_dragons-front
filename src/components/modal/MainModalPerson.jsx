@@ -11,7 +11,7 @@ const Overlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Overlay가 가장 위에 있도록 설정 */
+  z-index: 1000;
 `;
 
 const Content = styled.div`
@@ -22,7 +22,7 @@ const Content = styled.div`
   width: 100%;
   text-align: center;
   position: relative;
-  z-index: 1010; /* Content가 Overlay보다 더 위에 있도록 설정 */
+  z-index: 1010;
 `;
 
 const Title = styled.h2`
@@ -104,7 +104,7 @@ const SearchButton = styled.button`
   }
 `;
 
-const MainModalPerson = ({ closeModal }) => {
+const MainModalPerson = ({ closeModal, setSelectedButtons }) => {
   const [adultCount, setAdultCount] = useState(0);
   const [childCount, setChildCount] = useState(0);
   const [infantCount, setInfantCount] = useState(0);
@@ -141,7 +141,13 @@ const MainModalPerson = ({ closeModal }) => {
   };
 
   const handleSearch = () => {
-    alert(`선택된 인원: 성인 ${adultCount}, 아동 ${childCount}, 영아 ${infantCount}, 반려동물 ${petCount}`);
+    const selectedValues = {
+      adults: adultCount,
+      children: childCount,
+      infants: infantCount,
+      pets: petCount,
+    };
+    setSelectedButtons(selectedValues);
     closeModal();
   };
 

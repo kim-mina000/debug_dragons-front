@@ -110,6 +110,12 @@ function SearchMain() {
   const [isPlaceModalOpen, setIsPlaceModalOpen] = useState(false);
   const [isPersonModalOpen, setIsPersonModalOpen] = useState(false);
 
+  // MainModalPerson에서 선택된 값 저장
+  const handleSavePerson = (selectedValues) => {
+    setSelectedPersonButtons(selectedValues);
+    setIsPersonModalOpen(false);
+  };
+
 
   // 화면이 처음 렌더링 될 때 지도를 가져옴.
   useEffect(() => {
@@ -181,15 +187,9 @@ function SearchMain() {
   };
 
   const handleSavePlace = (selectedValues) => {
-    setSelectedPlaceButtons(selectedValues.map(index => buttonLabels[index]));
-    setIsPlaceModalOpen(false); 
+    setSelectedPlaceButtons(selectedValues);
+    setIsPlaceModalOpen(false);
   };
-
-  const handleSavePerson = (selectedValues) => {
-    setSelectedPersonButtons(selectedValues);
-    setIsPersonModalOpen(false); 
-  };
-
 
   return (
     <Container>
@@ -213,12 +213,16 @@ function SearchMain() {
               <SearchH2>언제 떠나볼까요? {selectedDateButtons.length > 0 && `: ${selectedDateButtons.join(', ')}`}</SearchH2>
             </div>
             <div>
-              <img
+            <img
                 src={SesrchPerson}
                 alt="person icon"
-                onClick={handlePersonIconClick}
+                onClick={() => setIsPersonModalOpen(true)}
               />
-              <SearchH2>누구와 떠날까요? {selectedPersonButtons.length > 0 && `: ${selectedPersonButtons.join(', ')}`}</SearchH2>
+              <SearchH2>누구와 떠날까요? {selectedPersonButtons.adults && `: 성인 ${selectedPersonButtons.adults}명, `} 
+                {selectedPersonButtons.children && `아동 ${selectedPersonButtons.children}명, `}
+                {selectedPersonButtons.infants && `영아 ${selectedPersonButtons.infants}명, `}
+                {selectedPersonButtons.pets && `반려동물 ${selectedPersonButtons.pets}마리`}
+              </SearchH2>
             </div>
           </SearchContainer>
           <MyCourseContainer>{/* 코스 내용이 들어갈 곳 */}</MyCourseContainer>
@@ -253,7 +257,6 @@ function SearchMain() {
       {isPersonModalOpen && (
         <MainModalPerson
           closeModal={() => setIsPersonModalOpen(false)}
-          selectedButtons={selectedPersonButtons}
           setSelectedButtons={handleSavePerson}
         />
       )}
