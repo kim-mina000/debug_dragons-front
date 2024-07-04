@@ -78,7 +78,9 @@ function MenuBar() {
         </Icon>
       </Link>
 
+      <Link to="/scrap">
       <Icon isVisible={isExpanded}><img src='/스크랩.png' alt="스크랩"/></Icon>
+      </Link>
       
       <Link to="/mypage">
         <Icon isVisible={isExpanded}><img src='/마이페이지.png' alt="마이페이지"/></Icon>
