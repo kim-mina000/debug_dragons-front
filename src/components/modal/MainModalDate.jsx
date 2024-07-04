@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const Overlay = styled.div`
@@ -82,17 +82,41 @@ const SearchButton = styled.button`
   }
 `;
 
-function MainModalDate({ closeModal, selectedButtons, setSelectedButtons }) {
+/* 닫기 버튼 스타일 */
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+`;
+
+function MainModalDate({ closeModal, selectedButtons, setSelectedButtons, onSave }) {
+  const [tempSelectedButtons, setTempSelectedButtons] = useState([...selectedButtons]);
+
+  useEffect(() => {
+    setTempSelectedButtons([...selectedButtons]);
+  }, [selectedButtons]);
+
   const handleButtonClick = (buttonIndex) => {
-    if (selectedButtons.includes(buttonIndex)) {
-      setSelectedButtons(selectedButtons.filter(index => index !== buttonIndex));
+    if (tempSelectedButtons.includes(buttonIndex)) {
+      setTempSelectedButtons(tempSelectedButtons.filter(index => index !== buttonIndex));
     } else {
-      if (selectedButtons.length < 3) {
-        setSelectedButtons([...selectedButtons, buttonIndex]);
+      if (tempSelectedButtons.length < 3) {
+        setTempSelectedButtons([...tempSelectedButtons, buttonIndex]);
       } else {
         alert("최대 3개까지 선택 가능합니다.");
       }
     }
+  };
+
+  const handleSave = () => {
+    const selectedValues = tempSelectedButtons.map(index => buttonLabels[index]);
+    setSelectedButtons(tempSelectedButtons);
+    onSave(selectedValues); // 선택된 값을 저장하는 콜백 호출
+    closeModal();
   };
 
   const buttonLabels = [
@@ -104,15 +128,16 @@ function MainModalDate({ closeModal, selectedButtons, setSelectedButtons }) {
   return (
     <Overlay onClick={closeModal}>
       <Content onClick={(e) => e.stopPropagation()}>
+        <CloseButton onClick={closeModal}>X</CloseButton> {/* 닫기 버튼 추가 */}
         <Title>언제 떠나볼까요?</Title>
         <Line />
         <SelectedSeasons>
-          {selectedButtons.map(index => buttonLabels[index]).join(', ')}
+          {tempSelectedButtons.map(index => buttonLabels[index]).join(', ')}
         </SelectedSeasons>
         <Line />
         <SingleButtonContainer>
           <Button
-            selected={selectedButtons.includes(0)}
+            selected={tempSelectedButtons.includes(0)}
             onClick={() => handleButtonClick(0)}
           >
             {buttonLabels[0]}
@@ -122,7 +147,7 @@ function MainModalDate({ closeModal, selectedButtons, setSelectedButtons }) {
           {buttonLabels.slice(1).map((label, index) => (
             <Button
               key={index + 1}
-              selected={selectedButtons.includes(index + 1)}
+              selected={tempSelectedButtons.includes(index + 1)}
               onClick={() => handleButtonClick(index + 1)}
             >
               {label}
@@ -130,7 +155,7 @@ function MainModalDate({ closeModal, selectedButtons, setSelectedButtons }) {
           ))}
         </ButtonContainer>
         <Line />
-        <SearchButton>SEARCH</SearchButton>
+        <SearchButton onClick={handleSave}>SEARCH</SearchButton> {/* 저장 버튼 클릭 핸들러 */}
       </Content>
     </Overlay>
   );

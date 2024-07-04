@@ -27,6 +27,9 @@ const Icon = styled.div`
   cursor: pointer;
   opacity: ${props => props.isVisible ? 1 : 0};
   transition: opacity 0.3s ease;
+  &:hover {
+    opacity: 1; /* 메뉴 항목에 hover 효과 추가 */
+  }
 `;
 
 // 메뉴바 애니메이션
@@ -53,30 +56,35 @@ function MenuBar() {
   };
 
   return (
-    <IconContainer>
-
+    <IconContainer
+      onMouseEnter={handleHomeHover} 
+      onMouseLeave={handleHomeLeave}
+    >
       {/* 나의 여행 리스트 가기 */}
       <Link to="/menuBar/MyTravelList">
-      <Icon isVisible={isExpanded}
-        onMouseEnter={handleHomeHover} 
-        onMouseLeave={handleHomeLeave}
-      >
-      <img src='/리스트.png' alt="리스트"/></Icon>      
+        <Icon isVisible={isExpanded}>
+          <img src='/리스트.png' alt="리스트"/>
+        </Icon>
       </Link>
       
-      <Icon isVisible={isExpanded}><img src='/둘러보기.png' alt="둘러보기"/></Icon>
+      <Icon isVisible={isExpanded}>
+        <img src='/둘러보기.png' alt="둘러보기"/>
+      </Icon>
 
       {/* 스타트 페이지 이동 */}
       <Link to="/Startpage">
-        <Icon isVisible={true}
-          onMouseEnter={handleHomeHover} 
-          onMouseLeave={handleHomeLeave}
-        >
+        <Icon isVisible={true}>
           <img src='/홈.png' alt="홈"/>
         </Icon>
       </Link>
+
+      <Link to="/scrap">
       <Icon isVisible={isExpanded}><img src='/스크랩.png' alt="스크랩"/></Icon>
-      <Icon isVisible={isExpanded}><img src='/마이페이지.png' alt="마이페이지"/></Icon>
+      </Link>
+      
+      <Link to="/mypage">
+        <Icon isVisible={isExpanded}><img src='/마이페이지.png' alt="마이페이지"/></Icon>
+      </Link>
     </IconContainer>
   );
 }

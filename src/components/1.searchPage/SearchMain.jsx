@@ -3,11 +3,14 @@ import styled from 'styled-components';
 import MainModalPlace from '../modal/MainModalPlace';
 import MainModalPerson from '../modal/MainModalPerson';
 import MainModalDate from '../modal/MainModalDate'; // 모달 컴포넌트 import
+import buttonLabels from '../modal/MainModalPlace';
+
 
 // 이미지 경로 설정
 import SesrchPlace from '../../image/search_place_icon.png';
 import SesrchDate from '../../image/search_date_icon.png';
 import SesrchPerson from '../../image/search_person_icon.png';
+
 
 // 전체 레이아웃을 감싸는 Container. 가운데 정렬.
 const Container = styled.div`
@@ -19,7 +22,7 @@ const Container = styled.div`
 `;
 
 const ContentWrap = styled.div`
-  width: 90%; // 이게 최선....입니다...
+  width: 90%; 
   height: 800px;
   display: flex;
 `;
@@ -95,10 +98,24 @@ const SaveButton = styled.button`
 function SearchMain() {
   const { kakao } = window;
   const container = useRef(null);
-  const [selectedButtons, setSelectedButtons] = useState([]);
-  const [isDateModalOpen, setIsDateModalOpen] = useState(false); // 날짜 모달 열기 상태 추가
-  const [isPlaceModalOpen, setIsPlaceModalOpen] = useState(false); // 장소 모달 열기 상태 추가
-  const [isPersonModalOpen, setIsPersonModalOpen] = useState(false); // 인원 모달 열기 상태 추가
+  // const [selectedButtons, setSelectedButtons] = useState([]);
+
+  // 선택된 값들을 관리할 상태
+  const [selectedPlaceButtons, setSelectedPlaceButtons] = useState([]);
+  const [selectedDateButtons, setSelectedDateButtons] = useState([]);
+  const [selectedPersonButtons, setSelectedPersonButtons] = useState([]);
+  
+  // 각 모달의 open/close 상태 관리
+  const [isDateModalOpen, setIsDateModalOpen] = useState(false);
+  const [isPlaceModalOpen, setIsPlaceModalOpen] = useState(false);
+  const [isPersonModalOpen, setIsPersonModalOpen] = useState(false);
+
+  // MainModalPerson에서 선택된 값 저장
+  const handleSavePerson = (selectedValues) => {
+    setSelectedPersonButtons(selectedValues);
+    setIsPersonModalOpen(false);
+  };
+
 
   // 화면이 처음 렌더링 될 때 지도를 가져옴.
   useEffect(() => {
@@ -163,18 +180,29 @@ function SearchMain() {
     setIsPersonModalOpen(true);
   };
 
+  // 값 저장하기
+  const handleSaveDate = (selectedValues) => {
+    setSelectedDateButtons(selectedValues);
+    setIsDateModalOpen(false); // 모달 닫기
+  };
+
+  const handleSavePlace = (selectedValues) => {
+    setSelectedPlaceButtons(selectedValues);
+    setIsPlaceModalOpen(false);
+  };
+
   return (
     <Container>
       <ContentWrap>
         <LeftWrap>
           <SearchContainer>
-            <div>
+          <div>
               <img
                 src={SesrchPlace}
                 alt="place icon"
                 onClick={handlePlaceIconClick}
               />
-              <SearchH2>이번 여행은 어디로</SearchH2>
+              <SearchH2>이번 여행은 어디로 {selectedPlaceButtons.length > 0 && `: ${selectedPlaceButtons.join(', ')}`}</SearchH2>
             </div>
             <div>
               <img
@@ -182,21 +210,26 @@ function SearchMain() {
                 alt="date icon"
                 onClick={handleDateIconClick}
               />
-              <SearchH2>언제 떠나볼까요?</SearchH2>
+              <SearchH2>언제 떠나볼까요? {selectedDateButtons.length > 0 && `: ${selectedDateButtons.join(', ')}`}</SearchH2>
             </div>
             <div>
-              <img
+            <img
                 src={SesrchPerson}
                 alt="person icon"
-                onClick={handlePersonIconClick}
+                onClick={() => setIsPersonModalOpen(true)}
               />
-              <SearchH2>누구와 떠날까요?</SearchH2>
+              <SearchH2>누구와 떠날까요? {selectedPersonButtons.adults && `: 성인 ${selectedPersonButtons.adults}명, `} 
+                {selectedPersonButtons.children && `아동 ${selectedPersonButtons.children}명, `}
+                {selectedPersonButtons.infants && `영아 ${selectedPersonButtons.infants}명, `}
+                {selectedPersonButtons.pets && `반려동물 ${selectedPersonButtons.pets}마리`}
+              </SearchH2>
             </div>
           </SearchContainer>
           <MyCourseContainer>{/* 코스 내용이 들어갈 곳 */}</MyCourseContainer>
         </LeftWrap>
         <MapContainer ref={container}>
-          <SaveButton>저장하기→</SaveButton>
+          {/* <SaveButton>저장하기→</SaveButton> */}
+          {/* 해당 컨포넌트 작업 후 다시 주석 해제할 예정 */}
         </MapContainer>
       </ContentWrap>
 
@@ -204,8 +237,9 @@ function SearchMain() {
       {isPlaceModalOpen && (
         <MainModalPlace
           closeModal={() => setIsPlaceModalOpen(false)}
-          selectedButtons={selectedButtons}
-          setSelectedButtons={setSelectedButtons}
+          selectedButtons={selectedPlaceButtons.map(place => buttonLabels.indexOf(place))}
+          setSelectedButtons={handleSavePlace}
+          onSave={handleSavePlace}
         />
       )}
 
@@ -213,8 +247,9 @@ function SearchMain() {
       {isDateModalOpen && (
         <MainModalDate
           closeModal={() => setIsDateModalOpen(false)}
-          selectedButtons={selectedButtons}
-          setSelectedButtons={setSelectedButtons}
+          selectedButtons={selectedDateButtons}
+          setSelectedButtons={handleSaveDate}
+          onSave={handleSaveDate}
         />
       )}
 
@@ -222,8 +257,7 @@ function SearchMain() {
       {isPersonModalOpen && (
         <MainModalPerson
           closeModal={() => setIsPersonModalOpen(false)}
-          selectedButtons={selectedButtons}
-          setSelectedButtons={setSelectedButtons}
+          setSelectedButtons={handleSavePerson}
         />
       )}
     </Container>
