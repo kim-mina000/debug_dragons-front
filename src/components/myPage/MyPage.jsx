@@ -9,15 +9,15 @@ const TopDiv = styled.div`
   width: 1200px;
   display: flex;
   margin: 70px auto 0;
-  border: 3px solid #CCC;
 `
 const ProfileDiv = styled.div`
   width: 280px;
   height: 280px;
-  border: 3px solid #CCC;
-
+  margin-left: 135px;
+  .UserId {
+    font-size: 16px;
+  }
 `
-
 const ProfileImage = styled.div`
   width: 225px;
   height: 225px;
@@ -51,7 +51,6 @@ const HashScrap = styled.div`
   width: 700px;
   height: 275px;
   margin-left: 140px;
-  border: 3px solid #CCC;
 `
 
 const HashTagBox = styled.div`
@@ -59,15 +58,15 @@ const HashTagBox = styled.div`
   height: 220px;
   font-size: 60px;
   .Tag {
-    padding-bottom: 10px;
+    padding-bottom: 15px;
   }
 `
 const ScrapBox = styled.div`
   width: 640px;
   height: 25px;
+  background-color: #CCC;
   font-size: 20px;  
   margin-top: 10px;
-  background-color: #CCC;
   display: flex;
   justify-content: space-between;
   padding: 15px 30px 0;
@@ -77,52 +76,82 @@ const ScrapBox = styled.div`
 const BottomDiv = styled.div`
   width: 1200px;
   height: 450px;
-  border: 3px solid #CCC;
-  margin: 0 auto;
+  margin: 0 auto 10px;
   display: flex;
 `
 
 const UserInfo = styled.div`
   width: 700px;
   height: 420px;
-  margin-right: 44px;
-  border: 3px solid #CCC;
-`
+  margin-right: 50px;
+  `
 
 const Title = styled.h1`
   font-size: 36px;
   font-weight: bold;
   font-family: 'NEXON Lv1 Gothic OTF', sans-serif;  
-`
+  `
 const InfoContent = styled.div`
-  width: 700px;
-  height: 70px;
-  line-height: 70px;
+  width: 660px;
+  height: 60px;
+  padding: 0 20px;
+  line-height: 60px;
+  margin: 5px auto;
   font-size: 20px;
+  background-color: #CCC;
 `
 const CollectionBox = styled.div`
   width: 450px;
   height: 420px;
-  border: 3px solid #CCC;
-`
+  `
 const PointDiv = styled.div`
-  width: 450px;
-  height: 70px;
-  border: 3px solid #CCC;
-  margin-bottom: 10px;
+  width: 390px;
+  height: 60px;
+  padding: 0 30px;
+  margin: 10px 0;
+  background-color: #CCC;
+  font-size: 20px;
+  line-height: 60px;
+  display: flex;
+  justify-content: space-between;
+
+  :hover {
+    cursor: pointer;
+    color: #4e4e4e;
+  }
 `
 const MyCollection = styled.div`
   width: 450px;
-  height: 280px;
-  border: 3px solid #CCC;
+  height: 290px;
   margin-top: 10px;
+  background-color: #CCC;
+
 `
 
-const CustomerService = styled.div`
+const CustomerServiceBox = styled.div`
   width: 1200px;
-  height: 70px;
+  height: 50px;
   margin: 0 auto;
-  border: 3px solid #CCC;
+  display: flex;
+  justify-content: space-between;
+
+  .CustomerService {
+    margin: 0 75px;
+  } 
+
+  .CsDiv {
+    :hover {
+      cursor: pointer;
+      color: #4e4e4e;
+    }
+  }
+  
+  .Information {
+    :hover {
+      cursor: pointer;
+      color: #4e4e4e;
+    }
+  }
 `
 
 function MyPage() {
@@ -137,7 +166,7 @@ function MyPage() {
               <MdOutlineEdit className="EditIcon"/>  
             </ProfileEdit>
           </ProfileImage>
-          <span><HiStar color="#95D7FC" />dahun_town 님의 계정입니다</span>
+          <span className="UserId"><HiStar color="#95D7FC" />dahun_town 님의 계정입니다</span>
         </ProfileDiv>
       <MenuBar/>
 
@@ -163,15 +192,27 @@ function MyPage() {
           <Title>Share</Title>
           <InfoContent>친구 초대하고 트로피 받기!</InfoContent>
           <Title>Version</Title>
-          <InfoContent>업데이트 1.0.0 ver.</InfoContent>
+          <InfoContent>업데이트 1.0.0 ver</InfoContent>
         </UserInfo>
         <CollectionBox>
-          <PointDiv></PointDiv>
+          <PointDiv>
+            <div>💰 2190P</div>
+            <div>내 포인트 내역 보기</div>
+          </PointDiv>
           <Title>MyCollection</Title>
           <MyCollection></MyCollection>
         </CollectionBox>
       </BottomDiv>
-        <CustomerService></CustomerService>
+        <CustomerServiceBox>
+          <div className="CsDiv">
+            <span className="CustomerService">자주 묻는 질문</span>
+            <span className="CustomerService">1:1 카카오 문의</span>
+            <span className="CustomerService">고객센터 연결</span>
+          </div>
+          <div className="Information">
+            <span>이용약관/개인정보</span>
+          </div>
+        </CustomerServiceBox>
     </>
   );
 };

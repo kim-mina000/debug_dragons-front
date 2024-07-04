@@ -84,6 +84,7 @@ function App() {
         <Route path='/main' element={<MainContainer />} />
         <Route path="/menuBar/MyTravelList" element={<MyTravelList />} />
         <Route path="/menuBar" element={<MenuBar />} />
+        <Route path="/mypage" element={<MyPage />} />
       </Routes>
 
     {/* <GlobalStyles />  
