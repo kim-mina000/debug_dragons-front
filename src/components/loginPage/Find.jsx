@@ -112,6 +112,9 @@ const Find = () => {
   const [id, setId] = useState('');
   const [birthday, setBirthday] = useState('');
   const [phone, setPhone] = useState('');
+  const [name, setName] = useState(''); // 이름 상태 추가
+  const [pwName, setPwName] = useState(''); // 비밀번호 찾기용 이름 상태 추가
+  const [pwId, setPwId] = useState(''); // 비밀번호 찾기용 아이디 상태 추가
   
   const navigate = useNavigate();
 
@@ -175,8 +178,8 @@ const Find = () => {
               <Input
                 type="text"
                 placeholder="아이디를 입력해주세요."
-                value={id}
-                onChange={(e) => setId(e.target.value)}
+                value={pwId}
+                onChange={(e) => setPwId(e.target.value)}
               />
             </FormField>
             <FormField>
@@ -184,8 +187,8 @@ const Find = () => {
               <Input
                 type="text"
                 placeholder="이름을 입력해주세요."
-                value={id}
-                onChange={(e) => setId(e.target.value)}
+                value={pwName}
+                onChange={(e) => setPwName(e.target.value)}
               />
             </FormField>
             <FormField>
