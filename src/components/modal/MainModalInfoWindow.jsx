@@ -1,8 +1,10 @@
 import axios from 'axios';
 import styled from 'styled-components';
-import { client_id } from '../loginPage/login_kakao';
+import { client_id, getUserData } from '../loginPage/login_kakao';
 import { current } from '@reduxjs/toolkit';
 import { useEffect, useState } from 'react';
+import { handleMyTripSave } from '../../api/map/map';
+import { useSelector } from 'react-redux';
 
 const Overlay = styled.div`
   position: fixed;
@@ -73,9 +75,10 @@ const SearchImg = styled.img`
 `;
 
 
-const MainModalInfoWindow = ({ closeModal, userClickInfo, handleSave }) => {
+const MainModalInfoWindow = ({ closeModal, userClickInfo }) => {
 
   const [imgUrl, setImgUrl] = useState(""); 
+  const userInfo = useSelector(state => state.member.userInfo);
   
   useEffect(() => {
     console.log(userClickInfo);
@@ -98,7 +101,6 @@ const MainModalInfoWindow = ({ closeModal, userClickInfo, handleSave }) => {
     setImgUrl(searchData(userClickInfo.place_name));
 
   }, []);
-
   
 
   return (
@@ -116,7 +118,10 @@ const MainModalInfoWindow = ({ closeModal, userClickInfo, handleSave }) => {
             <p>{userClickInfo.phone}</p>
           
 
-          <SearchButton onClick={handleSave}>내 일정에 저장하기</SearchButton>
+          <SearchButton onClick={()=>{
+            handleMyTripSave(userClickInfo, userInfo.userId, imgUrl)
+            closeModal()
+            }}>내 일정에 저장하기</SearchButton>
         </Content>
       </Overlay>
     </>
