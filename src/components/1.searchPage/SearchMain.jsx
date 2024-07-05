@@ -11,7 +11,11 @@ import SesrchPlace from '../../image/search_place_icon.png';
 import SesrchDate from '../../image/search_date_icon.png';
 import SesrchPerson from '../../image/search_person_icon.png';
 import MainModalInfoWindow from '../modal/MainModalInfoWindow';
+
 import { addEventHandle } from '../../api/map/map';
+
+import SearchMainResult from './SearchMainResult';
+
 
 
 // 전체 레이아웃을 감싸는 Container. 가운데 정렬.
@@ -41,18 +45,21 @@ const LeftWrap = styled.div`
   width: 575px;
   height: 100%;
   margin-right: 1%;
+  border: 5px #93a2f1 solid;
+  box-sizing: border-box;
 `;
 
 // 검색 영역의 스타일
 const SearchContainer = styled.div`
   width: 100%;
   height: 200px;
-  background-color: #666;
+  background-color: #b1e9ff3d;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border-bottom: 7px solid #79777763;
 
   div {
     display: flex;
@@ -72,7 +79,10 @@ const SearchContainer = styled.div`
 const MyCourseContainer = styled.div`
   width: 100%;
   height: 600px;
-  background-color: #333;
+  background-color: #8bdcfc63;
+
+  // 리스트 길어질 수록 바디 영역이 길어져서 스크롤 넣어놓음
+  overflow-y: auto;
 `;
 
 // 지도를 표시하는 MapContainer. 왼쪽 여백 제거.
@@ -307,7 +317,10 @@ function SearchMain() {
               </SearchH2>
             </div>
           </SearchContainer>
-          <MyCourseContainer>{/* 코스 내용이 들어갈 곳 */}</MyCourseContainer>
+          {/* 검색결과나오는곳 현재는 하드코딩으로 작업해놓음 */}
+          <MyCourseContainer>
+            <SearchMainResult/>
+          </MyCourseContainer>
         </LeftWrap>
         <MapContainer ref={container} id='map'>
           <MapCategory id='category'>

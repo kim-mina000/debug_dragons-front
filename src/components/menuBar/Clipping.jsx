@@ -29,6 +29,7 @@ const ItemContainer = styled.div`
   flex: 1;
   width: 100%;
   margin-bottom: 20px;
+  padding-bottom: 10%;
 `;
 
 const Folder = styled.div`

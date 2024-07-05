@@ -67,10 +67,12 @@ function MenuBar() {
         </Icon>
       </Link>
       
-      <Icon isVisible={isExpanded}>
-        <img src='/둘러보기.png' alt="둘러보기"/>
-      </Icon>
-
+      <Link to="/menuBar/Lookaround">
+        <Icon isVisible={isExpanded}>
+          <img src='/둘러보기.png' alt="둘러보기"/>
+        </Icon>
+      </Link>
+      
       {/* 스타트 페이지 이동 */}
       <Link to="/Startpage">
         <Icon isVisible={true}>

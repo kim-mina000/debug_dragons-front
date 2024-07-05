@@ -6,9 +6,9 @@ import Header from '../0.menuBar/Header';
 
 const TravelListContainer = styled.div`
   width: 80%;
-  padding: 20px;
   box-sizing: border-box;
-  margin: 0 auto; /* 가운데 정렬 */
+  margin: 0 auto; 
+  padding-bottom: 5%;
 `;
 
 const Categories = styled.div`
