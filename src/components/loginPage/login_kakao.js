@@ -1,12 +1,13 @@
 import axios from 'axios';
+import { KAKAO_JSKEY, KAKAO_RESTKEY } from '../../api/config';
 
 const {Kakao} = window;
 
 // 내 어플리케이션의 자바스크립트 키 입력
-Kakao.init('02a031fabfd172ce7cd288e0d8cd83a9'); // 자바 키
+Kakao.init(KAKAO_JSKEY); // 자바 키
 Kakao.isInitialized();
 
-export const client_id = '9d4de3df4c7c5e0199e412627381f00a'; // REST API 키
+export const client_id = KAKAO_RESTKEY; // REST API 키
 export const REDIRECT_URI = 'http://localhost:3001/main';
 
 

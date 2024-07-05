@@ -24,8 +24,13 @@ export const handleMyTripSave = async (data, userId, imgUrl) => {
   } catch (error) {
     console.error(error);
   }
-  
-  
 
+}
 
+export function addEventHandle(target, type, callback) {
+  if (target.addEventListener) {
+      target.addEventListener(type, callback);
+  } else {
+      target.attachEvent('on' + type, callback);
+  }
 }
