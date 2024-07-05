@@ -91,13 +91,26 @@ const MapContainer = styled.div`
   height: 100%;
   background-color: #888;
   position: relative;
+  display: flex;
+  justify-content: center;
 `;
 
 // 지도 위에 카테고리 표시 ul
 const MapCategory = styled.ul`
   position: absolute;
-  flex: 2;
+  /* flex: 2; */
   z-index: 9;
+  display: flex;
+  cursor: pointer;
+
+  & li {
+    padding: 10px 15px;
+  }
+
+  & li:hover{
+    opacity: 50%;
+  }
+
 `;
 
 // 저장하기 버튼의 스타일
@@ -124,7 +137,7 @@ function SearchMain() {
   const [selectedDateButtons, setSelectedDateButtons] = useState([]);
   const [selectedPersonButtons, setSelectedPersonButtons] = useState([]);
   const [userClickInfo, setUserClickInfo] = useState({});
-  const [categoryIndex, setCategoryIndex] = useState("");
+  const [categoryIndex, setCategoryIndex] = useState("가볼만한 곳");
   
   // 각 모달의 open/close 상태 관리
   const [isDateModalOpen, setIsDateModalOpen] = useState(false);
@@ -154,6 +167,7 @@ function SearchMain() {
 // 키워드로 장소검색
     const ps = new kakao.maps.services.Places(); // 장소 검색 객체
     const infowindow = new kakao.maps.InfoWindow({zIndex:1});
+    const geocoder = new kakao.maps.services.Geocoder(); // 주소-좌표 변환 객체를 생성합니다
 
     // ps.keywordSearch(`${selectedPlaceButtons} 가볼만한 곳`, placesSearchCB);  // 키워드로 장소를 검색합니다
     ps.keywordSearch(`${categoryIndex},${selectedPlaceButtons}`, placesSearchCB);
@@ -183,18 +197,23 @@ function SearchMain() {
           position: new kakao.maps.LatLng(place.y, place.x) 
       });
 
-    
-      kakao.maps.event.addListener(marker, 'click', function() { // 마커에 클릭이벤트를 등록합니다
+      kakao.maps.event.addListener(marker, 'click', function() {
         setUserClickInfo(place);
-        infowindow.setContent( // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-          `
-          <div style="width: 100%; padding:5px; font-size:12px; display:flex; justify-content:space-between; align-items: center;"
-          onClick={${setIsInfoWindow(true)}}>
+        setIsInfoWindow(true);
+      });
+
+      kakao.maps.event.addListener(marker, 'mouseover', function() { // 마커에 클릭이벤트를 등록합니다
+        infowindow.setContent( // 마커를 호버하면 장소명이 인포윈도우에 표출됩니다
+          `<div style="width: 100%; padding:5px; font-size:12px; display:flex; justify-content:space-between; align-items: center;">
           ${place.place_name}
           </div>
           `
         );
         infowindow.open(map, marker);
+      });
+
+      kakao.maps.event.addListener(marker, "mouseout", function () {
+        infowindow.close(map, marker);
       });
     }
 
@@ -202,10 +221,19 @@ function SearchMain() {
 // 마커추가
     // 지도를 클릭했을때 클릭한 위치에 마커를 추가하도록 지도에 클릭이벤트를 등록
     kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+      searchDetailAddrFromCoords(mouseEvent.latLng, (result, status)=>{ // 클릭한 위치 주소 가져오기
+        console.log(result);
+      })
       addMarker(mouseEvent.latLng); // 클릭한 위치에 마커를 표시 
     });
 
+    function searchDetailAddrFromCoords(coords, callback) {
+      // 좌표로 법정동 상세 주소 정보를 요청합니다
+      geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+    }
+
     let markers = []; // 지도에 표시된 마커 객체를 가지고 있을 배열
+
     
     function addMarker(position) { // 마커를 생성하고 지도위에 표시하는 함수
       const imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"  // 마커 이미지의 이미지 주소
@@ -221,6 +249,13 @@ function SearchMain() {
       marker.setMap(map);  // 마커가 지도 위에 표시되도록 설정
       markers.push(marker); // 생성된 마커를 배열에 추가
     }
+    // 0705: 마커 클릭하면 주소 뜨게끔해놨음 이후 호버할때 infoWindow 뜨게끔했으면 좋겠음
+    // infoWindow에 추가해야하는것 -> 인터넷 검색해서? 아니면 주변에 가게나 식당 관광지가 있으면 해당 관광지 명으로 이름 넣어주고
+    // 근처에 해당 건물이나 이런게 없으면 그냥 주소 그대로 넣어주기! 월요일에 하면될것같음
+
+    // kakao.maps.event.addListener(markers, 'mouseover', function() {
+    //   console.log(1);
+    // });
 
 // 카테고리 마커 추가
     // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
@@ -324,33 +359,28 @@ function SearchMain() {
         </LeftWrap>
         <MapContainer ref={container} id='map'>
           <MapCategory id='category'>
-          <ul id="category">
-            <li id="BK9" data-order="0" onClick={()=>{setCategoryIndex("은행")}}> 
-                <span class="category_bg bank"></span>
+
+            <li id="BK9" onClick={()=>{setCategoryIndex("은행")}}> 
                 은행
             </li>       
-            <li id="MT1" data-order="1" onClick={()=>{setCategoryIndex("마트")}}> 
-                <span class="category_bg mart"></span>
+            <li id="MT1" onClick={()=>{setCategoryIndex("마트")}}> 
                 마트
             </li>  
-            <li id="PM9" data-order="2" onClick={()=>{setCategoryIndex("약국")}}> 
-                <span class="category_bg pharmacy"></span>
+            <li id="PM9" onClick={()=>{setCategoryIndex("약국")}}> 
                 약국
             </li>  
-            <li id="OL7" data-order="3" onClick={()=>{setCategoryIndex("주유소")}}> 
-                <span class="category_bg oil"></span>
+            <li id="OL7" onClick={()=>{setCategoryIndex("주유소")}}> 
                 주유소
             </li>  
-            <li id="CE7" data-order="4" onClick={()=>{setCategoryIndex("카페")}}> 
-                <span class="category_bg cafe"></span>
+            <li id="CE7" onClick={()=>{setCategoryIndex("카페")}}> 
                 카페
             </li>  
-            <li id="CS2" data-order="5" onClick={()=>{setCategoryIndex("편의점")}}> 
-                <span class="category_bg store"></span>
+            <li id="CS2" onClick={()=>{setCategoryIndex("편의점")}}> 
                 편의점
             </li>      
-          </ul>
-
+            <li id="CS2" onClick={()=>{setCategoryIndex("관광지")}}> 
+                관광지
+            </li>   
           </MapCategory>
           {/* <SaveButton>저장하기→</SaveButton> */}
           {/* 해당 컨포넌트 작업 후 다시 주석 해제할 예정 */}
