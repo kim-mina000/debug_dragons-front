@@ -20,6 +20,7 @@ import MyTravelList from './components/menuBar/MyTravelList'
 import MyPage from './components/myPage/MyPage';
 import Clipping from './components/menuBar/Clipping';
 import MyTravelListDetail from './components/menuBar/MyTravelListDetail';
+import Lookaround from './components/menuBar/Lookaround';
 
 
 
@@ -90,6 +91,7 @@ function App() {
         <Route path="/menuBar" element={<MenuBar />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/scrap" element={<Clipping />} />
+        <Route path="/around" element={<Lookaround />} />
       </Routes>
 
     {/* <GlobalStyles />  
