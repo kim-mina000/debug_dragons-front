@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { RiFolderAddLine, RiFolderAddFill } from "react-icons/ri";
+import { Link } from 'react-router-dom';
+
 import MenuBar from '../0.menuBar/MenuBar';
 import Header from '../0.menuBar/Header';
 
@@ -74,7 +76,7 @@ const IconHoverBf = styled(RiFolderAddLine)`
 const IconHoverAf = styled(RiFolderAddFill)`
   width: 100%;
   height: 100%;
-  display: none; /* 기본적으로 숨겨둠 */
+  display: none;
 `;
 
 const EditableCategoryName = styled.input`
@@ -96,11 +98,17 @@ const BoxesContainer = styled.div`
   overflow-y: auto; 
 `;
 
-const Box = styled.div`
+const BoxLink = styled(Link)`
   width: 22rem;
   height: 22rem;
   background-color: #353535;
-  margin: 10px; 
+  margin: 10px;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 24px;
 `;
 
 const DropdownContainer = styled.div`
@@ -204,16 +212,16 @@ const MyTravelList = () => {
         </DropdownContent>
       </DropdownContainer>
       <BoxesContainer>
-        <Box />
-        <Box />
-        <Box />
-        <Box />
-        <Box />
-        <Box />
-        <Box />
-        <Box />
-        <Box />
-      </BoxesContainer>
+          <BoxLink to="/detail">상세보기 1</BoxLink>
+          <BoxLink to="/detail">상세보기 2</BoxLink>
+          <BoxLink to="/detail">상세보기 3</BoxLink>
+          <BoxLink to="/detail">상세보기 4</BoxLink>
+          <BoxLink to="/detail">상세보기 5</BoxLink>
+          <BoxLink to="/detail">상세보기 6</BoxLink>
+          <BoxLink to="/detail">상세보기 7</BoxLink>
+          <BoxLink to="/detail">상세보기 8</BoxLink>
+          <BoxLink to="/detail">상세보기 9</BoxLink>
+        </BoxesContainer>
     </TravelListContainer>
     <MenuBar/>
     </>
