@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from "axios";
 
 // 피그마에 색상 다른것처럼 표현 됬길래 팔레트임... 수정하기만 하면 됨
 const colors = ['#B98CFF', '#8B7FE8', '#98A7FF', '#7FAAE8', '#8CD9FF'];
@@ -49,7 +50,29 @@ const Details = styled.div`
   color: #666;
 `;
 
+
 const SearchMainResult = () => {
+
+  const [formData, setFormData] = useState([{}]);
+
+  useEffect(() => {
+    const landmarkResponse = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/landmark/read`, formData);
+        console.log(response.data);
+        setFormData(response.data);
+      } catch (error) {
+        console.error('error', error);
+      }
+    };
+    landmarkResponse();
+  }, []);
+
+  // const results = [
+  //   { day: '1일차', time: 'AM 00:00', title: formData[0].landmarkName, description: '', details: '인원 / 인천 구월동 / 2024.07 (고정값)' }
+  // ];
+  // const results = formData;
+
   const results = [
     { day: '1일차', time: 'AM 08:00', title: '공항 도착', description: '출발지에서 인천 공항 도착.', details: '인원 / 인천 구월동 / 2024.07 (고정값)' },
     
@@ -109,6 +132,7 @@ const SearchMainResult = () => {
 
   ];
 
+
   return (
     <>
       {results.map((result, index) => (
@@ -122,11 +146,11 @@ const SearchMainResult = () => {
 
           <Content>
             {/* 제목 */}
-            <Title>{result.title}</Title>
+            <Title>{result.landmarkName}</Title>
             {/* 게시물 텍스트 */}
-            <Description>{result.description}</Description>
+            <Description>{result.landmarkShortDesc}</Description>
             {/* 인원 / 장소 / 날짜 << 고장값 설정 */}
-            <Details>{result.details}</Details>
+            <Details>{result.writer}</Details>
           </Content>
         </Container>
       ))}
