@@ -27,3 +27,4 @@ const memberSlice = createSlice({
 
 export default memberSlice.reducer;
 export const {getUserInfo,getUserToken,logout} = memberSlice.actions;
+export const selectUser = (state) => state.member.userInfo;
