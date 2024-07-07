@@ -108,6 +108,7 @@ const WithAttiBus = styled.div`
   border: 1px solid #000;
   border-radius: 35px;
   margin: 20px 0;
+  line-height: 60px;
 `
 const MiddleRight = styled.div`
   width: 330px;
@@ -210,8 +211,9 @@ function MyPageProfile(props) {
 
             </TagEdit>
             <WithAttiBus>
-            <p>회원가입일 {formattedDate}</p>
-            <p>D + {diffDate}</p>
+            <p>회원가입일 : {formattedDate}</p>
+            <p style={{fontSize: '40px'}}>with 아띠버스</p>
+            <p style={{fontSize: '40px', color: '#94d7f2'}}>D + {diffDate + 1}</p>
             </WithAttiBus>
           </MiddleLeft>
           <MiddleRight>
