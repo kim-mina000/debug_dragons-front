@@ -8,7 +8,7 @@ const Container = styled.div`
   justify-content: center;
   height: 100vh;
   align-items: center;
-  background-color: #94d7f2;
+  background-color: #D5ECFA;
   `
 const Text = styled.p`
   font-size: 20px;

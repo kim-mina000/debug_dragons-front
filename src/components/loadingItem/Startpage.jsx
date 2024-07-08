@@ -1,7 +1,8 @@
 import React from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle, keyframes } from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../image/메인로고.png';
+import backgroundimg from '../../image/backgrond_img.jpg';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -12,19 +13,40 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const fadeIn = keyframes`
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+`;
+
+const Background = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(${backgroundimg});
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  animation: ${fadeIn} 3s ease-in-out forwards;
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #dcdcff;
+  background-color: rgba(243, 253, 255, 0.466); 
+  position: relative;
 `;
 
 const Logo = styled.img`
   width: 50%; 
   height: auto;
   margin-bottom: 20px;
+  animation: ${fadeIn} 2s ease-in-out 3s forwards; 
+  opacity: 0;
 `;
 
 const ButtonContainer = styled.div`
@@ -35,7 +57,7 @@ const ButtonContainer = styled.div`
 const Button = styled.button`
   flex: 1; 
   height: 90px;
-  background-color: white;
+  background-color: #D5ECFA;
   border: none;
   font-size: 30px;
   font-family: 'MaplestoryOTFBold';
@@ -44,7 +66,7 @@ const Button = styled.button`
   padding: 0 100px; 
 
   &:hover {
-    background-color: lightgray;
+    background-color: #A5DEF0;
   }
   
   &.load-login {
@@ -63,7 +85,7 @@ const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
   height: 90px;
-  background-color: white;
+  background-color: #D5ECFA;
   border: none;
   font-size: 30px;
   font-family: 'MaplestoryOTFBold';
@@ -74,7 +96,7 @@ const StyledLink = styled(Link)`
   padding: 0 100px;
 
   &:hover {
-    background-color: lightgray;
+    background-color: #A5DEF0;
   }
   
   &.load-login {
@@ -89,15 +111,16 @@ const StyledLink = styled(Link)`
 `;
 
 function Startpage() {
-  const nevigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <>
       <GlobalStyle />
+      <Background />
       <Container>
         <Logo src={logo} alt="메인 로고" />
         <ButtonContainer className="start_btn">
           <StyledLink to="/login" className="load-login">로그인하기</StyledLink>
-          <Button type="button" className="load-around" onClick={()=>{nevigate('/main')}}>둘러보기</Button>
+          <Button type="button" className="load-around" onClick={() => { navigate('/main') }}>둘러보기</Button>
         </ButtonContainer>
       </Container>
     </>

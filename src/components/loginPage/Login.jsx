@@ -16,12 +16,13 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
+  background-color: #f3fdff;
 `;
 
 // 아이디 비밀번호 input
 const Input = styled.input`
   width: 700px;
-  height: 70px;
+  height: 65px;
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
@@ -29,7 +30,12 @@ const Input = styled.input`
   font-size: 30px;
 
   &::placeholder {
-    font-size: 30px;
+    font-size: 25px;
+  }
+
+  &::focus {
+    border-color: #007BFF; 
+    outline: none;
   }
 
 `;
@@ -40,14 +46,14 @@ const Button = styled.button`
   height: 70px;
   padding: 10px;
   margin: 10px 0;
-  background-color: #333;
-  color: white;
+  background-color: #D5ECFA;
+  color: black;
   border: none;
   border-radius: 4px;
   font-size: 25px;
   cursor: pointer;
   &:hover {
-    background-color: #555;
+    background-color: #c2d6e2;
   }
 `;
 

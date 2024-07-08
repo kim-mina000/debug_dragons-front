@@ -78,7 +78,6 @@ function App() {
             <Loading />
           ) : (
             <>
-              <Header userName={userName} onLogout={handleLogout} />
               <Startpage />
             </>
           )
