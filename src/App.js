@@ -45,6 +45,11 @@ const GlobalStyles = createGlobalStyle`
     background-color: #F4F9F9;
     /* background-color: #DCEEF2; */
     font-family: 'MaplestoryOTFBold', sans-serif;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none
+
   }
 `;
 

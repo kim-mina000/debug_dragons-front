@@ -219,27 +219,32 @@ function SignUp() {
   
   const handleSignUp = async (e) => {
     try {
-      // 서버에 유저정보 전송
-      const response = await axios.post('http://localhost:8080/member/register', userInfo);
-      
       // 서버에 이미지 정보 전송
+      // setUserInfo({...userInfo,image:uploadFile});
+
       const formData = new FormData();
-      console.log(uploadFile);
+      formData.append('userId', userInfo.userId);
       formData.append('file', uploadFile);
-      formData.append('userId', userInfo.userId);  
-
-      const imgResponse = await axios.post('http://localhost:8080/member/upload', formData);
-
-      if (response.status ===201 || imgResponse.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
+      
+      // 서버에 유저정보 전송
+      const response = await axios.post('http://localhost:8080/member/register', userInfo
+      );
+      
+      if (uploadFile){
+          await axios.post('http://localhost:8080/member/upload', formData);
+      }
+      
+      if (response.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
         return nevigate('/thanks-for-signup');
         
       } else {
         throw new Error(`api error: ${response.status} ${response.statusText}`);
       }
       
-  } catch(err){
-    console.error(err);
-  }
+    } catch(err){
+      console.error(err);
+    }
+
   }
 
 
