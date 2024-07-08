@@ -42,7 +42,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background-color: #F4F9F9;
+    background-color: #f3fdff;
     /* background-color: #DCEEF2; */
     font-family: 'MaplestoryOTFBold', sans-serif;
     -webkit-user-select:none;

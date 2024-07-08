@@ -9,7 +9,7 @@ import MenuBar from '../0.menuBar/MenuBar';
 const Container = styled.div`
   width: 100%;
   height: 80vh; /* 전체 영역의 80% */
-  padding: 20px;
+  padding: 20px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,21 +28,20 @@ const ItemContainer = styled.div`
   grid-gap: 20px; /* 그리드 항목 간의 간격 */
   flex: 1;
   width: 100%;
-  margin-bottom: 20px;
+  margin: 0 auto 20px;
   padding-bottom: 10%;
 `;
 
 const Folder = styled.div`
   width: 100%;
-  padding-top: 100%; /* 정사각형을 유지하기 위해 100% 패딩 */
+  padding-top: 100%; 
   position: relative;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
+  border: 2px dashed #ccc;
   border-radius: 5px;
 `;
 
@@ -57,7 +56,7 @@ const FolderIcon = styled(MdFolder)`
 
 const AddFolderIcon = styled.div`
   width: 100%;
-  padding-top: 100%; /* 정사각형을 유지하기 위해 100% 패딩 */
+  padding-top: 100%; 
   position: relative;
   cursor: pointer;
   display: flex;
@@ -119,8 +118,8 @@ const File = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #ddd;
-  border: 1px solid #ccc;
+  background-color: #fff;
+  border: 2px solid #000;
   border-radius: 5px;
   text-align: center;
 `;
@@ -132,20 +131,33 @@ const FileThumbnail = styled.img`
   top: 10%;
   left: 50%;
   transform: translate(-50%, 0);
+  border: 3px solid black;
 `;
 
 const FileLabel = styled.div`
   margin-top: 10px;
   font-size: 14px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   h3 {
-    font-size: 30px;
+    font-size: 35px;
     margin-bottom: 5px;
   }
 
-  p {
-    margin-bottom: 5px;
+  .label-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px; 
+  }
+
+  .label-info > div {
+    display: flex;
+    flex: 1;
+    align-items: center;
     font-size: 15px;
   }
 `;
@@ -240,15 +252,17 @@ const Clipping = () => {
               <FileThumbnail src="http://via.placeholder.com/250x250" alt="썸네일 이미지" />
               <FileLabel>
                 <h3>{file.name}</h3>
-                <p>
-                  {file.liked ? (
-                    <PiHeartStraightBreakFill onClick={() => toggleLike(index)} />
-                  ) : (
-                    <PiHeartStraightBreak onClick={() => toggleLike(index)} />
-                  )}
-                  {file.likes}
-                </p>
-                <p>작성자 {file.author}님</p>
+                <div className="file-info">
+                    <div className='label-info'>
+                      {file.liked ? (
+                        <PiHeartStraightBreakFill onClick={() => toggleLike(index)} />
+                      ) : (
+                        <PiHeartStraightBreak onClick={() => toggleLike(index)} />
+                      )}
+                      {file.likes}
+                    </div>
+                    <div>작성자 {file.author}님</div>
+                  </div>
               </FileLabel>
             </File>
           ))}

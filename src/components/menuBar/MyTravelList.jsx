@@ -11,6 +11,7 @@ const TravelListContainer = styled.div`
   box-sizing: border-box;
   margin: 0 auto; 
   padding-bottom: 5%;
+  background-color: #f3fdff;
 `;
 
 const Categories = styled.div`
@@ -28,9 +29,9 @@ const Category = styled.div`
 const CategoryButton = styled.button`
   width: 100%;
   height: 100%; 
-  background-color: transparent; /* 백그라운드 컬러 제거 */
+  background-color: transparent; 
   display: flex;
-  flex-direction: column; /* 아이콘과 텍스트를 세로로 배치 */
+  flex-direction: column; 
   justify-content: center;
   align-items: center;
   border: none;
@@ -95,7 +96,24 @@ const BoxesContainer = styled.div`
   width: 100%;
   margin: 20px auto;
   max-height: 70vh; 
-  overflow-y: auto; 
+  overflow-y: scroll; 
+
+  /* 스크롤바 설정 */
+  &::-webkit-scrollbar {
+    width: 20px;
+  }
+
+  /* 스크롤바 막대 설정 */
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 10px;
+    border: 7px solid rgba(0, 0, 0, 0.8);
+  }
+
+  /* 스크롤바 뒷 배경 설정 */
+  &::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+  }
 `;
 
 const BoxLink = styled(Link)`
@@ -109,6 +127,23 @@ const BoxLink = styled(Link)`
   align-items: center;
   color: white;
   font-size: 24px;
+  position: relative;
+  overflow: hidden;
+
+  &:hover::after {
+    content: '상세보기';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.842);
+    color: black;
+    font-size: 24px;
+  }
 `;
 
 const DropdownContainer = styled.div`
@@ -177,53 +212,53 @@ const MyTravelList = () => {
 
   return (
     <>
-    <Header/>
-    <TravelListContainer>
-      <Categories>
-        {categories.map((category, index) => (
-          <Category key={index}>
-            <CategoryButton>
-              <IconHoverBf className="add-icon" />
-              <IconHoverAf className="add-fill-icon" />
-              {editingIndex === index ? (
-                <EditableCategoryName
-                  type="text"
-                  value={category}
-                  onChange={(e) => handleSaveCategoryName(index, e.target.value)}
-                  onBlur={() => setEditingIndex(-1)}
-                  autoFocus
-                />
-              ) : (
-                <span onClick={() => handleEditCategoryName(index)}>{category}</span>
-              )}
-            </CategoryButton>
-          </Category>
-        ))}
-      </Categories>
-      <DropdownContainer>
-        <DropdownButton onClick={() => setDropdownVisible(!dropdownVisible)}>
-          {sortOption}
-        </DropdownButton>
-        <DropdownContent show={dropdownVisible}>
-          <DropdownOption onClick={() => handleSortOption('최신 순')}>최신 순</DropdownOption>
-          <DropdownOption onClick={() => handleSortOption('오래된 순')}>오래된 순</DropdownOption>
-          <DropdownOption onClick={() => handleSortOption('가나다 순')}>가나다 순</DropdownOption>
-          <DropdownOption onClick={() => handleSortOption('좋아요 순')}>좋아요 순</DropdownOption>
-        </DropdownContent>
-      </DropdownContainer>
-      <BoxesContainer>
-          <BoxLink to="/detail">상세보기 1</BoxLink>
-          <BoxLink to="/detail">상세보기 2</BoxLink>
-          <BoxLink to="/detail">상세보기 3</BoxLink>
-          <BoxLink to="/detail">상세보기 4</BoxLink>
-          <BoxLink to="/detail">상세보기 5</BoxLink>
-          <BoxLink to="/detail">상세보기 6</BoxLink>
-          <BoxLink to="/detail">상세보기 7</BoxLink>
-          <BoxLink to="/detail">상세보기 8</BoxLink>
-          <BoxLink to="/detail">상세보기 9</BoxLink>
+      <Header/>
+      <TravelListContainer>
+        <Categories>
+          {categories.map((category, index) => (
+            <Category key={index}>
+              <CategoryButton>
+                <IconHoverBf className="add-icon" />
+                <IconHoverAf className="add-fill-icon" />
+                {editingIndex === index ? (
+                  <EditableCategoryName
+                    type="text"
+                    value={category}
+                    onChange={(e) => handleSaveCategoryName(index, e.target.value)}
+                    onBlur={() => setEditingIndex(-1)}
+                    autoFocus
+                  />
+                ) : (
+                  <span onClick={() => handleEditCategoryName(index)}>{category}</span>
+                )}
+              </CategoryButton>
+            </Category>
+          ))}
+        </Categories>
+        <DropdownContainer>
+          <DropdownButton onClick={() => setDropdownVisible(!dropdownVisible)}>
+            {sortOption}
+          </DropdownButton>
+          <DropdownContent show={dropdownVisible}>
+            <DropdownOption onClick={() => handleSortOption('최신 순')}>최신 순</DropdownOption>
+            <DropdownOption onClick={() => handleSortOption('오래된 순')}>오래된 순</DropdownOption>
+            <DropdownOption onClick={() => handleSortOption('가나다 순')}>가나다 순</DropdownOption>
+            <DropdownOption onClick={() => handleSortOption('좋아요 순')}>좋아요 순</DropdownOption>
+          </DropdownContent>
+        </DropdownContainer>
+        <BoxesContainer>
+          <BoxLink to="/detail">컨텐츠 1</BoxLink>
+          <BoxLink to="/detail">컨텐츠 2</BoxLink>
+          <BoxLink to="/detail">컨텐츠 3</BoxLink>
+          <BoxLink to="/detail">컨텐츠 4</BoxLink>
+          <BoxLink to="/detail">컨텐츠 5</BoxLink>
+          <BoxLink to="/detail">컨텐츠 6</BoxLink>
+          <BoxLink to="/detail">컨텐츠 7</BoxLink>
+          <BoxLink to="/detail">컨텐츠 8</BoxLink>
+          <BoxLink to="/detail">컨텐츠 9</BoxLink>
         </BoxesContainer>
-    </TravelListContainer>
-    <MenuBar/>
+      </TravelListContainer>
+      <MenuBar/>
     </>
   );
 };
