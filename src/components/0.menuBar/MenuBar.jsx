@@ -67,7 +67,7 @@ function MenuBar() {
         </Icon>
       </Link>
       
-      <Link to="/menuBar/Lookaround">
+      <Link to="/around">
         <Icon isVisible={isExpanded}>
           <img src='/둘러보기.png' alt="둘러보기"/>
         </Icon>

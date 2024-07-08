@@ -5,6 +5,8 @@ import { HiStar } from "react-icons/hi2";
 import Header from "../0.menuBar/Header";
 import { useState } from "react";
 import MyPageProfile from "../modal/MyPageProfile";
+import { getUserInfo, selectUser } from "../../features/member/memberSlice";
+import { useSelector } from "react-redux";
 
 
 const TopDiv = styled.div`
@@ -158,7 +160,8 @@ const CustomerServiceBox = styled.div`
 
 
 function MyPage() {
-
+  const Member = useSelector(selectUser);
+  console.log(Member);
   const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
 
   // 프로필 편집 모달 열기 핸들러
@@ -180,7 +183,7 @@ function MyPage() {
               />  
             </ProfileEdit>
           </ProfileImage>
-          <span className="UserId"><HiStar color="#95D7FC" />dahun_town 님의 계정입니다</span>
+          <span className="UserId"><HiStar color="#95D7FC" />{Member.userName} 님의 계정입니다</span>
         </ProfileDiv>
       <MenuBar/>
 
@@ -232,6 +235,7 @@ function MyPage() {
         {isProfileEditModalOpen && (
           <MyPageProfile
             closeModal={() => setIsProfileEditModalOpen(false)}
+            Member = {Member}
           />
         )}
     </>

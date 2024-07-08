@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { IoClose } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
+import { useState } from 'react';
+import axios from 'axios';
 
 const Overlay = styled.div`
   position: fixed;
@@ -106,6 +108,7 @@ const WithAttiBus = styled.div`
   border: 1px solid #000;
   border-radius: 35px;
   margin: 20px 0;
+  line-height: 60px;
 `
 const MiddleRight = styled.div`
   width: 330px;
@@ -154,7 +157,31 @@ const Complete = styled.button`
 `
 
 function MyPageProfile(props) {
-  const { closeModal } = props;
+  const { closeModal, Member } = props;
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+
+  const handleProfileChange = async() => {
+    try {
+      const update = await axios.post(`http://localhost:8080/member/update`, {
+        // userEmail:
+      }) 
+    } catch (error) {
+      console.error(error);
+      return console.error("수정실패");
+    }
+  }
+
+  const regDate = new Date(Member.regDate);
+  const year = regDate.getFullYear();
+  const month = String(regDate.getMonth() + 1).padStart(2, '0');
+  const day = String(regDate.getDate()).padStart(2, '0');
+  const formattedDate = `${year}-${month}-${day}`;
+
+  const today = new Date();
+  const diffTime = today.getTime() - regDate.getTime();
+
+  const diffDate = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
   return (
     <Overlay>
@@ -173,7 +200,7 @@ function MyPageProfile(props) {
           </TopLeft>
           <TopRight>
             <ProfileNickname>
-              dahun_town
+              {Member.userName}
               <FaEdit className='EditIcon' />
             </ProfileNickname>  
           </TopRight>  
@@ -184,20 +211,22 @@ function MyPageProfile(props) {
 
             </TagEdit>
             <WithAttiBus>
-
+            <p>회원가입일 : {formattedDate}</p>
+            <p style={{fontSize: '40px'}}>with 아띠버스</p>
+            <p style={{fontSize: '40px', color: '#94d7f2'}}>D + {diffDate + 1}</p>
             </WithAttiBus>
           </MiddleLeft>
           <MiddleRight>
             <InforTitle>이름</InforTitle>
-            <InforContent />
+            <InforContent placeholder= {Member.userName} onChange={(e)=> setName(e.target.value)} />
             <InforTitle>생년월일</InforTitle>
             <InforContent placeholder='0000.00.00' />
             <InforTitle>핸드폰번호</InforTitle>
             <InforContent placeholder='000-0000-0000' />
             <InforTitle>이메일주소</InforTitle>
-            <InforContent placeholder='abc123@mail.com' />
+            <InforContent placeholder= {Member.userEmail} onChange={(e)=> setEmail(e.target.value)} />
             <LastVisit>
-              최근방문일 : 0000-00-00
+              최근방문일 : {formattedDate}
             </LastVisit>
           </MiddleRight>
         </MiddleEdit>
