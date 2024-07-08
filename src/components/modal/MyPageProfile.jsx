@@ -165,6 +165,7 @@ function MyPageProfile(props) {
   const userInfo = useSelector(selectUser);
 
   console.log(getLocalStorages());  
+  const member = JSON.stringify(localStorage.getItem("userInfo"));
 
 
   const [name, setName] = useState(Member.userName);
@@ -184,6 +185,8 @@ function MyPageProfile(props) {
         userName: name,
         userEmail: email
       }));
+      console.log(update);
+
     } catch (error) {
       console.error(error);
       return console.error("수정실패");
@@ -258,7 +261,7 @@ function MyPageProfile(props) {
           </MiddleRight>
         </MiddleEdit>
         <BottomEdit>
-          <Complete onClick={handleProfileChange}>수정하기</Complete>
+          <Complete type='button' onClick={handleProfileChange}>수정하기</Complete>
         </BottomEdit>
       </Content>
     </Overlay>
