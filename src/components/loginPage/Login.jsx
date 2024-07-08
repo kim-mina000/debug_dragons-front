@@ -99,9 +99,25 @@ const Links = styled.div`
   }
 `;
 
-const Login = () => {
-  const [id, setId] = useState('');
-  const [password, setPassword] = useState('');
+function Login() {
+  // const [id, setId] = useState('');
+  // const [password, setPassword] = useState('');
+
+  const [loginForm, setLoginForm] = useState({
+    id: '',
+    password: ''
+  });
+
+  const handleChangeLoginForm = (e) => {
+    const { name, value } = e.target;
+
+    setLoginForm({
+      ...loginForm,
+      [name]: value
+    });
+  };
+
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -113,14 +129,16 @@ const Login = () => {
   //   }
   // };
   
-const handleLogin = async (id,pw) =>{
+const handleLogin = async () =>{
   try {
-    const response = await axios.get(`http://localhost:8080/login?userId=${id}&userPw=${pw}`);
+    const response = await axios.get(`http://localhost:8080/login?userId=${loginForm.id}&userPw=${loginForm.password}`);
 
-    dispatch(getUserInfo(response.data.user));
+    localStorage.setItem('userToken', response.data.token);
+    localStorage.setItem('userInfo',  JSON.stringify(response.data.user));
     dispatch(getUserToken(response.data.token));
+    dispatch(getUserInfo(response.data.user));
+    console.log(response.data.user);
 
-    localStorage.setItem('userToken',response.data.token);
     navigate('/main');
     return console.log("로그인성공");;
     
@@ -143,17 +161,19 @@ const handleLogin = async (id,pw) =>{
       <Input
         type="text"
         placeholder="아이디를 입력해주세요."
-        value={id}
-        onChange={(e) => setId(e.target.value)}
+        name='id'
+        value={loginForm.id}
+        onChange={handleChangeLoginForm}
       />
       <Input
         type="password"
+        name='password'
         placeholder="비밀번호를 입력해주세요."
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={loginForm.password}
+        onChange={handleChangeLoginForm}
       />
 
-      <Button onClick={()=>{handleLogin(id,password)}}>시작하기</Button>
+      <Button onClick={handleLogin}>시작하기</Button>
 
       <LineContainer>간편 로그인 하기</LineContainer>
 
