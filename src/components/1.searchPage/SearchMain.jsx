@@ -353,7 +353,7 @@ function SearchMain() {
                 alt="place icon"
                 onClick={handlePlaceIconClick}
               />
-              <SearchH2>이번 여행은 어디로 {selectedPlaceButtons.length > 0 && `: ${selectedPlaceButtons.join(', ')}`}</SearchH2>
+              <SearchH2>이번 여행은 어디로 {selectedPlaceButtons.length > 0 && `: ${selectedPlaceButtons}`}</SearchH2>
             </div>
             <div>
               <img

@@ -1,9 +1,6 @@
-import axios from 'axios';
 import styled from 'styled-components';
-import { client_id, getUserData } from '../loginPage/login_kakao';
-import { current } from '@reduxjs/toolkit';
 import { useEffect, useState } from 'react';
-import { handleMyTripSave } from '../../api/map/map';
+import { handleMyTripSave, searchData } from '../../api/map/map';
 import { useSelector } from 'react-redux';
 
 const Overlay = styled.div`
@@ -81,24 +78,9 @@ const MainModalInfoWindow = ({ closeModal, userClickInfo }) => {
   const userInfo = useSelector(state => state.member.userInfo);
   
   useEffect(() => {
-    console.log(userClickInfo);
     // 클릭한 위치를 검색해서 이미지 가져오기 함수
-    const searchData = async (keyword)=>{
-      try {
-        const response = await axios.get(`https://dapi.kakao.com/v2/search/image?query=${keyword}&size=1`,{
-          headers:{
-            Authorization : `KakaoAK ${client_id}`
-          }
-        });
-        console.log(response.data.documents[0].image_url);
-        setImgUrl(response.data.documents[0].image_url);
-      } catch (error) {
-        console.error(error);
-        return null
-      }
-    }
-
-    setImgUrl(searchData(userClickInfo.place_name));
+    searchData(userClickInfo.place_name)
+          .then( res => setImgUrl(res));
 
   }, []);
   
@@ -111,7 +93,7 @@ const MainModalInfoWindow = ({ closeModal, userClickInfo }) => {
           <CloseButton onClick={closeModal}>X</CloseButton> {/* 닫기 버튼 추가 */}
           <Line />
           <ViewImgContainer> 
-            {imgUrl ? <SearchImg src={imgUrl} alt="searchImg"/> : 'http://via.placeholder.com/640x480'}
+            {imgUrl ? <SearchImg src={imgUrl} alt="searchImg" /> : <img src='http://via.placeholder.com/640x480' />}
           </ViewImgContainer>
             <p>{userClickInfo.category_name}</p>
             <p>{userClickInfo.address_name}</p>

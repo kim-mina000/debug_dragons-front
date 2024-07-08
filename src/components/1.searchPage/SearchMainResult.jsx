@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from "axios";
+import { useSelector } from 'react-redux';
 
 // 피그마에 색상 다른것처럼 표현 됬길래 팔레트임... 수정하기만 하면 됨
 const colors = ['#B98CFF', '#8B7FE8', '#98A7FF', '#7FAAE8', '#8CD9FF'];
@@ -60,10 +61,12 @@ const SearchMainResult = () => {
   const [editDay, setEditDay] = useState('');
   const [editTime, setEditTime] = useState('');
 
+  const userInfo = useSelector(state => state.member.userInfo);
+
   useEffect(() => {
     const landmarkResponse = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/landmark/read`, formData);
+        const response = await axios.get(`http://localhost:8080/landmark/read?id=${userInfo.userId}`);
         console.log(response.data);
         setFormData(response.data);
       } catch (error) {
@@ -72,6 +75,7 @@ const SearchMainResult = () => {
     };
     landmarkResponse();
   }, []);
+  // 윤식님 여기 useEffect [] 안에 뭐 넣어야하는데 혹시 뭐 넣으실 생각이셨어요 ..?
 
   const handleSaveAll = async () =>{
     try {
