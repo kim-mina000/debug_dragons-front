@@ -15,6 +15,7 @@ const TravelListContainer = styled.div`
 `;
 
 const Categories = styled.div`
+  font-family: 'MaplestoryOTFBold';
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
@@ -42,14 +43,14 @@ const CategoryButton = styled.button`
   .add-icon {
     width: 80%;
     height: 80%;
-    color: #5c5c5c; /* 아이콘 컬러 설정 */
+    color: #18188f; /* 아이콘 컬러 설정 */
   }
 
   .add-fill-icon {
     display: none;
     width: 80%;
     height: 80%;
-    color: #5c5c5c; /* 아이콘 컬러 설정 */
+    color: #010175; /* 아이콘 컬러 설정 */
   }
 
   span {
@@ -119,7 +120,7 @@ const BoxesContainer = styled.div`
 const BoxLink = styled(Link)`
   width: 22rem;
   height: 22rem;
-  background-color: #353535;
+  background-color: #798bda;
   margin: 10px;
   text-decoration: none;
   display: flex;
@@ -154,10 +155,11 @@ const DropdownContainer = styled.div`
 `;
 
 const DropdownButton = styled.button`
-  background-color: #4CAF50;
+  background-color: #010175;
+  font-family: 'MaplestoryOTFBold';
   color: white;
   padding: 10px;
-  font-size: 14px;
+  font-size: 16px;
   border: none;
   cursor: pointer;
   border-radius: 5px;
@@ -166,7 +168,7 @@ const DropdownButton = styled.button`
 const DropdownContent = styled.div`
   display: ${({ show }) => (show ? 'block' : 'none')};
   position: absolute;
-  background-color: #f9f9f9;
+  background-color: #b4dbff;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
@@ -183,7 +185,7 @@ const DropdownOption = styled.div`
   cursor: pointer;
 
   &:hover {
-    background-color: #f1f1f1;
+    background-color: #7da7ce;
   }
 `;
 

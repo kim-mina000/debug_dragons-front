@@ -141,23 +141,24 @@ const FileLabel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 95%;
 
   h3 {
     font-size: 35px;
-    margin-bottom: 5px;
+    margin-bottom: 5%;
+    flex: 1; /* 파일 이름을 왼쪽에 정렬 */
+  }
+
+  .file-info {
+    width: 100%;
+    margin-top: 10px; /* 여유 공간을 조절할 수 있습니다. */
+    display: flex;
+    justify-content: space-between; /* 좋아요 아이콘과 좋아요 수를 오른쪽으로 정렬 */
   }
 
   .label-info {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 10px; 
-  }
-
-  .label-info > div {
-    display: flex;
-    flex: 1;
-    align-items: center;
+    align-items: center; /* 아이콘과 텍스트를 수직으로 정렬 */
     font-size: 15px;
   }
 `;
@@ -177,9 +178,9 @@ const Clipping = () => {
   ]);
 
   const [files, setFiles] = useState([
-    { name: "윤다훈이 제목입니다01", likes: 103, author: "(ooo)", liked: false },
-    { name: "윤다훈이 제목입니다02", likes: 107, author: "(ooo)", liked: false },
-    { name: "윤다훈이 제목입니다03", likes: 124, author: "(ooo)", liked: false },
+    { name: "밍고랑 같이 다녀온 강원도🐶💚", likes: 510, author: "(김지연)", liked: false },
+    { name: "시리와 한번 더 대전🚅🚄", likes: 221, author: "(김민아)", liked: false },
+    { name: "마리랑 하루랑 현아랑🌸🌸", likes: 309, author: "(최현아)", liked: false },
   ]);
 
   const addFolder = () => {
@@ -253,16 +254,16 @@ const Clipping = () => {
               <FileLabel>
                 <h3>{file.name}</h3>
                 <div className="file-info">
-                    <div className='label-info'>
-                      {file.liked ? (
-                        <PiHeartStraightBreakFill onClick={() => toggleLike(index)} />
-                      ) : (
-                        <PiHeartStraightBreak onClick={() => toggleLike(index)} />
-                      )}
-                      {file.likes}
-                    </div>
-                    <div>작성자 {file.author}님</div>
+                  <div className='label-info'>
+                    {file.liked ? (
+                      <PiHeartStraightBreakFill onClick={() => toggleLike(index)} />
+                    ) : (
+                      <PiHeartStraightBreak onClick={() => toggleLike(index)} />
+                    )}
+                    {file.likes}
                   </div>
+                  <div>작성자 {file.author}님</div>
+                </div>
               </FileLabel>
             </File>
           ))}
