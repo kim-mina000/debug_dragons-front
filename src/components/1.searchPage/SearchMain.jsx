@@ -12,9 +12,10 @@ import SesrchDate from '../../image/search_date_icon.png';
 import SesrchPerson from '../../image/search_person_icon.png';
 import MainModalInfoWindow from '../modal/MainModalInfoWindow';
 
-import { addEventHandle } from '../../api/map/map';
+import { addEventHandle, searchLandmark, xyToAddress } from '../../api/map/map';
 
 import SearchMainResult from './SearchMainResult';
+import { MARKER_IMG_URL } from '../../api/config';
 
 
 
@@ -138,7 +139,7 @@ function SearchMain() {
   const [selectedPersonButtons, setSelectedPersonButtons] = useState([]);
   const [userClickInfo, setUserClickInfo] = useState({});
   const [categoryIndex, setCategoryIndex] = useState("가볼만한 곳");
-  
+
   // 각 모달의 open/close 상태 관리
   const [isDateModalOpen, setIsDateModalOpen] = useState(false);
   const [isPlaceModalOpen, setIsPlaceModalOpen] = useState(false);
@@ -152,6 +153,7 @@ function SearchMain() {
   };
 
 
+  const markers = []; // 지도에 표시된 마커 객체를 가지고 있을 배열
   // 화면이 처음 렌더링 될 때 지도를 가져옴.
   useEffect(() => {
     kakao.maps.load(() => {
@@ -172,7 +174,6 @@ function SearchMain() {
     // ps.keywordSearch(`${selectedPlaceButtons} 가볼만한 곳`, placesSearchCB);  // 키워드로 장소를 검색합니다
     ps.keywordSearch(`${categoryIndex},${selectedPlaceButtons}`, placesSearchCB);
 
-    
     function placesSearchCB (data, status, pagination) { // 키워드 검색 완료 시 호출되는 콜백함수 입니다
       if (status === kakao.maps.services.Status.OK) {
 
@@ -190,7 +191,6 @@ function SearchMain() {
       } 
     }
 
-
     function displayMarker(place) {    // 지도에 마커를 표시하는 함수입니다
       const marker = new kakao.maps.Marker({ // 마커를 생성하고 지도에 표시합니다
           map: map,
@@ -202,7 +202,7 @@ function SearchMain() {
         setIsInfoWindow(true);
       });
 
-      kakao.maps.event.addListener(marker, 'mouseover', function() { // 마커에 클릭이벤트를 등록합니다
+      kakao.maps.event.addListener(marker, 'mouseover', function() { // 마커에 호버이벤트를 등록합니다
         infowindow.setContent( // 마커를 호버하면 장소명이 인포윈도우에 표출됩니다
           `<div style="width: 100%; padding:5px; font-size:12px; display:flex; justify-content:space-between; align-items: center;">
           ${place.place_name}
@@ -220,25 +220,27 @@ function SearchMain() {
 
 // 마커추가
     // 지도를 클릭했을때 클릭한 위치에 마커를 추가하도록 지도에 클릭이벤트를 등록
-    kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
-      searchDetailAddrFromCoords(mouseEvent.latLng, (result, status)=>{ // 클릭한 위치 주소 가져오기
-        console.log(result);
-      })
-      addMarker(mouseEvent.latLng); // 클릭한 위치에 마커를 표시 
+    kakao.maps.event.addListener(map, 'click', async (mouseEvent) => {
+      try {
+        
+        const data = await searchLandmark(mouseEvent.latLng);
+        
+        for(let i = 0; i < data.meta.total_count; i++){
+          displayMarker(data.documents[i]);
+        }
+        addMarker(mouseEvent.latLng); // 클릭한 위치에 마커를 표시
+        
+      } catch (error) {
+        console.error(error);
+      }
     });
-
-    function searchDetailAddrFromCoords(coords, callback) {
-      // 좌표로 법정동 상세 주소 정보를 요청합니다
-      geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
-    }
-
-    let markers = []; // 지도에 표시된 마커 객체를 가지고 있을 배열
-
     
-    function addMarker(position) { // 마커를 생성하고 지도위에 표시하는 함수
-      const imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"  // 마커 이미지의 이미지 주소
+    async function addMarker(position) { // 마커를 생성하고 지도위에 표시하는 함수
+      const imageSrc = MARKER_IMG_URL;  // 마커 이미지의 이미지 주소
       const imageSize = new kakao.maps.Size(24, 35);  // 마커 이미지의 이미지 크기
       const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);  // 마커 이미지를 생성
+      const data = await xyToAddress(position.La, position.Ma);
+    
 
       const marker = new kakao.maps.Marker({ // 마커를 생성
         map: map,
@@ -248,14 +250,36 @@ function SearchMain() {
 
       marker.setMap(map);  // 마커가 지도 위에 표시되도록 설정
       markers.push(marker); // 생성된 마커를 배열에 추가
-    }
-    // 0705: 마커 클릭하면 주소 뜨게끔해놨음 이후 호버할때 infoWindow 뜨게끔했으면 좋겠음
-    // infoWindow에 추가해야하는것 -> 인터넷 검색해서? 아니면 주변에 가게나 식당 관광지가 있으면 해당 관광지 명으로 이름 넣어주고
-    // 근처에 해당 건물이나 이런게 없으면 그냥 주소 그대로 넣어주기! 월요일에 하면될것같음
 
-    // kakao.maps.event.addListener(markers, 'mouseover', function() {
-    //   console.log(1);
-    // });
+      await kakao.maps.event.addListener(marker, 'mouseover', function() { // 마커에 호버이벤트를 등록합니다
+        try {
+          
+          infowindow.setContent( // 마커를 호버하면 장소명이 인포윈도우에 표출됩니다
+            `<div style="width: 100%; padding:5px; font-size:12px; display:flex; justify-content:space-between; align-items: center;">
+            ${data.documents[0].address.address_name}
+            </div>
+            `
+          );
+          infowindow.open(map, marker);
+
+        } catch (error) {
+          
+        }
+      });
+
+      await kakao.maps.event.addListener(marker, "mouseout", function () {
+        infowindow.close(map, marker);
+      });
+
+      await kakao.maps.event.addListener(marker, 'click', function() {
+        console.log(data.documents[0].address);
+        setUserClickInfo(data.documents[0].address);
+        setIsInfoWindow(true);
+      });
+
+
+    }
+
 
 // 카테고리 마커 추가
     // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
@@ -288,7 +312,7 @@ function SearchMain() {
       }   
       markers = [];
     }
-})});
+})},[selectedPlaceButtons,categoryIndex]);
 
 
   
