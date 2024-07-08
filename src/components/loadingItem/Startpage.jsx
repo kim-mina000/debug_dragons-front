@@ -18,7 +18,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #dcdcff;
+  background-color: #f3fdff;
 `;
 
 const Logo = styled.img`
@@ -35,7 +35,7 @@ const ButtonContainer = styled.div`
 const Button = styled.button`
   flex: 1; 
   height: 90px;
-  background-color: white;
+  background-color: #D5ECFA;
   border: none;
   font-size: 30px;
   font-family: 'MaplestoryOTFBold';
@@ -44,7 +44,7 @@ const Button = styled.button`
   padding: 0 100px; 
 
   &:hover {
-    background-color: lightgray;
+    background-color: #A5DEF0;
   }
   
   &.load-login {
@@ -63,7 +63,7 @@ const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
   height: 90px;
-  background-color: white;
+  background-color: #D5ECFA;
   border: none;
   font-size: 30px;
   font-family: 'MaplestoryOTFBold';
@@ -74,7 +74,7 @@ const StyledLink = styled(Link)`
   padding: 0 100px;
 
   &:hover {
-    background-color: lightgray;
+    background-color: #A5DEF0;
   }
   
   &.load-login {
