@@ -3,6 +3,9 @@ import { IoClose } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import { useState } from 'react';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser, getUserInfo } from '../../features/member/memberSlice';
+import { getLocalStorages } from '../../api/member/member_localstorage';
 
 const Overlay = styled.div`
   position: fixed;
@@ -17,7 +20,7 @@ const Overlay = styled.div`
   z-index: 1000; /* Overlay가 가장 위에 있도록 설정 */
 `;
 
-const Content = styled.div`
+const Content = styled.form`
   background: white;
   padding: 20px;
   border-radius: 10px;
@@ -103,7 +106,7 @@ const TagEdit = styled.div`
   border: 1px solid #000;
 `
 const WithAttiBus = styled.div`
-  width: 330px;
+  width: 350px;
   height: 200px;
   border: 1px solid #000;
   border-radius: 35px;
@@ -158,14 +161,29 @@ const Complete = styled.button`
 
 function MyPageProfile(props) {
   const { closeModal, Member } = props;
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const dispatch = useDispatch();
+  const userInfo = useSelector(selectUser);
+
+  console.log(getLocalStorages());  
+
+
+  const [name, setName] = useState(Member.userName);
+  const [email, setEmail] = useState(Member.userEmail);
 
   const handleProfileChange = async() => {
     try {
       const update = await axios.post(`http://localhost:8080/member/update`, {
-        // userEmail:
-      }) 
+        userId: userInfo.userId,
+        userName: name,
+        userEmail: email,
+        userRole:userInfo.userRole,
+        userPw:userInfo.userPw
+      });
+
+      dispatch(getUserInfo({
+        userName: name,
+        userEmail: email
+      }));
     } catch (error) {
       console.error(error);
       return console.error("수정실패");
@@ -190,6 +208,7 @@ function MyPageProfile(props) {
           프로필 편집
           <IoClose
             className="CloseButton"
+            value={name}
             onClick={closeModal}
           />
         </ModalHeader>
@@ -212,26 +231,34 @@ function MyPageProfile(props) {
             </TagEdit>
             <WithAttiBus>
             <p>회원가입일 : {formattedDate}</p>
-            <p style={{fontSize: '40px'}}>with 아띠버스</p>
-            <p style={{fontSize: '40px', color: '#94d7f2'}}>D + {diffDate + 1}</p>
+            <p style={{fontSize: '45px'}}> <span style={{fontSize: '25px'}}>with</span> 아띠버스</p>
+            <p style={{fontSize: '40px', color: '#94d7f2'}}>D + {diffDate}</p>
             </WithAttiBus>
           </MiddleLeft>
           <MiddleRight>
             <InforTitle>이름</InforTitle>
-            <InforContent placeholder= {Member.userName} onChange={(e)=> setName(e.target.value)} />
+            <InforContent
+              placeholder= {Member.userName}
+              value={name}
+              onChange={(e)=> setName(e.target.value)}
+            />
             <InforTitle>생년월일</InforTitle>
             <InforContent placeholder='0000.00.00' />
             <InforTitle>핸드폰번호</InforTitle>
             <InforContent placeholder='000-0000-0000' />
             <InforTitle>이메일주소</InforTitle>
-            <InforContent placeholder= {Member.userEmail} onChange={(e)=> setEmail(e.target.value)} />
+            <InforContent
+              placeholder= {Member.userEmail}
+              value={email}
+              onChange={(e)=> setEmail(e.target.value)}
+            />
             <LastVisit>
               최근방문일 : {formattedDate}
             </LastVisit>
           </MiddleRight>
         </MiddleEdit>
         <BottomEdit>
-          <Complete>수정하기</Complete>
+          <Complete onClick={handleProfileChange}>수정하기</Complete>
         </BottomEdit>
       </Content>
     </Overlay>

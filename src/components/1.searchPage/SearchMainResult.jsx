@@ -55,6 +55,11 @@ const SearchMainResult = () => {
 
   const [formData, setFormData] = useState([{}]);
 
+  const [editDayIndex, setEditDayIndex] = useState(null);
+  const [editTimeIndex, setEditTimeIndex] = useState(null);
+  const [editDay, setEditDay] = useState('');
+  const [editTime, setEditTime] = useState('');
+
   useEffect(() => {
     const landmarkResponse = async () => {
       try {
@@ -68,24 +73,31 @@ const SearchMainResult = () => {
     landmarkResponse();
   }, []);
 
-  // const results = [
-  //   { day: '1일차', time: 'AM 00:00', title: formData[0].landmarkName, description: '', details: '인원 / 인천 구월동 / 2024.07 (고정값)' }
-  // ];
+  const handleSaveAll = async () =>{
+    try {
+      await axios.post(`http://localhost:8080/landmark/modifyLandmark`, formData);
+      console.log('수정데이터 기기');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const results = formData;
 
-
   const sortResult = results.sort((a, b) => {
-    if (a.day !== b.day) {
-      return a.day.localeCompare(b.day);
+    const dayA = typeof a.day === 'number' ? a.day : Number(a.day);
+    const dayB = typeof b.day === 'number' ? b.day : Number(b.day);
+
+    if (dayA !== dayB) {
+      return dayA - dayB;
     } else {
-      return a.time.localeCompare(b.time);
+      const timeA = typeof a.time === 'string' ? a.time : String(a.time);
+      const timeB = typeof b.time === 'string' ? b.time : String(b.time);
+      return timeA.localeCompare(timeB);
     }
   });
 
-  const [editDayIndex, setEditDayIndex] = useState(null);
-  const [editTimeIndex, setEditTimeIndex] = useState(null);
-  const [editDay, setEditDay] = useState('');
-  const [editTime, setEditTime] = useState('');
+
 
   const handleEditDay = (index, day) => {
     setEditDayIndex(index);
@@ -99,20 +111,32 @@ const SearchMainResult = () => {
 
   const handleSaveDay = (index) => {
     const updatedFormData = formData.map((item, i) =>
-      i === index ? { ...item, day: editDay } : item
+      i === index ? { ...item, landmarkDay: editDay } : item
     );
     setFormData(updatedFormData);
     setEditDayIndex(null);
   };
 
+
   const handleSaveTime = (index) => {
     const updatedFormData = formData.map((item, i) =>
-      i === index ? { ...item, time: editTime } : item
+      i === index ? { ...item, landmarkTime: editTime } : item
     );
     setFormData(updatedFormData);
     setEditTimeIndex(null);
   };
 
+  const formatTime = (time) => {
+    if (!time) {
+      return ''; // 예외 처리: time이 null 또는 undefined인 경우 빈 문자열 반환
+    }
+    const [hours, minutes] = time.split(':').map(Number);
+    return new Date(2024, 7, 8, hours, minutes).toLocaleTimeString('ko-KR', {
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
   const handleDayChange = (e) => {
     setEditDay(e.target.value);
   };
@@ -121,34 +145,52 @@ const SearchMainResult = () => {
     setEditTime(e.target.value);
   };
 
+  const [editShortDescIndex, setEditShortDescIndex] = useState(null);
+  const [editShortDesc, setEditShortDesc] = useState('');
+
+  const handleShortDescChange = (e)=>{
+    setEditShortDesc(e.target.value);
+  };
+
+  const handleSaveShortDescChange = (index) => {
+    const updatedFormData = formData.map((item, i) =>
+      i === index ? { ...item, landmarkShortDesc: editShortDesc } : item
+    );
+    setFormData(updatedFormData);
+    setEditShortDescIndex(null);  //수정 완료 후 인덱스초기화
+  };
+
+  const handleEditShortDesc = (index, shotDesc) => {
+    setEditShortDescIndex(index);
+    setEditTime(shotDesc);
+  };
+
   return (
     <>
       {sortResult.map((result, index) => (
         <Container key={index} bgColor={colors[index % colors.length]}>
           <Info>
             {/* 일자표시 */}
-            {/* <Day>{result.day}</Day> */}
             {editDayIndex === index ? (
               <>
                 <input type="text" value={editDay} onChange={handleDayChange} />
                 <button type="button" onClick={() => handleSaveDay(index)}>저장</button>
               </>
             ) : (
-              <Day onClick={() => handleEditDay(index, result.day)}>{result.day} 일차</Day>
+              <Day onClick={() => handleEditDay(index, result.landmarkDay)}>{result.landmarkDay} 일차</Day>
             )}
             {/* 시간별 표시 */}
-            {/* <Time>{result.time}</Time> */}
             {editTimeIndex === index ? (
               <>
                 <input
-                  type="text"
+                  type="time"
                   value={editTime}
                   onChange={handleTimeChange}
                 />
                 <button onClick={() => handleSaveTime(index)}>저장</button>
               </>
             ) : (
-              <Time onClick={() => handleEditTime(index, result.time)}>{result.time}일정</Time>
+              <Time onClick={() => handleEditTime(index, result.landmarkTime)}>{result.landmarkTime}일정</Time>
             )}
           </Info>
 
@@ -156,12 +198,21 @@ const SearchMainResult = () => {
             {/* 제목 */}
             <Title>{result.landmarkName}</Title>
             {/* 게시물 텍스트 */}
-            <Description>{result.description}</Description>
-            {/* 인원 / 장소 / 날짜 << 고장값 설정 */}
+            {editShortDescIndex === index ?(
+              <>
+                <input type="text" value={editShortDesc} onChange={handleShortDescChange} />
+                <button type="button" onClick={() => handleSaveShortDescChange(index)}>저장</button>
+              </>
+            ) :(
+              <Description onClick={() => {handleEditShortDesc(index, result.landmarkShortDesc)}}>{result.landmarkShortDesc? result.landmarkShortDesc : '간단코멘트작성해주세요'}</Description>
+            ) }
+            {/* <Description>{result.landmarkShortDesc}</Description> */}
+             {/* 인원 / 장소 / 날짜 << 고장값 설정 */}
             <Details>{result.writer}</Details>
           </Content>
-        </Container>
+      </Container>
       ))}
+      <button onClick={handleSaveAll}>모든 데이터 저장</button>
     </>
   );
 };
