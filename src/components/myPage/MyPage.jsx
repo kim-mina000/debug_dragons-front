@@ -2,11 +2,11 @@ import styled from "styled-components";
 import MenuBar from "../0.menuBar/MenuBar";
 import { MdOutlineEdit } from "react-icons/md";
 import { HiStar } from "react-icons/hi2";
-import Header from "../0.menuBar/Header";
 import { useState } from "react";
 import MyPageProfile from "../modal/MyPageProfile";
 import { getUserInfo, selectUser } from "../../features/member/memberSlice";
 import { useSelector } from "react-redux";
+import Header from "../menuBar/Header";
 
 
 const TopDiv = styled.div`
@@ -171,7 +171,7 @@ function MyPage() {
 
   return (
     <>
-      <Header />
+      <Header userName={Member.userName} />
 
       <TopDiv>
         <ProfileDiv>
