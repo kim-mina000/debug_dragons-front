@@ -51,6 +51,22 @@ const GlobalStyles = createGlobalStyle`
     user-select:none
 
   }
+
+    /* 스크롤바 css */
+    ::-webkit-scrollbar {
+    width: 12px;
+    background-color: black;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(#D4F9FF, #A5DEF0);
+    border-radius: 20px;
+  }
+
+  /* ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(transparent, #010175, transparent);
+  } */
+
 `;
 
 function App() {
