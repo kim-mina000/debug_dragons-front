@@ -116,16 +116,17 @@ const MapCategory = styled.ul`
 
 // 저장하기 버튼의 스타일
 const SaveButton = styled.button`
-  width: 250px;
-  height: 70px;
+  width: 170px;
+  height: 50px;
   border-radius: 15px;
   position: absolute;
-  bottom: 25px;
-  right: 120px;
+  bottom: 5%;
+  right: 1.5%;
   background-color: black;
   outline: none;
   color: white;
-  font-size: 24px;
+  font-size: 20px;
+  z-index: 50;
 `;
 
 function SearchMain() {
@@ -406,7 +407,7 @@ function SearchMain() {
                 관광지
             </li>   
           </MapCategory>
-          {/* <SaveButton>저장하기→</SaveButton> */}
+          <SaveButton>저장하기→</SaveButton>
           {/* 해당 컨포넌트 작업 후 다시 주석 해제할 예정 */}
         </MapContainer>
       </ContentWrap>
