@@ -165,6 +165,7 @@ function MyPageProfile(props) {
   const userInfo = useSelector(selectUser);
 
   console.log(getLocalStorages());  
+  const member = JSON.stringify(localStorage.getItem("userInfo"));
 
 
   const [name, setName] = useState(Member.userName);
@@ -177,13 +178,22 @@ function MyPageProfile(props) {
         userName: name,
         userEmail: email,
         userRole:userInfo.userRole,
-        userPw:userInfo.userPw
+        userPw:userInfo.userPw,
+        modDate:userInfo.modDate,
+        regDate:userInfo.regDate
       });
 
       dispatch(getUserInfo({
+        userId: userInfo.userId,
         userName: name,
-        userEmail: email
+        userEmail: email,
+        userRole:userInfo.userRole,
+        userPw:userInfo.userPw,
+        modDate:userInfo.modDate,
+        regDate:userInfo.regDate
       }));
+      console.log(update);
+
     } catch (error) {
       console.error(error);
       return console.error("수정실패");
@@ -208,7 +218,6 @@ function MyPageProfile(props) {
           프로필 편집
           <IoClose
             className="CloseButton"
-            value={name}
             onClick={closeModal}
           />
         </ModalHeader>
@@ -219,7 +228,7 @@ function MyPageProfile(props) {
           </TopLeft>
           <TopRight>
             <ProfileNickname>
-              {Member.userName}
+              {Member.userId}
               <FaEdit className='EditIcon' />
             </ProfileNickname>  
           </TopRight>  
@@ -238,7 +247,6 @@ function MyPageProfile(props) {
           <MiddleRight>
             <InforTitle>이름</InforTitle>
             <InforContent
-              placeholder= {Member.userName}
               value={name}
               onChange={(e)=> setName(e.target.value)}
             />
@@ -248,7 +256,6 @@ function MyPageProfile(props) {
             <InforContent placeholder='000-0000-0000' />
             <InforTitle>이메일주소</InforTitle>
             <InforContent
-              placeholder= {Member.userEmail}
               value={email}
               onChange={(e)=> setEmail(e.target.value)}
             />
@@ -258,7 +265,7 @@ function MyPageProfile(props) {
           </MiddleRight>
         </MiddleEdit>
         <BottomEdit>
-          <Complete onClick={handleProfileChange}>수정하기</Complete>
+          <Complete type='button' onClick={handleProfileChange}>수정하기</Complete>
         </BottomEdit>
       </Content>
     </Overlay>

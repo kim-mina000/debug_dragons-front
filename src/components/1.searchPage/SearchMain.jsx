@@ -117,24 +117,26 @@ const MapCategory = styled.ul`
 
 // 저장하기 버튼의 스타일
 const SaveButton = styled.button`
-  width: 250px;
-  height: 70px;
+  width: 170px;
+  height: 50px;
   border-radius: 15px;
   position: absolute;
-  bottom: 25px;
-  right: 120px;
+  bottom: 5%;
+  right: 1.5%;
   background-color: black;
   outline: none;
   border: 0px;
   color: white;
-  font-size: 24px;
-  z-index: 9;
 
   cursor: pointer;
 
   &:hover {
     background-color: #8fa4bf;
   }
+
+  font-size: 20px;
+  z-index: 50;
+
 `;
 
 function SearchMain({userInfo}) {
