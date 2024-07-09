@@ -22,10 +22,11 @@ import { MARKER_IMG_URL } from '../../api/config';
 // 전체 레이아웃을 감싸는 Container. 가운데 정렬.
 const Container = styled.div`
   width: 100%;
-  height: 100vh;
+  height: calc(100% - 160px);
   display: flex;
-  align-items: center;
   justify-content: center;
+  position: absolute;
+  top: 0;
 `;
 
 const ContentWrap = styled.div`
@@ -100,7 +101,7 @@ const MapContainer = styled.div`
 const MapCategory = styled.ul`
   position: absolute;
   /* flex: 2; */
-  z-index: 9;
+  z-index: 8;
   display: flex;
   cursor: pointer;
 
@@ -124,11 +125,19 @@ const SaveButton = styled.button`
   right: 120px;
   background-color: black;
   outline: none;
+  border: 0px;
   color: white;
   font-size: 24px;
+  z-index: 9;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: #8fa4bf;
+  }
 `;
 
-function SearchMain() {
+function SearchMain({userInfo}) {
   const { kakao } = window;
   const container = useRef(null);
   // const [selectedButtons, setSelectedButtons] = useState([]);
@@ -137,8 +146,11 @@ function SearchMain() {
   const [selectedPlaceButtons, setSelectedPlaceButtons] = useState([]);
   const [selectedDateButtons, setSelectedDateButtons] = useState([]);
   const [selectedPersonButtons, setSelectedPersonButtons] = useState([]);
+
   const [userClickInfo, setUserClickInfo] = useState({});
   const [categoryIndex, setCategoryIndex] = useState("가볼만한 곳");
+  
+  const [formData, setFormData] = useState([]);
 
   // 각 모달의 open/close 상태 관리
   const [isDateModalOpen, setIsDateModalOpen] = useState(false);
@@ -378,7 +390,7 @@ function SearchMain() {
           </SearchContainer>
           {/* 검색결과나오는곳 현재는 하드코딩으로 작업해놓음 */}
           <MyCourseContainer>
-            <SearchMainResult/>
+            <SearchMainResult formData={formData} setFormData={setFormData}/>
           </MyCourseContainer>
         </LeftWrap>
         <MapContainer ref={container} id='map'>
@@ -406,7 +418,7 @@ function SearchMain() {
                 관광지
             </li>   
           </MapCategory>
-          {/* <SaveButton>저장하기→</SaveButton> */}
+          <SaveButton>저장하기→</SaveButton>
           {/* 해당 컨포넌트 작업 후 다시 주석 해제할 예정 */}
         </MapContainer>
       </ContentWrap>
@@ -444,6 +456,9 @@ function SearchMain() {
         <MainModalInfoWindow 
           userClickInfo={userClickInfo}
           closeModal={() => setIsInfoWindow(false)}
+          formData={formData}
+          setFormData={setFormData}
+          userInfo={userInfo}
         />
       )}
     </Container>

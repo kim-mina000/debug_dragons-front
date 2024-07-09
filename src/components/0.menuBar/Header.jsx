@@ -15,6 +15,10 @@ const HeaderContainer = styled.div`
   padding: 10px 20px;
   background-color: #333;
   color: white;
+
+  position: sticky;
+  top: 0;
+  z-index: 9;
 `;
 
 // 왼쪽 컨테이너 스타일
