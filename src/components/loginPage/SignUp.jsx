@@ -207,7 +207,7 @@ function SignUp() {
 
   };
 
-  // ID 체크
+  // nickName 체크
   const handleCheckNickName = async () => {
     const copyNickName = userInfo.nickName;
     const isDuplicate = await checkDuplicate(copyNickName);
@@ -228,14 +228,11 @@ function SignUp() {
     }
   };
 
-  // 전화번호 유효성 검사
+  // 생일 유효성 검사
   const handleBirth = (e) => {
     const value = e.target.value;
-    if (/^[0-9]*$/.test(value)) {
-      setUserInfo({ ...userInfo, birth: value });
-    } else {
-      alert("숫자만 입력해주세요.");
-    }
+    setUserInfo({ ...userInfo, birth: value });
+
   };
 
   // EMAIL 유효성 검사
@@ -348,7 +345,7 @@ function SignUp() {
             </DoSign>
           </IdWrap>
           <Text>BIRTHDAY</Text>
-          <Input type="text"
+          <Input type="date"
             value={userInfo.birth}
             onChange={handleBirth}
             placeholder="생년월일 8자리 숫자만 입력"

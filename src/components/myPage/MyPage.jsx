@@ -171,7 +171,7 @@ function MyPage() {
 
   return (
     <>
-      <Header userName={Member.userName} />
+      <Header userName={Member.nickname} />
 
       <TopDiv>
         <ProfileDiv>
@@ -183,7 +183,7 @@ function MyPage() {
               />  
             </ProfileEdit>
           </ProfileImage>
-          <span className="UserId"><HiStar color="#95D7FC" />{Member.userName} 님의 계정입니다</span>
+          <span className="UserId"><HiStar color="#95D7FC" />{Member.nickname} 님의 계정입니다</span>
         </ProfileDiv>
       <MenuBar/>
 

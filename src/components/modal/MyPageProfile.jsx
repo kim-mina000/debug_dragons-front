@@ -79,14 +79,18 @@ const TopRight = styled.div`
   width: 360px;
   height: 300px;
   line-height: 300px;
-  .EditIcon {
-    padding-left: 20px;
-    cursor: pointer;
-  }
 `
-const ProfileNickname = styled.h1`
-  font-size: 44px;
-  font-weight: bold;  
+const ProfileNickname = styled.input`
+  width: 350px;
+  height: 60px;
+  border: none;
+  border-radius: 5px;
+  padding: 0 10px;
+  font-Size: 45px;
+  font-Weight:bold;
+  text-align: center;
+  cursor: pointer;
+  background-color: #CCC;
 `
 const MiddleEdit = styled.div`
   width: 100%;
@@ -132,15 +136,9 @@ const InforContent = styled.input`
   padding: 0 15px;
   background-color: #CCC;
   border: none;
+  margin-bottom: 10px;
   `
 
-const LastVisit = styled.div`
-  width: 300px;
-  height: 150px;
-  margin: 15px 0;
-  text-align: left;
-  line-height: 240px;
-  `
 const BottomEdit = styled.div`
   width: 100%;
   height: 80px;
@@ -170,6 +168,9 @@ function MyPageProfile(props) {
 
   const [name, setName] = useState(Member.userName);
   const [email, setEmail] = useState(Member.userEmail);
+  const [phone, setPhone] = useState(Member.phone);
+  const [birth, setBirth] = useState(Member.birth);
+  const [nickName, setNickName] = useState(Member.nickname);
 
   const handleProfileChange = async() => {
     try {
@@ -180,7 +181,10 @@ function MyPageProfile(props) {
         userRole:userInfo.userRole,
         userPw:userInfo.userPw,
         modDate:userInfo.modDate,
-        regDate:userInfo.regDate
+        regDate:userInfo.regDate,
+        nickname:nickName,
+        phone:phone,
+        birth:birth
       });
 
       dispatch(getUserInfo({
@@ -190,7 +194,10 @@ function MyPageProfile(props) {
         userRole:userInfo.userRole,
         userPw:userInfo.userPw,
         modDate:userInfo.modDate,
-        regDate:userInfo.regDate
+        regDate:userInfo.regDate,
+        nickname:nickName,
+        phone:phone,
+        birth:birth
       }));
       console.log(update);
 
@@ -199,6 +206,17 @@ function MyPageProfile(props) {
       return console.error("수정실패");
     }
   }
+
+  const handleNickname = (e) => {
+    const value = e.target.value
+    if (!/^[a-zA-Z0-9_.]*$/.test(value)) {
+      setNickName({nickName: ''});
+      alert("입력 불가능한 문자입니다.");
+    } else {
+      setNickName({nickName: value});
+    }
+  }
+
 
   const regDate = new Date(Member.regDate);
   const year = regDate.getFullYear();
@@ -227,10 +245,10 @@ function MyPageProfile(props) {
             <EditImage>프로필 사진 수정</EditImage>
           </TopLeft>
           <TopRight>
-            <ProfileNickname>
-              {Member.userId}
-              <FaEdit className='EditIcon' />
-            </ProfileNickname>  
+            <ProfileNickname
+              value={nickName}
+              onChange={(e)=>setNickName(e.target.value)}
+            />
           </TopRight>  
         </TopEdit>
         <MiddleEdit>
@@ -245,23 +263,30 @@ function MyPageProfile(props) {
             </WithAttiBus>
           </MiddleLeft>
           <MiddleRight>
+            <InforTitle>아이디</InforTitle>
+            <InforContent
+              value={userInfo.userId}
+            />
             <InforTitle>이름</InforTitle>
             <InforContent
               value={name}
               onChange={(e)=> setName(e.target.value)}
             />
             <InforTitle>생년월일</InforTitle>
-            <InforContent placeholder='0000.00.00' />
+            <InforContent
+              value={birth}
+              onChange={(e)=> setBirth(e.target.value)}
+            />
             <InforTitle>핸드폰번호</InforTitle>
-            <InforContent placeholder='000-0000-0000' />
+            <InforContent
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
             <InforTitle>이메일주소</InforTitle>
             <InforContent
               value={email}
               onChange={(e)=> setEmail(e.target.value)}
             />
-            <LastVisit>
-              최근방문일 : {formattedDate}
-            </LastVisit>
           </MiddleRight>
         </MiddleEdit>
         <BottomEdit>
