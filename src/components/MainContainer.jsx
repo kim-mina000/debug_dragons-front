@@ -5,7 +5,6 @@ import Headers from "./0.menuBar/Header";
 import { useSelector } from "react-redux";
 
 const Wrap = styled.div`
-  width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
