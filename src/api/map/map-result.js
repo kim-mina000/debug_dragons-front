@@ -1,9 +1,9 @@
 import axios from "axios";
 import { BACK_URL } from "../config";
 
-export const landmarkResponse = async (formData) => {
+export const landmarkResponse = async (userId) => {
   try {
-    const response = await axios.get(`${BACK_URL}/landmark/read`, formData);
+    const response = await axios.get(`${BACK_URL}/landmark/read?id=${userId}`);
     return await response.data;
   } catch (error) {
 

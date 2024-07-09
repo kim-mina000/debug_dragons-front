@@ -7,7 +7,7 @@ export const handleMyTripSave = async (data, userId, imgUrl) => {
   const xy = await addressToXY(data.address_name);
   const postData = {
     "landmarkNo": 0,
-    "writer": userId,
+    "writer": userId || "사용자",
     "landmarkAddress": data.address_name,
     "landmarkName": data.place_name || data.address_name,
     "landmarkOrigin": true,
