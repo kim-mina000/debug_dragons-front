@@ -19,7 +19,7 @@ const Container = styled.div`
 // 회원가입 툴박스
 const SignUpBox = styled.div`
   width: 840px;
-  height: 355px;
+  height: 500px;
   display:flex;
 `;
 
@@ -60,8 +60,8 @@ const ImagePreview = styled.img`
 // 아이디 패스워드 이름 이매일
 const Input = styled.input`
   width: 100%;
-  height: 45px;
-  margin: 10px 0;
+  height: 40px;
+  margin: 5px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 20px;
@@ -80,7 +80,7 @@ const Text = styled.h4`
 
 // 버튼
 const DoSign = styled.button`
-  width: ${ props => props.detailWidth || '200px'};
+  width: ${props => props.detailWidth || '200px'};
   height: 70px;
   border-radius: 15px;
   font-size: 20px;
@@ -93,7 +93,7 @@ const DoSign = styled.button`
   }
   `;
 
-  // 모달 스타일
+// 모달 스타일
 const customStyles = {
   content: {
     top: '50%',
@@ -124,6 +124,9 @@ function SignUp() {
     profile: null,
     userRole: "ROLE_USER",
     userProfileImagePath: null,
+    nickName: null,
+    phone: null,
+    birth: null
   });
 
   const openModal = (message) => {
@@ -188,6 +191,53 @@ function SignUp() {
     setUserInfo({ ...userInfo, userName: e.target.value });
   };
 
+  // NickName 유효성 검사
+  const handleNickName = (e) => {
+    const value = e.target.value;
+    console.log(value);
+    console.log(/^[a-zA-Z0-9]*$/.test(value));
+
+    if (!/^[a-zA-Z0-9_.]*$/.test(value)) {
+      setUserInfo({ ...userInfo, nickName: '' });
+      alert("입력 불가능한 문자입니다.");
+      return null;
+    } else {
+      setUserInfo({ ...userInfo, nickName: value });
+    }
+
+  };
+
+  // ID 체크
+  const handleCheckNickName = async () => {
+    const copyNickName = userInfo.nickName;
+    const isDuplicate = await checkDuplicate(copyNickName);
+    console.log(isDuplicate);
+    if (isDuplicate) {
+      openModal("이미 다른 사람이 사용중이에요😥");
+    }
+    setUserInfo({ ...userInfo, nickName: copyNickName });
+  };
+
+  // 전화번호 유효성 검사
+  const handlePhone = (e) => {
+    const value = e.target.value;
+    if (/^[0-9]*$/.test(value)) {
+      setUserInfo({ ...userInfo, phone: value });
+    } else {
+      alert("숫자만 입력해주세요.");
+    }
+  };
+
+  // 전화번호 유효성 검사
+  const handleBirth = (e) => {
+    const value = e.target.value;
+    if (/^[0-9]*$/.test(value)) {
+      setUserInfo({ ...userInfo, birth: value });
+    } else {
+      alert("숫자만 입력해주세요.");
+    }
+  };
+
   // EMAIL 유효성 검사
   const handleEmail = (e) => {
     const value = e.target.value;
@@ -216,7 +266,7 @@ function SignUp() {
     }
 
   };
-  
+
   const handleSignUp = async (e) => {
     try {
       // 서버에 이미지 정보 전송
@@ -225,23 +275,23 @@ function SignUp() {
       const formData = new FormData();
       formData.append('userId', userInfo.userId);
       formData.append('file', uploadFile);
-      
+
       // 서버에 유저정보 전송
       const response = await axios.post('http://localhost:8080/member/register', userInfo
       );
-      
-      if (uploadFile){
-          await axios.post('http://localhost:8080/member/upload', formData);
+
+      if (uploadFile) {
+        await axios.post('http://localhost:8080/member/upload', formData);
       }
-      
+
       if (response.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
         return nevigate('/thanks-for-signup');
-        
+
       } else {
         throw new Error(`api error: ${response.status} ${response.statusText}`);
       }
-      
-    } catch(err){
+
+    } catch (err) {
       console.error(err);
     }
 
@@ -257,17 +307,17 @@ function SignUp() {
           <IdWrap>
             <Input
               type="text"
-              style={{flex:1}}
+              style={{ flex: 1 }}
               value={userInfo.id}
               onChange={handleID}
             />
-            <DoSign 
+            <DoSign
               detailWidth="150px"
-              style={{margin: '10px 0 0 10px', height:'45px'}} 
+              style={{ margin: '10px 0 0 10px', height: '45px' }}
               onClick={handleCheckDuplicate}
-              >
-                아이디 중복검사
-              </DoSign>
+            >
+              아이디 중복검사
+            </DoSign>
           </IdWrap>
           <Text>PASSWORD</Text>
           <Input
@@ -280,6 +330,34 @@ function SignUp() {
           <Input type="text"
             value={userInfo.userName}
             onChange={handleUsername}
+          />
+          <Text>NICKNAME</Text>
+          <IdWrap>
+            <Input
+              type="text"
+              style={{ flex: 1 }}
+              value={userInfo.nickName}
+              onChange={handleNickName}
+            />
+            <DoSign
+              detailWidth="150px"
+              style={{ margin: '10px 0 0 10px', height: '45px' }}
+              onClick={handleCheckNickName}
+            >
+              닉네임 중복검사
+            </DoSign>
+          </IdWrap>
+          <Text>BIRTHDAY</Text>
+          <Input type="text"
+            value={userInfo.birth}
+            onChange={handleBirth}
+            placeholder="생년월일 8자리 숫자만 입력"
+          />
+          <Text>PHONE</Text>
+          <Input type="text"
+            value={userInfo.phone}
+            onChange={handlePhone}
+            placeholder=" - 제외한 숫자만 입력"
           />
           <Text>E-MAIL</Text>
           <Input type="text"
