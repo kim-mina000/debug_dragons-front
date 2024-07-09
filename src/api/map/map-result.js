@@ -19,3 +19,12 @@ export const handleSaveAll = async (formData) =>{
     console.error(error);
   }
 };
+
+export const handleDelete = async (data) =>{
+  try {
+    await axios.delete(`${BACK_URL}/landmark/modifyLandmark?id=${data.landmarkNo}`);
+  } catch (error) {
+    console.error(error);
+  }
+
+}

@@ -22,10 +22,11 @@ import { MARKER_IMG_URL } from '../../api/config';
 // 전체 레이아웃을 감싸는 Container. 가운데 정렬.
 const Container = styled.div`
   width: 100%;
-  height: 100vh;
+  height: calc(100% - 160px);
   display: flex;
-  align-items: center;
   justify-content: center;
+  position: absolute;
+  top: 0;
 `;
 
 const ContentWrap = styled.div`
@@ -100,7 +101,7 @@ const MapContainer = styled.div`
 const MapCategory = styled.ul`
   position: absolute;
   /* flex: 2; */
-  z-index: 9;
+  z-index: 8;
   display: flex;
   cursor: pointer;
 
@@ -124,12 +125,21 @@ const SaveButton = styled.button`
   right: 1.5%;
   background-color: black;
   outline: none;
+  border: 0px;
   color: white;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: #8fa4bf;
+  }
+
   font-size: 20px;
   z-index: 50;
+
 `;
 
-function SearchMain() {
+function SearchMain({userInfo}) {
   const { kakao } = window;
   const container = useRef(null);
   // const [selectedButtons, setSelectedButtons] = useState([]);
@@ -138,8 +148,11 @@ function SearchMain() {
   const [selectedPlaceButtons, setSelectedPlaceButtons] = useState([]);
   const [selectedDateButtons, setSelectedDateButtons] = useState([]);
   const [selectedPersonButtons, setSelectedPersonButtons] = useState([]);
+
   const [userClickInfo, setUserClickInfo] = useState({});
   const [categoryIndex, setCategoryIndex] = useState("가볼만한 곳");
+  
+  const [formData, setFormData] = useState([]);
 
   // 각 모달의 open/close 상태 관리
   const [isDateModalOpen, setIsDateModalOpen] = useState(false);
@@ -379,7 +392,7 @@ function SearchMain() {
           </SearchContainer>
           {/* 검색결과나오는곳 현재는 하드코딩으로 작업해놓음 */}
           <MyCourseContainer>
-            <SearchMainResult/>
+            <SearchMainResult formData={formData} setFormData={setFormData}/>
           </MyCourseContainer>
         </LeftWrap>
         <MapContainer ref={container} id='map'>
@@ -445,6 +458,9 @@ function SearchMain() {
         <MainModalInfoWindow 
           userClickInfo={userClickInfo}
           closeModal={() => setIsInfoWindow(false)}
+          formData={formData}
+          setFormData={setFormData}
+          userInfo={userInfo}
         />
       )}
     </Container>

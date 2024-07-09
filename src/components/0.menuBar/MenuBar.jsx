@@ -2,6 +2,12 @@ import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 
+const StyledFooter = styled.footer`
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+`;
+
 // 하단 메뉴탭 컨테이너
 const IconContainer = styled.div`
   display: flex;
@@ -10,10 +16,12 @@ const IconContainer = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;
-  padding: 15px 0;
+  /* padding: 15px 0; */
   border-top: 1px solid #ccc;
   background-color: #fff;
   z-index: 1000; /* 메뉴바를 다른 요소들 위로 올리기 위해 z-index 설정 */
+
+  
 `;
 
 // 하단 메뉴탭
@@ -56,38 +64,44 @@ function MenuBar() {
   };
 
   return (
-    <IconContainer
-      onMouseEnter={handleHomeHover} 
-      onMouseLeave={handleHomeLeave}
-    >
-      {/* 나의 여행 리스트 가기 */}
-      <Link to="/menuBar/MyTravelList">
-        <Icon isVisible={isExpanded}>
-          <img src='/리스트.png' alt="리스트"/>
-        </Icon>
-      </Link>
-      
-      <Link to="/around">
-        <Icon isVisible={isExpanded}>
-          <img src='/둘러보기.png' alt="둘러보기"/>
-        </Icon>
-      </Link>
-      
-      {/* 스타트 페이지 이동 */}
-      <Link to="/main">
-        <Icon isVisible={true}>
-          <img src='/홈.png' alt="홈"/>
-        </Icon>
-      </Link>
+    <StyledFooter>
+      <IconContainer
+        onMouseEnter={handleHomeHover} 
+        onMouseLeave={handleHomeLeave}
+      >
+        <div />
+        <div />
+        {/* 나의 여행 리스트 가기 */}
+        <Link to="/menuBar/MyTravelList">
+          <Icon $isVisible={isExpanded}>
+            <img src='/리스트.png' alt="리스트"/>
+          </Icon>
+        </Link>
+        
+        <Link to="/around">
+          <Icon $isVisible={isExpanded}>
+            <img src='/둘러보기.png' alt="둘러보기"/>
+          </Icon>
+        </Link>
+        
+        {/* 스타트 페이지 이동 */}
+        <Link to="/main">
+          <Icon $isVisible={true}>
+            <img src='/홈.png' alt="홈"/>
+          </Icon>
+        </Link>
 
-      <Link to="/scrap">
-      <Icon isVisible={isExpanded}><img src='/스크랩.png' alt="스크랩"/></Icon>
-      </Link>
-      
-      <Link to="/mypage">
-        <Icon isVisible={isExpanded}><img src='/마이페이지.png' alt="마이페이지"/></Icon>
-      </Link>
-    </IconContainer>
+        <Link to="/scrap">
+        <Icon $isVisible={isExpanded}><img src='/스크랩.png' alt="스크랩"/></Icon>
+        </Link>
+        
+        <Link to="/mypage">
+          <Icon $isVisible={isExpanded}><img src='/마이페이지.png' alt="마이페이지"/></Icon>
+        </Link>
+        <div />
+        <div />
+      </IconContainer>
+    </StyledFooter>
   );
 }
 

@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import axios from "axios";
 import { useSelector } from 'react-redux';
-import { handleSaveAll, landmarkResponse } from '../../api/map/map-result';
+import { handleDelete, handleSaveAll, landmarkResponse } from '../../api/map/map-result';
+import { TfiClose } from "react-icons/tfi";
 
 // 피그마에 색상 다른것처럼 표현 됬길래 팔레트임... 수정하기만 하면 됨
 const colors = ['#B98CFF', '#8B7FE8', '#98A7FF', '#7FAAE8', '#8CD9FF'];
 
 const Container = styled.div`
+  height: 80px;
   display: flex;
   align-items: center;
-  padding: 10px;
-  background-color: ${({ bgColor }) => bgColor};
+  padding: 10px 15px 10px;
+  background-color: ${({ $bgColor }) => $bgColor};
   border-radius: 10px;
   width: auto;
   margin: 1.5%;
+  justify-content: space-between;
 `;
 
 const Info = styled.div`
@@ -35,6 +37,7 @@ const Time = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
 `;
 
 const Title = styled.div`
@@ -45,6 +48,7 @@ const Title = styled.div`
 const Description = styled.div`
   font-size: 14px;
   margin: 5px 0;
+  height: 30px;
 `;
 
 const Details = styled.div`
@@ -53,44 +57,41 @@ const Details = styled.div`
 `;
 
 
-const SearchMainResult = () => {
-
-  const [formData, setFormData] = useState([]);
+const SearchMainResult = ({formData, setFormData}) => {
 
   const [editDayIndex, setEditDayIndex] = useState(null);
   const [editTimeIndex, setEditTimeIndex] = useState(null);
   const [editDay, setEditDay] = useState('');
   const [editTime, setEditTime] = useState('');
 
+  
   const userInfo = useSelector(state => state.member.userInfo);
   const userId = userInfo?.userId || "사용자";
-  
-  const results = formData;
-  
-  const sortResult = results?.sort((a, b) => {
-    const dayA = (typeof a.day === 'number') ? a.day : Number(a.day);
-    const dayB = (typeof b.day === 'number') ? b.day : Number(b.day);
+
+  // const results = formData;
+
+  useEffect(() => {
+
+    landmarkResponse(userId)
+    .then(res => setFormData(res));
+
+  }, []);
+
+  const sortResult = formData?.sort((a, b) => {
+    const dayA = (typeof a.landmarkDay === 'number') ? a.landmarkDay : Number(a.landmarkDay);
+    const dayB = (typeof b.landmarkDay === 'number') ? b.landmarkDay : Number(b.landmarkDay);
     
     if (dayA !== dayB) {
       return dayA - dayB; 
     } else {
-      const timeA = (typeof a.time === 'string') ? a.time : String(a.time);
-      const timeB = (typeof b.time === 'string') ? b.time : String(b.time);
+      const timeA = (typeof a.landmarkTime === 'string') ? a.landmarkTime : String(a.landmarkTime);
+      const timeB = (typeof b.landmarkTime === 'string') ? b.landmarkTime : String(b.landmarkTime);
       return timeA.localeCompare(timeB);
     }
   });
   
-    useEffect(() => {
-
-      landmarkResponse(userId)
-      .then(res => setFormData(res));
-
-    }, []);
-    // 윤식님 여기 useEffect [] 안에 뭐 넣어야하는데 혹시 뭐 넣으실 생각이셨어요 ..?
+  setFormData(sortResult);
   
-  
-  
-
   const handleEditDay = (index, day) => {
     setEditDayIndex(index);
     setEditDay(day);
@@ -159,8 +160,8 @@ const SearchMainResult = () => {
 
   return (
     <>
-      {sortResult?.map((result, index) => (
-        <Container key={index} bgColor={colors[index % colors.length]}>
+      {formData?.map((result, index) => (
+        <Container key={index} $bgColor={colors[index % colors.length]}>
           <Info>
             {/* 일자표시 */}
             {editDayIndex === index ? (
@@ -202,6 +203,7 @@ const SearchMainResult = () => {
              {/* 인원 / 장소 / 날짜 << 고장값 설정 */}
             <Details>{result.writer}</Details>
           </Content>
+          <TfiClose style={{cursor:"pointer"}} onClick={()=>{ handleDelete(result); setFormData(formData.filter(item => item.landmarkNo !== result.landmarkNo)); }} />
       </Container>
       ))}
       <button onClick={()=>{handleSaveAll(formData)}}>모든 데이터 저장</button>

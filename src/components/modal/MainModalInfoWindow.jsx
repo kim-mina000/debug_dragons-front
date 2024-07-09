@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { handleMyTripSave, searchData } from '../../api/map/map';
 import { useSelector } from 'react-redux';
+import { TfiClose } from 'react-icons/tfi';
 
 const Overlay = styled.div`
   position: fixed;
@@ -72,25 +73,34 @@ const SearchImg = styled.img`
 `;
 
 
-const MainModalInfoWindow = ({ closeModal, userClickInfo }) => {
+const MainModalInfoWindow = ({ closeModal, userClickInfo, formData, setFormData, userInfo }) => {
 
   const [imgUrl, setImgUrl] = useState(""); 
-  const userInfo = useSelector(state => state.member.userInfo);
+  const tempData = {
+    "landmarkNo": 0,
+    "writer": userInfo.userId || "사용자",
+    "landmarkAddress": userClickInfo.address_name,
+    "landmarkName": userClickInfo.place_name || userClickInfo.address_name,
+    "landmarkOrigin": true,
+    "longitude": "0",
+    "latitude": "0",
+    "landmarkImgPath" : imgUrl,
+    "landmarkDay" : 0
+  }
   
   useEffect(() => {
     // 클릭한 위치를 검색해서 이미지 가져오기 함수
     searchData(userClickInfo.place_name)
-          .then( res => setImgUrl(res));
-
+    .then(res => setImgUrl(res));
   }, []);
-  
+
 
   return (
     <>
       <Overlay onClick={() => closeModal()}>
         <Content onClick={(e) => e.stopPropagation()}>
           <Title>{userClickInfo.place_name}</Title>
-          <CloseButton onClick={closeModal}>X</CloseButton> {/* 닫기 버튼 추가 */}
+          <CloseButton onClick={closeModal}><TfiClose /></CloseButton> {/* 닫기 버튼 추가 */}
           <Line />
           <ViewImgContainer> 
             {imgUrl ? <SearchImg src={imgUrl} alt="searchImg" /> : <img src='http://via.placeholder.com/640x480' />}
@@ -103,6 +113,7 @@ const MainModalInfoWindow = ({ closeModal, userClickInfo }) => {
           <SearchButton onClick={()=>{
             handleMyTripSave(userClickInfo, userInfo?.userId, imgUrl)
             closeModal()
+            setFormData([...formData,tempData]);
             }}>내 일정에 저장하기</SearchButton>
         </Content>
       </Overlay>
