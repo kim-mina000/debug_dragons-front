@@ -101,7 +101,7 @@ const MainModalInfoWindow = ({ closeModal, userClickInfo }) => {
           
 
           <SearchButton onClick={()=>{
-            handleMyTripSave(userClickInfo, userInfo.userId, imgUrl)
+            handleMyTripSave(userClickInfo, userInfo?.userId, imgUrl)
             closeModal()
             }}>내 일정에 저장하기</SearchButton>
         </Content>

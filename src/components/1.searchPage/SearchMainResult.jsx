@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from "axios";
 import { useSelector } from 'react-redux';
+import { handleSaveAll, landmarkResponse } from '../../api/map/map-result';
 
 // 피그마에 색상 다른것처럼 표현 됬길래 팔레트임... 수정하기만 하면 됨
 const colors = ['#B98CFF', '#8B7FE8', '#98A7FF', '#7FAAE8', '#8CD9FF'];
@@ -54,7 +55,7 @@ const Details = styled.div`
 
 const SearchMainResult = () => {
 
-  const [formData, setFormData] = useState([{}]);
+  const [formData, setFormData] = useState([]);
 
   const [editDayIndex, setEditDayIndex] = useState(null);
   const [editTimeIndex, setEditTimeIndex] = useState(null);
@@ -62,46 +63,33 @@ const SearchMainResult = () => {
   const [editTime, setEditTime] = useState('');
 
   const userInfo = useSelector(state => state.member.userInfo);
-
-  useEffect(() => {
-    const landmarkResponse = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/landmark/read?id=${userInfo.userId}`);
-        console.log(response.data);
-        setFormData(response.data);
-      } catch (error) {
-        console.error('error', error);
-      }
-    };
-    landmarkResponse();
-  }, []);
-  // 윤식님 여기 useEffect [] 안에 뭐 넣어야하는데 혹시 뭐 넣으실 생각이셨어요 ..?
-
-  const handleSaveAll = async () =>{
-    try {
-      await axios.post(`http://localhost:8080/landmark/modifyLandmark`, formData);
-      console.log('수정데이터 기기');
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+  const userId = userInfo?.userId || "사용자";
+  
   const results = formData;
-
-  const sortResult = results.sort((a, b) => {
-    const dayA = typeof a.day === 'number' ? a.day : Number(a.day);
-    const dayB = typeof b.day === 'number' ? b.day : Number(b.day);
-
+  
+  const sortResult = results?.sort((a, b) => {
+    const dayA = (typeof a.day === 'number') ? a.day : Number(a.day);
+    const dayB = (typeof b.day === 'number') ? b.day : Number(b.day);
+    
     if (dayA !== dayB) {
-      return dayA - dayB;
+      return dayA - dayB; 
     } else {
-      const timeA = typeof a.time === 'string' ? a.time : String(a.time);
-      const timeB = typeof b.time === 'string' ? b.time : String(b.time);
+      const timeA = (typeof a.time === 'string') ? a.time : String(a.time);
+      const timeB = (typeof b.time === 'string') ? b.time : String(b.time);
       return timeA.localeCompare(timeB);
     }
   });
+  
+    useEffect(() => {
 
+      landmarkResponse(userId)
+      .then(res => setFormData(res));
 
+    }, []);
+    // 윤식님 여기 useEffect [] 안에 뭐 넣어야하는데 혹시 뭐 넣으실 생각이셨어요 ..?
+  
+  
+  
 
   const handleEditDay = (index, day) => {
     setEditDayIndex(index);
@@ -171,7 +159,7 @@ const SearchMainResult = () => {
 
   return (
     <>
-      {sortResult.map((result, index) => (
+      {sortResult?.map((result, index) => (
         <Container key={index} bgColor={colors[index % colors.length]}>
           <Info>
             {/* 일자표시 */}
@@ -216,7 +204,7 @@ const SearchMainResult = () => {
           </Content>
       </Container>
       ))}
-      <button onClick={handleSaveAll}>모든 데이터 저장</button>
+      <button onClick={()=>{handleSaveAll(formData)}}>모든 데이터 저장</button>
     </>
   );
 };

@@ -20,7 +20,6 @@ const FixedMenubar = styled(MenuBar)`
 
 function MainContainer() {
   const userInfo = useSelector(state => state.member.userInfo);
-  console.log(userInfo);
 
 
   return (
