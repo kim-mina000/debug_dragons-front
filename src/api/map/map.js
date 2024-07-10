@@ -10,15 +10,17 @@ export const handleMyTripSave = async (data, userId, imgUrl) => {
     "writer": userId || "사용자",
     "landmarkAddress": data.address_name,
     "landmarkName": data.place_name || data.address_name,
-    "landmarkOrigin": true,
+    "landmarkOrigin": false,
     "longitude": data.x || xy.x,
     "latitude": data.y || xy.y,
     "landmarkImgPath" : imgUrl
   }
 
   try {
+    console.log(postData);
     const response = await axios.post(`${BACK_URL}/landmark/register`, postData);
-    
+    console.log(response.data);
+    return await response.data;
   } catch (error) {
     console.error(error);
   }

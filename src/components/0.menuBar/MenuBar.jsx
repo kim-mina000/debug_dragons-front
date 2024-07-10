@@ -33,7 +33,7 @@ const Icon = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  opacity: ${props => props.isVisible ? 1 : 0};
+  opacity: ${props => props.$isVisible ? 1 : 0};
   transition: opacity 0.3s ease;
   &:hover {
     opacity: 1; /* 메뉴 항목에 hover 효과 추가 */
