@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BACK_URL } from "../config";
+import { v4 } from "uuid";
 
 export const landmarkResponse = async (userId) => {
   try {
@@ -27,4 +28,27 @@ export const handleDelete = async (data) =>{
     console.error(error);
   }
 
+}
+
+export const handleMappingSave = async (data,id) => {
+  try {
+    const courseId = v4().substring(0,10);
+
+    for (let index = 0; index < data.length; index++) {
+      const element = data[index];
+      const lcMapping = {
+        "LCMappingNo" : 0,
+        "landmarkNo": element.landmarkNo,
+        "orderNumber": index,
+        "isSave": true,
+        "courseNo":courseId
+      }
+      console.log(lcMapping);
+      await axios.post(`${BACK_URL}/lc/register?id=${id}`, lcMapping);
+
+
+    }
+  } catch (error) {
+    console.error(error);
+  }
 }
