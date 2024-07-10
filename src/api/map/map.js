@@ -17,9 +17,7 @@ export const handleMyTripSave = async (data, userId, imgUrl) => {
   }
 
   try {
-    console.log(postData);
     const response = await axios.post(`${BACK_URL}/landmark/register`, postData);
-    console.log(response.data);
     return await response.data;
   } catch (error) {
     console.error(error);
@@ -52,7 +50,7 @@ export const searchLandmark = async (address) => {
         Authorization: `KakaoAK ${KAKAO_RESTKEY}`
       }
     })
-    return await response.data;
+    return response.data;
   } catch (error) {
     console.error(error);
   }
@@ -65,7 +63,7 @@ export const xyToAddress = async (x,y) => {
         Authorization : `KakaoAK ${KAKAO_RESTKEY}`
       }
     })
-    return await response.data;
+    return response.data;
   } catch (error) {
     console.error(error);
   }

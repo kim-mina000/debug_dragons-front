@@ -114,7 +114,6 @@ const MainModalInfoWindow = ({ closeModal, userClickInfo, formData, setFormData,
           <SearchButton onClick={ async ()=>{
             const res = await handleMyTripSave(userClickInfo, userInfo?.userId, imgUrl);
             tempData.landmarkNo = res.landmarkNo;
-            console.log(formData);
             closeModal();
             setFormData([...formData,tempData]);
             }}>내 일정에 저장하기</SearchButton>

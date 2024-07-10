@@ -224,6 +224,7 @@ function SearchMain({userInfo}) {
     }
 
     function displayMarker(place) {    // 지도에 마커를 표시하는 함수입니다
+
       const marker = new kakao.maps.Marker({ // 마커를 생성하고 지도에 표시합니다
           map: map,
           position: new kakao.maps.LatLng(place.y, place.x) 
@@ -254,12 +255,17 @@ function SearchMain({userInfo}) {
     // 지도를 클릭했을때 클릭한 위치에 마커를 추가하도록 지도에 클릭이벤트를 등록
     kakao.maps.event.addListener(map, 'click', async (mouseEvent) => {
       try {
-        
         const data = await searchLandmark(mouseEvent.latLng);
-        
-        for(let i = 0; i < data.meta.total_count; i++){
-          displayMarker(data.documents[i]);
+        if (data.meta.total_count > 15) {
+          for(let i = 0; i < 15; i++){
+            displayMarker(data.documents[i]);
+          }
+        } else {
+          for(let i = 0; i < data.meta.total_count; i++){
+            displayMarker(data.documents[i]);
+          }
         }
+        
         addMarker(mouseEvent.latLng); // 클릭한 위치에 마커를 표시
         
       } catch (error) {
@@ -304,7 +310,7 @@ function SearchMain({userInfo}) {
       });
 
       await kakao.maps.event.addListener(marker, 'click', function() {
-        setUserClickInfo(data.documents[0].address);
+        setUserClickInfo(data.documents[0]?.address);
         setIsInfoWindow(true);
       });
 
@@ -491,7 +497,9 @@ function SearchMain({userInfo}) {
       )}
 
       {isLoginNeed && (
-        <LoginNeed />
+        <LoginNeed 
+          closeModal={()=> setIsLoginNeed(false)}
+        />
       )}
     </Container>
 

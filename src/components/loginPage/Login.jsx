@@ -33,7 +33,7 @@ const Input = styled.input`
     font-size: 25px;
   }
 
-  &::focus {
+  &:focus {
     border-color: #007BFF; 
     outline: none;
   }
@@ -106,8 +106,6 @@ const Links = styled.div`
 `;
 
 function Login() {
-  // const [id, setId] = useState('');
-  // const [password, setPassword] = useState('');
 
   const [loginForm, setLoginForm] = useState({
     id: '',
@@ -127,14 +125,7 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const handleLogin = () => {
-  //   if (id && password) {
-  //     console.log('로그인 성공');
-  //   } else {
-  //     console.log('아이디와 비밀번호를 입력하세요');
-  //   }
-  // };
-  
+
 const handleLogin = async () =>{
   try {
     const response = await axios.get(`http://localhost:8080/login?userId=${loginForm.id}&userPw=${loginForm.password}`);
@@ -143,7 +134,7 @@ const handleLogin = async () =>{
     localStorage.setItem('userInfo',  JSON.stringify(response.data.user));
     dispatch(getUserToken(response.data.token));
     dispatch(getUserInfo(response.data.user));
-    console.log(response.data.user);
+
 
     navigate('/main');
     return console.log("로그인성공");;
