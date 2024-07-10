@@ -18,6 +18,7 @@ import SearchMainResult from './SearchMainResult';
 import { MARKER_IMG_URL } from '../../api/config';
 import { handleMappingSave } from '../../api/map/map-result';
 import { useNavigate } from 'react-router-dom';
+import CommonButton from '../button/CommonButton';
 
 
 
