@@ -20,15 +20,18 @@ const memberSlice = createSlice({
       state.userToken = null;
       state.userInfo = null;
       localStorage.removeItem('member')
-    }
+    },
+    updateProfileImage: (state, { payload: profileImage }) => {
+      state.userInfo.userProfileImagePath = profileImage;
+    },
   }
-
 });
 
 export const
 {getUserInfo,
   getUserToken,
-  logout
+  logout,
+  updateProfileImage,
 }
 = memberSlice.actions;
 export const selectUser = (state) => state.member.userInfo;

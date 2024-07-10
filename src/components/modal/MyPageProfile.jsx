@@ -4,8 +4,9 @@ import { FaEdit } from "react-icons/fa";
 import { useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUser, getUserInfo } from '../../features/member/memberSlice';
+import { selectUser, getUserInfo, updateProfileImage, selectToken } from '../../features/member/memberSlice';
 import { getLocalStorages } from '../../api/member/member_localstorage';
+import { useNavigate } from 'react-router-dom';
 
 const Overlay = styled.div`
   position: fixed;
@@ -69,6 +70,9 @@ const ProfileImage = styled.div`
   margin-top: 30px;
   margin-left: 75px;
   margin-bottom: 20px;
+  background-size: cover;
+  background-position: center;
+  background-image: url(${props => props.image});
 `
 const EditImage = styled.span`
   font-size: 20px;
@@ -161,6 +165,7 @@ function MyPageProfile(props) {
   const { closeModal, Member } = props;
   const dispatch = useDispatch();
   const userInfo = useSelector(selectUser);
+  const navigate = useNavigate();
 
   console.log(getLocalStorages());  
   const member = JSON.stringify(localStorage.getItem("userInfo"));
@@ -171,10 +176,15 @@ function MyPageProfile(props) {
   const [phone, setPhone] = useState(Member.phone);
   const [birth, setBirth] = useState(Member.birth);
   const [nickName, setNickName] = useState(Member.nickname);
+  const [profileImage, setProfileImage] = useState(Member.userProfileImagePath || null);
+  const [ImageEdit, setImageEdit] = useState();
 
   const handleProfileChange = async() => {
     try {
-      const update = await axios.post(`http://localhost:8080/member/update`, {
+      const formData = new FormData();
+      formData.append('file', ImageEdit);
+
+      const update = await axios.post(`http://localhost:8080/member/update`,  {
         userId: userInfo.userId,
         userName: name,
         userEmail: email,
@@ -184,9 +194,12 @@ function MyPageProfile(props) {
         regDate:userInfo.regDate,
         nickname:nickName,
         phone:phone,
-        birth:birth
+        birth:birth,
+        userProfileImagePath: profileImage
       });
+      console.log(update.data);
 
+      
       dispatch(getUserInfo({
         userId: userInfo.userId,
         userName: name,
@@ -197,25 +210,43 @@ function MyPageProfile(props) {
         regDate:userInfo.regDate,
         nickname:nickName,
         phone:phone,
-        birth:birth
+        birth:birth,
+        userProfileImagePath: profileImage
       }));
-      console.log(update);
 
+      if (ImageEdit) {
+        await axios.post('http://localhost:8080/member/upload', formData);
+        console.log(ImageEdit);
+      }
+
+      if (update.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
+        return navigate('/mypage');
+
+      } else {
+        throw new Error(`api error: ${update.status} ${update.statusText}`);
+      }
     } catch (error) {
       console.error(error);
       return console.error("수정실패");
     }
   }
 
-  const handleNickname = (e) => {
-    const value = e.target.value
-    if (!/^[a-zA-Z0-9_.]*$/.test(value)) {
-      setNickName({nickName: ''});
-      alert("입력 불가능한 문자입니다.");
-    } else {
-      setNickName({nickName: value});
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    setImageEdit(file);
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      const imageBase = reader.result;
+      setProfileImage(imageBase);
+      dispatch(updateProfileImage(imageBase));
     }
-  }
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
 
 
   const regDate = new Date(Member.regDate);
@@ -241,8 +272,14 @@ function MyPageProfile(props) {
         </ModalHeader>
         <TopEdit>
           <TopLeft>
-            <ProfileImage/>
-            <EditImage>프로필 사진 수정</EditImage>
+            <ProfileImage image={profileImage} />
+            <EditImage onClick={() => document.getElementById('fileInput').click()}>프로필 사진 수정</EditImage>
+            <input
+            type="file"
+            id="fileInput"
+            style={{ display: 'none' }}
+            onChange={handleImageChange}
+            />
           </TopLeft>
           <TopRight>
             <ProfileNickname
