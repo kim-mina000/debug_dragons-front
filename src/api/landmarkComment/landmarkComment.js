@@ -14,11 +14,17 @@ export const fetchLandmarkComment = async(landmarkNo) =>{
   };
 };
 
+const token = localStorage.getItem('userToken');
+
 // 댓글등록
 export const registerLandmarkComment = async(newComment) =>{
   try {
-    const response = await axios.post(`${BACK_URL}/landmarkComment/register`, newComment);
-    // return response.data;
+    const response = await axios.post(`${BACK_URL}/landmarkComment/register`, newComment,{
+      headers:{
+        Authorization: token
+      }
+    });
+    return response.data.writer; 
     // 댓글등록(post시는 리턴 데이터 할필요 없었나나요?)
   } catch (error) {
     console.log(error);
