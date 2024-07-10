@@ -16,6 +16,8 @@ import { addEventHandle, searchLandmark, xyToAddress } from '../../api/map/map';
 
 import SearchMainResult from './SearchMainResult';
 import { MARKER_IMG_URL } from '../../api/config';
+import { handleMappingSave } from '../../api/map/map-result';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -115,33 +117,10 @@ const MapCategory = styled.ul`
 
 `;
 
-// 저장하기 버튼의 스타일
-const SaveButton = styled.button`
-  width: 170px;
-  height: 50px;
-  border-radius: 15px;
-  position: absolute;
-  bottom: 5%;
-  right: 1.5%;
-  background-color: black;
-  outline: none;
-  border: 0px;
-  color: white;
-
-  cursor: pointer;
-
-  &:hover {
-    background-color: #8fa4bf;
-  }
-
-  font-size: 20px;
-  z-index: 50;
-
-`;
-
 function SearchMain({userInfo}) {
   const { kakao } = window;
   const container = useRef(null);
+  const navigater = useNavigate();
   // const [selectedButtons, setSelectedButtons] = useState([]);
 
   // 선택된 값들을 관리할 상태
@@ -286,7 +265,6 @@ function SearchMain({userInfo}) {
       });
 
       await kakao.maps.event.addListener(marker, 'click', function() {
-        console.log(data.documents[0].address);
         setUserClickInfo(data.documents[0].address);
         setIsInfoWindow(true);
       });
@@ -355,6 +333,7 @@ function SearchMain({userInfo}) {
     setSelectedPlaceButtons(selectedValues);
     setIsPlaceModalOpen(false);
   };
+  console.log(formData);
 
   return (
     <Container>
@@ -420,7 +399,14 @@ function SearchMain({userInfo}) {
                 관광지
             </li>   
           </MapCategory>
-          <SaveButton>저장하기→</SaveButton>
+          <CommonButton 
+            content = "저장하기→"
+            onClick = {()=>{
+              handleMappingSave(formData,userInfo.userId);
+              setFormData([]);
+              navigater('/');
+            }} />
+          {/* 여기서부터시작! */}
           {/* 해당 컨포넌트 작업 후 다시 주석 해제할 예정 */}
         </MapContainer>
       </ContentWrap>

@@ -18,7 +18,6 @@ export const handleMyTripSave = async (data, userId, imgUrl) => {
 
   try {
     const response = await axios.post(`${BACK_URL}/landmark/register`, postData);
-    console.log(response.data);
     
   } catch (error) {
     console.error(error);
@@ -78,7 +77,6 @@ export const searchData = async (keyword)=>{
         Authorization : `KakaoAK ${KAKAO_RESTKEY}`
       }
     });
-    console.log(response.data.documents[0].image_url);
     return await response.data.documents[0].image_url;
   } catch (error) {
     console.error(error);

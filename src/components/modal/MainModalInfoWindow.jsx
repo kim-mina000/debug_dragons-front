@@ -87,6 +87,7 @@ const MainModalInfoWindow = ({ closeModal, userClickInfo, formData, setFormData,
     "landmarkImgPath" : imgUrl,
     "landmarkDay" : 0
   }
+
   
   useEffect(() => {
     // 클릭한 위치를 검색해서 이미지 가져오기 함수
