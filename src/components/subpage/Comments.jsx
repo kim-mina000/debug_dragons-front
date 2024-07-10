@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import { deleteComment, fetchLandmarkComment, registerLandmarkComment } from '../../api/landmarkComment/landmarkComment';
+import { useParams } from 'react-router-dom';
 
 const Container = styled.div`
   width: 80%;
@@ -61,68 +63,93 @@ const EditInput = styled.input`
   margin-right: 10px;
 `;
 
-const Comments = () => {
-  const [comments, setComments] = useState([]);
-  const [commentText, setCommentText] = useState('');
-  const [editId, setEditId] = useState(null);
-  const [editText, setEditText] = useState('');
+const Comments = ({ writer }) => {    //여기서 props애들 landmarkComment에 있는 변수로?
 
-  // 댓글 추가 함수
-  const addComment = () => {
-    if (commentText.trim() !== '') {
-      setComments([...comments, { id: uuidv4(), text: commentText }]);
-      setCommentText('');
+  const { landmarkNo } = useParams(); // URL 파라미터로부터 landmarkNo를 가져옴
+  const [comments, setComments] = useState([]);
+  const [newCommentContent, setNewCommentContent] = useState();
+  // const [commentText, setCommentText] = useState('');
+  // const [editId, setEditId] = useState(null);
+  // const [editText, setEditText] = useState('');
+
+  // 댓글목록보기
+  useEffect(() => {
+    fetchLandmarkComment(landmarkNo)
+      .then(data =>{
+        setComments(data)
+  })
+      .catch(error => console.error(error));
+      console.log(landmarkNo);
+  }, [landmarkNo]);
+  // 배열안에 landmarkNo 렌더링될떄마다 실행하는기 (?)
+
+
+  // 폼 데이터를 비동기적으로 처리하여 페이지 새로고침 없이 서버와 통신하는 방법을 사용
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+
+
+    // 댓글 추가 함수
+    const newComment = {
+      landmarkNo,
+      landmarkCommentContent: newCommentContent,
+      writer: { userId: writer.userId }
+    };
+
+    try {
+      await registerLandmarkComment(newComment);
+      fetchLandmarkComment(landmarkNo)
+      .then(data => setComments(data))
+      .catch(error => console.error(error));
+      setNewCommentContent('');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // 댓글 삭제 함수
+  const handleDeleteComment = async (commentNo) => {
+    try {
+      await deleteComment(commentNo);
+      fetchLandmarkComment(landmarkNo)
+        .then(data => setComments(data))
+        .catch(error => console.error(error));
+    } catch (error) {
+      console.error(error);
     }
   };
 
-  // 댓글 삭제 함수
-  const deleteComment = (id) => {
-    setComments(comments.filter(comment => comment.id !== id));
-  };
-
   // 댓글 수정 함수
-  const startEditComment = (id, text) => {
-    setEditId(id);
-    setEditText(text);
-  };
+  // const startEditComment = (id, text) => {
+  //   setEditId(id);
+  //   setEditText(text);
+  // };
 
-  const saveEditComment = (id) => {
-    setComments(comments.map(comment => comment.id === id ? { ...comment, text: editText } : comment));
-    setEditId(null);
-    setEditText('');
-  };
+  // const saveEditComment = (id) => {
+  //   setComments(comments.map(comment => comment.id === id ? { ...comment, text: editText } : comment));
+  //   setEditId(null);
+  //   setEditText('');
+  // };
 
   return (
     <Container>
       <h2>댓글</h2>
       <CommentList>
         {comments.map(comment => (
-          <CommentItem key={comment.id}>
-            {editId === comment.id ? (
-              <>
-                <EditInput
-                  value={editText}
-                  onChange={(e) => setEditText(e.target.value)}
-                />
-                <Button onClick={() => saveEditComment(comment.id)}>저장</Button>
-              </>
-            ) : (
-              <>
-                <CommentText>{comment.text}</CommentText>
-                <Button onClick={() => startEditComment(comment.id, comment.text)}>수정</Button>
-                <Button onClick={() => deleteComment(comment.id)}>삭제</Button>
-              </>
-            )}
+          <CommentItem key={comment.landmarkCommentNo}>
+            {comment.landmarkCommentContent} <p>- 작성자: </p> {comment.writer}
+            <Button onClick={() => handleDeleteComment(comment.landmarkCommentNo)}>삭제</Button>
           </CommentItem>
         ))}
       </CommentList>
       <InputContainer>
         <Input
-          value={commentText}
-          onChange={(e) => setCommentText(e.target.value)}
+          value={newCommentContent}
+          onChange={(e) => setNewCommentContent(e.target.value)}
           placeholder="댓글을 입력하세요"
         />
-        <Button onClick={addComment}>게시</Button>
+        <Button type="primary" htmlType="submit">등록</Button>
+         {/* type="submit"으로 설정하여 폼 제출 */}
       </InputContainer>
     </Container>
   );
