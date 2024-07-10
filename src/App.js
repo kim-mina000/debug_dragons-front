@@ -21,7 +21,11 @@ import MyPage from './components/myPage/MyPage';
 import Clipping from './components/menuBar/Clipping';
 import MyTravelListDetail from './components/menuBar/MyTravelListDetail';
 import Lookaround from './components/menuBar/Lookaround';
+
+import Comments from './components/subpage/Comments';
+
 import MainOrMylist from './components/modal/MainOrMylist';
+
 
 
 
@@ -113,7 +117,13 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/scrap" element={<Clipping />} />
         <Route path="/around" element={<Lookaround />} />
+
+
+        {/* 임시라우터 */}
+//         <Route path="/landmarkcomment/:landmarkNo" element={<Comments/>} />
+
         <Route path='/whereIgo' element={<MainOrMylist />}/>
+
       </Routes>
 
     {/* <GlobalStyles />  
