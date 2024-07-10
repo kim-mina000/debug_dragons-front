@@ -19,9 +19,11 @@ import SearchMainResult from './SearchMainResult';
 import { MARKER_IMG_URL } from '../../api/config';
 import { handleMappingSave } from '../../api/map/map-result';
 import { useNavigate } from 'react-router-dom';
+
 import { IoIosArrowRoundForward } from 'react-icons/io';
 import MainOrMylist from '../modal/MainOrMylist';
 import LoginNeed from '../modal/LoginNeed';
+
 
 
 
