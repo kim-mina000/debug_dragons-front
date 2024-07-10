@@ -117,6 +117,29 @@ const MapCategory = styled.ul`
 
 `;
 
+const SaveButton = styled.button`
+  width: 170px;
+  height: 50px;
+  border-radius: 15px;
+  position: absolute;
+  bottom: 5%;
+  right: 1.5%;
+  background-color: black;
+  outline: none;
+  border: 0px;
+  color: white;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: #8fa4bf;
+  }
+
+  font-size: 20px;
+  z-index: 50;
+
+`;
+
 function SearchMain({userInfo}) {
   const { kakao } = window;
   const container = useRef(null);
@@ -399,13 +422,12 @@ function SearchMain({userInfo}) {
                 관광지
             </li>   
           </MapCategory>
-          <CommonButton 
-            content = "저장하기→"
+          <SaveButton 
             onClick = {()=>{
               handleMappingSave(formData,userInfo.userId);
               setFormData([]);
               navigater('/');
-            }} />
+            }}>저장하기→</SaveButton>
           {/* 여기서부터시작! */}
           {/* 해당 컨포넌트 작업 후 다시 주석 해제할 예정 */}
         </MapContainer>
