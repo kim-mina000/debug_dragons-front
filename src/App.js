@@ -88,6 +88,7 @@ function App() {
     }, 3000);
   }, []);
 
+
   return (
     <>
     <BrowserRouter>
@@ -120,7 +121,7 @@ function App() {
 
 
         {/* 임시라우터 */}
-//         <Route path="/landmarkcomment/:landmarkNo" element={<Comments/>} />
+        <Route path="/landmarkcomment/:landmarkNo" element={<Comments />} />
 
         <Route path='/whereIgo' element={<MainOrMylist />}/>
 

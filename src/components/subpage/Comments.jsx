@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import { deleteComment, fetchLandmarkComment, registerLandmarkComment } from '../../api/landmarkComment/landmarkComment';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../features/member/memberSlice';
 
 const Container = styled.div`
   width: 80%;
@@ -55,31 +57,22 @@ const Button = styled.button`
   }
 `;
 
-const EditInput = styled.input`
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-right: 10px;
-`;
 
-const Comments = ({ writer }) => {    //여기서 props애들 landmarkComment에 있는 변수로?
+const Comments = () => {   
 
   const { landmarkNo } = useParams(); // URL 파라미터로부터 landmarkNo를 가져옴
   const [comments, setComments] = useState([]);
   const [newCommentContent, setNewCommentContent] = useState();
-  // const [commentText, setCommentText] = useState('');
-  // const [editId, setEditId] = useState(null);
-  // const [editText, setEditText] = useState('');
-
+  
   // 댓글목록보기
   useEffect(() => {
     fetchLandmarkComment(landmarkNo)
-      .then(data =>{
-        setComments(data)
-  })
+      .then(data => {
+        setComments(data);
+        
+      })
       .catch(error => console.error(error));
-      console.log(landmarkNo);
+    console.log(landmarkNo);//랜드마크정보게시판번호
   }, [landmarkNo]);
   // 배열안에 landmarkNo 렌더링될떄마다 실행하는기 (?)
 
@@ -89,23 +82,22 @@ const Comments = ({ writer }) => {    //여기서 props애들 landmarkComment에
     e.preventDefault();
 
 
-    // 댓글 추가 함수
+    // 댓글 등록 함수
     const newComment = {
-      landmarkNo,
-      landmarkCommentContent: newCommentContent,
-      writer: { userId: writer.userId }
+      "landmarkNo" : landmarkNo,
+      "landmarkCommentContent": newCommentContent
     };
 
     try {
       await registerLandmarkComment(newComment);
       fetchLandmarkComment(landmarkNo)
-      .then(data => setComments(data))
-      .catch(error => console.error(error));
+        .then(data => setComments(data))
+        .catch(error => console.error(error));
       setNewCommentContent('');
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   // 댓글 삭제 함수
   const handleDeleteComment = async (commentNo) => {
@@ -119,39 +111,29 @@ const Comments = ({ writer }) => {    //여기서 props애들 landmarkComment에
     }
   };
 
-  // 댓글 수정 함수
-  // const startEditComment = (id, text) => {
-  //   setEditId(id);
-  //   setEditText(text);
-  // };
-
-  // const saveEditComment = (id) => {
-  //   setComments(comments.map(comment => comment.id === id ? { ...comment, text: editText } : comment));
-  //   setEditId(null);
-  //   setEditText('');
-  // };
-
   return (
     <Container>
       <h2>댓글</h2>
       <CommentList>
         {comments.map(comment => (
           <CommentItem key={comment.landmarkCommentNo}>
-            {comment.landmarkCommentContent} <p>- 작성자: </p> {comment.writer}
+            {comment.landmarkCommentContent} <p>작성자: </p> {comment.writer}
             <Button onClick={() => handleDeleteComment(comment.landmarkCommentNo)}>삭제</Button>
           </CommentItem>
         ))}
       </CommentList>
-      <InputContainer>
-        <Input
-          value={newCommentContent}
-          onChange={(e) => setNewCommentContent(e.target.value)}
-          placeholder="댓글을 입력하세요"
-        />
-        <Button type="primary" htmlType="submit">등록</Button>
-         {/* type="submit"으로 설정하여 폼 제출 */}
-      </InputContainer>
-    </Container>
+      <form onSubmit={handleCommentSubmit}> {/* 폼 제출 시 handleCommentSubmit 함수 호출 */}
+        <InputContainer>
+          <Input
+            value={newCommentContent}
+            onChange={(e) => setNewCommentContent(e.target.value)}
+            placeholder="댓글을 입력하세요"
+          />
+          <Button type="primary" htmlType="submit">등록</Button>
+          {/* type="submit"으로 설정하여 폼 제출 */}
+        </InputContainer>
+      </form>
+    </Container >
   );
 };
 
