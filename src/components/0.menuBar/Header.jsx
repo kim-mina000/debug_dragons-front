@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { logout } from '../../features/member/memberSlice';
+import { BACK_URL } from '../../api/config';
 
 // 헤더 컨테이너 스타일
 const HeaderContainer = styled.div`
@@ -59,7 +60,7 @@ const Header = ({ userName }) => {
   const handleLogout = async () => {
     const token = localStorage.getItem('userToken');
   
-    await axios.get(`http://localhost:8080/logout`, {headers:{
+    await axios.get(`${BACK_URL}/logout`, {headers:{
       Authorization: token,
     }});
   

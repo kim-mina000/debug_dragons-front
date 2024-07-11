@@ -63,7 +63,7 @@ export const xyToAddress = async (x,y) => {
 // 이미지검색
 export const searchData = async (keyword)=>{
   try {
-    const response = await axios.get(`https://dapi.kakao.com/v2/search/image?query=${keyword}&size=1`,{
+    const response = await axios.get(`https://dapi.kakao.com/v2/search/image?query=${encodeURIComponent(keyword)}&size=1`,{
       headers:{
         Authorization : `KakaoAK ${KAKAO_RESTKEY}`
       }
@@ -78,7 +78,7 @@ export const searchData = async (keyword)=>{
 // 주소로 좌표 찾기
 export const addressToXY = async (address)=>{
   try {
-    const response = await axios.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${address}`,{
+    const response = await axios.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(address)}`,{
       headers:{
         Authorization : `KakaoAK ${KAKAO_RESTKEY}`
       }
