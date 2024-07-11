@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import MainModalPlace from '../modal/MainModalPlace';
 import MainModalPerson from '../modal/MainModalPerson';
 import MainModalDate from '../modal/MainModalDate'; // 모달 컴포넌트 import
-import buttonLabels from '../modal/MainModalPlace';
+// import buttonLabels from '../modal/MainModalPlace';
+import { buttonLabels } from '../modal/MainModalPlace';
 
 
 // 이미지 경로 설정
@@ -18,6 +19,11 @@ import SearchMainResult from './SearchMainResult';
 import { MARKER_IMG_URL } from '../../api/config';
 import { handleMappingSave } from '../../api/map/map-result';
 import { useNavigate } from 'react-router-dom';
+
+import { IoIosArrowRoundForward } from 'react-icons/io';
+import MainOrMylist from '../modal/MainOrMylist';
+import LoginNeed from '../modal/LoginNeed';
+
 
 
 
@@ -130,13 +136,12 @@ const SaveButton = styled.button`
   color: white;
 
   cursor: pointer;
-
   &:hover {
     background-color: #8fa4bf;
   }
 
   font-size: 20px;
-  z-index: 50;
+  z-index: 7;
 
 `;
 
@@ -161,12 +166,25 @@ function SearchMain({userInfo}) {
   const [isPlaceModalOpen, setIsPlaceModalOpen] = useState(false);
   const [isPersonModalOpen, setIsPersonModalOpen] = useState(false);
   const [isInfoWindow, setIsInfoWindow] = useState(false); 
+  const [isWhereIgo, setIsWhereIgo] = useState(false);
+  const [isLoginNeed, setIsLoginNeed] = useState(false);
 
   // MainModalPerson에서 선택된 값 저장
   const handleSavePerson = (selectedValues) => {
     setSelectedPersonButtons(selectedValues);
     setIsPersonModalOpen(false);
   };
+
+  
+  const handleSaveFormData = (key)=>{
+    if (key) {
+      handleMappingSave(formData,userInfo.userId)
+      setFormData([]);
+      setIsWhereIgo(true);
+    } else {
+      setIsLoginNeed(true)
+    }
+  }
 
 
   const markers = []; // 지도에 표시된 마커 객체를 가지고 있을 배열
@@ -356,7 +374,6 @@ function SearchMain({userInfo}) {
     setSelectedPlaceButtons(selectedValues);
     setIsPlaceModalOpen(false);
   };
-  console.log(formData);
 
   return (
     <Container>
@@ -422,14 +439,11 @@ function SearchMain({userInfo}) {
                 관광지
             </li>   
           </MapCategory>
+
           <SaveButton 
-            onClick = {()=>{
-              handleMappingSave(formData,userInfo.userId);
-              setFormData([]);
-              navigater('/');
-            }}>저장하기→</SaveButton>
-          {/* 여기서부터시작! */}
-          {/* 해당 컨포넌트 작업 후 다시 주석 해제할 예정 */}
+            // disabled = {!formData.length}
+            onClick = {()=>{handleSaveFormData(userInfo)}}>저장하기<IoIosArrowRoundForward /></SaveButton>
+
         </MapContainer>
       </ContentWrap>
 
@@ -471,7 +485,19 @@ function SearchMain({userInfo}) {
           userInfo={userInfo}
         />
       )}
+
+      {isWhereIgo && (
+        <MainOrMylist
+          setIsWhereIgo={setIsWhereIgo}
+        />
+      )}
+
+      {isLoginNeed && (
+        <LoginNeed />
+      )}
     </Container>
+
+    
   );
 }
 
