@@ -1,0 +1,158 @@
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
+import { deleteComment, fetchLandmarkComment, registerLandmarkComment } from '../../api/landmarkComment/landmarkComment';
+import { useParams } from 'react-router-dom';
+
+const Container = styled.div`
+  width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
+const CommentList = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
+
+const CommentItem = styled.li`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+`;
+
+const CommentText = styled.div`
+  flex: 1;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  margin-top: 20px;
+`;
+
+const Input = styled.input`
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+`;
+
+const Button = styled.button`
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const EditInput = styled.input`
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+`;
+
+const Comments = ({ writer }) => {    //여기서 props애들 landmarkComment에 있는 변수로?
+
+  const { landmarkNo } = useParams(); // URL 파라미터로부터 landmarkNo를 가져옴
+  const [comments, setComments] = useState([]);
+  const [newCommentContent, setNewCommentContent] = useState();
+  // const [commentText, setCommentText] = useState('');
+  // const [editId, setEditId] = useState(null);
+  // const [editText, setEditText] = useState('');
+
+  // 댓글목록보기
+  useEffect(() => {
+    fetchLandmarkComment(landmarkNo)
+      .then(data =>{
+        setComments(data)
+  })
+      .catch(error => console.error(error));
+      console.log(landmarkNo);
+  }, [landmarkNo]);
+  // 배열안에 landmarkNo 렌더링될떄마다 실행하는기 (?)
+
+
+  // 폼 데이터를 비동기적으로 처리하여 페이지 새로고침 없이 서버와 통신하는 방법을 사용
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+
+
+    // 댓글 추가 함수
+    const newComment = {
+      landmarkNo,
+      landmarkCommentContent: newCommentContent,
+      writer: { userId: writer.userId }
+    };
+
+    try {
+      await registerLandmarkComment(newComment);
+      fetchLandmarkComment(landmarkNo)
+      .then(data => setComments(data))
+      .catch(error => console.error(error));
+      setNewCommentContent('');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // 댓글 삭제 함수
+  const handleDeleteComment = async (commentNo) => {
+    try {
+      await deleteComment(commentNo);
+      fetchLandmarkComment(landmarkNo)
+        .then(data => setComments(data))
+        .catch(error => console.error(error));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 댓글 수정 함수
+  // const startEditComment = (id, text) => {
+  //   setEditId(id);
+  //   setEditText(text);
+  // };
+
+  // const saveEditComment = (id) => {
+  //   setComments(comments.map(comment => comment.id === id ? { ...comment, text: editText } : comment));
+  //   setEditId(null);
+  //   setEditText('');
+  // };
+
+  return (
+    <Container>
+      <h2>댓글</h2>
+      <CommentList>
+        {comments.map(comment => (
+          <CommentItem key={comment.landmarkCommentNo}>
+            {comment.landmarkCommentContent} <p>- 작성자: </p> {comment.writer}
+            <Button onClick={() => handleDeleteComment(comment.landmarkCommentNo)}>삭제</Button>
+          </CommentItem>
+        ))}
+      </CommentList>
+      <InputContainer>
+        <Input
+          value={newCommentContent}
+          onChange={(e) => setNewCommentContent(e.target.value)}
+          placeholder="댓글을 입력하세요"
+        />
+        <Button type="primary" htmlType="submit">등록</Button>
+         {/* type="submit"으로 설정하여 폼 제출 */}
+      </InputContainer>
+    </Container>
+  );
+};
+
+export default Comments;
