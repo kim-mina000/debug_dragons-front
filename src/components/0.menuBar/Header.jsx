@@ -19,6 +19,8 @@ const HeaderContainer = styled.div`
   top: 0;
   z-index: 9;
 
+  overflow: hidden; /* 스크롤 방지 */
+
   /* 헤더 숨기기 애니메이션 적용 */
   transition: transform 0.3s ease;
   transform: translateY(0); /* 초기 위치 */
