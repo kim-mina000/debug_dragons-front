@@ -117,7 +117,6 @@
     font-size: 30px;
     border: none;
     resize: none;
-    rows: 3;
   `
 
   const WithAttiBus = styled.div`
@@ -259,14 +258,26 @@
       
     };
 
+    // const handleTagChange = (e) => {
+    //   // const tagsArray = e.target.value.split(' ');
+    //   // console.log(tagsArray);
+
+    //   // const tagsString = tagsArray.join(' ');
+
+    //   // setNewTag(tagsString);
+    //   setNewTag(e.target.value);
+    // };
+
+    // 해시태그 입력창 이벤트 핸들러
     const handleTagChange = (e) => {
-      // const tagsArray = e.target.value.split(' ');
-      // console.log(tagsArray);
-
-      // const tagsString = tagsArray.join(' ');
-
-      // setNewTag(tagsString);
-      setNewTag(e.target.value);
+      // 입력된 텍스트 줄 수 체크
+      const lines = e.target.value.split('\n');
+      if (lines.length > 3) {
+        // 3줄을 초과하면 마지막 줄을 제외한 내용으로 설정
+        setNewTag(lines.slice(0, 3).join('\n'));
+      } else {
+        setNewTag(e.target.value);
+      }
     };
 
 
@@ -316,9 +327,7 @@
                   type="text"
                   value={newTag}
                   onChange={handleTagChange}
-                  placeholder="새 해시태그 입력"
-                  rows={3}
-                  maxLength={40}
+                  placeholder="Enter 키로 구분해주세요!"
                 />
                 <div>
                   {hashtags.map((tag, index) => (
