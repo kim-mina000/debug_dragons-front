@@ -81,10 +81,17 @@ const SaveButton = styled.button`
   padding: 1%;
   border-radius: 5px; 
   cursor: pointer; 
+  font-family: 'MaplestoryOTFBold';
   
   &:hover {
     background-color: #7289a1; 
   }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin: 1.5%;
 `;
 
 const SearchMainResult = ({ formData, setFormData }) => {
@@ -231,7 +238,9 @@ const SearchMainResult = ({ formData, setFormData }) => {
           <TfiClose style={{ cursor: "pointer" }} onClick={() => { handleDelete(result); setFormData(formData.filter(item => item.landmarkNo !== result.landmarkNo)); }} />
         </Container>
       ))}
-      <SaveButton onClick={() => { handleSaveAll(formData) }}>모든 데이터 저장</SaveButton>
+      <ButtonContainer>
+        <SaveButton onClick={() => { handleSaveAll(formData) }}>모든 데이터 저장</SaveButton>
+      </ButtonContainer>
     </>
   );
 };
