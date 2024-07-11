@@ -122,7 +122,9 @@ const BoxesContainer = styled.div`
 const BoxLink = styled(Link)`
   width: 22rem;
   height: 22rem;
-  background-color: #798bda;
+  background-image: url('http://via.placeholder.com/250x250');
+  background-size: cover;
+  background-position: center;
   margin: 10px;
   text-decoration: none;
   display: flex;
