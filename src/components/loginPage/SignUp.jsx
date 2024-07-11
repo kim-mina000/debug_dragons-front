@@ -124,7 +124,7 @@ function SignUp() {
     profile: null,
     userRole: "ROLE_USER",
     userProfileImagePath: null,
-    nickName: null,
+    nickname: null,
     phone: null,
     birth: null
   });
@@ -198,25 +198,25 @@ function SignUp() {
     console.log(/^[a-zA-Z0-9]*$/.test(value));
 
     if (!/^[a-zA-Z0-9_.]*$/.test(value)) {
-      setUserInfo({ ...userInfo, nickName: '' });
+      setUserInfo({ ...userInfo, nickname: '' });
       alert("입력 불가능한 문자입니다.");
       return null;
     } else {
-      setUserInfo({ ...userInfo, nickName: value });
+      setUserInfo({ ...userInfo, nickname: value });
     }
 
   };
 
   // nickName 체크
-  const handleCheckNickName = async () => {
-    const copyNickName = userInfo.nickName;
-    const isDuplicate = await checkDuplicate(copyNickName);
-    console.log(isDuplicate);
-    if (isDuplicate) {
-      openModal("이미 다른 사람이 사용중이에요😥");
-    }
-    setUserInfo({ ...userInfo, nickName: copyNickName });
-  };
+  // const handleCheckNickName = async () => {
+  //   const copyNickName = userInfo.nickname;
+  //   const isDuplicate = await checkDuplicate(copyNickName);
+  //   console.log(isDuplicate);
+  //   if (isDuplicate) {
+  //     openModal("이미 다른 사람이 사용중이에요😥");
+  //   }
+  //   setUserInfo({ ...userInfo, nickName: copyNickName });
+  // };
 
   // 전화번호 유효성 검사
   const handlePhone = (e) => {
@@ -279,6 +279,7 @@ function SignUp() {
 
       if (uploadFile) {
         await axios.post('http://localhost:8080/member/upload', formData);
+        console.log(uploadFile);
       }
 
       if (response.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
@@ -333,16 +334,9 @@ function SignUp() {
             <Input
               type="text"
               style={{ flex: 1 }}
-              value={userInfo.nickName}
+              value={userInfo.nickname}
               onChange={handleNickName}
             />
-            <DoSign
-              detailWidth="150px"
-              style={{ margin: '10px 0 0 10px', height: '45px' }}
-              onClick={handleCheckNickName}
-            >
-              닉네임 중복검사
-            </DoSign>
           </IdWrap>
           <Text>BIRTHDAY</Text>
           <Input type="date"
