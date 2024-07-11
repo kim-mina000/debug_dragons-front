@@ -7,6 +7,7 @@ import { REDIRECT_URI } from './login_kakao';
 import { useDispatch } from 'react-redux';
 import { getUserInfo, getUserToken } from '../../features/member/memberSlice';
 import axios from 'axios';
+import { BACK_URL } from '../../api/config';
 
 
 // 컨테이너 틀
@@ -125,7 +126,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/login?userId=${loginForm.id}&userPw=${loginForm.password}`);
+      const response = await axios.get(`${BACK_URL}/login?userId=${loginForm.id}&userPw=${loginForm.password}`);
       localStorage.setItem('userToken', response.data.token);
       localStorage.setItem('userInfo', JSON.stringify(response.data.user));
       dispatch(getUserToken(response.data.token));
