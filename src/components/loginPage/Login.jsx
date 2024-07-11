@@ -33,7 +33,7 @@ const Input = styled.input`
     font-size: 25px;
   }
 
-  &::focus {
+  &:focus {
     border-color: #007BFF; 
     outline: none;
   }
@@ -105,6 +105,7 @@ const Links = styled.div`
 `;
 
 function Login() {
+
   const [loginForm, setLoginForm] = useState({
     id: '',
     password: ''
@@ -120,6 +121,7 @@ function Login() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
 
   const handleLogin = async () => {
     try {
@@ -143,6 +145,7 @@ function Login() {
       handleLogin();
     }
   };
+
 
   const { Kakao } = window;
   const kakaoLoginHandler = () => {

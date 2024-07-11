@@ -1,5 +1,6 @@
 import React from 'react';
 import { IoIosArrowRoundForward } from 'react-icons/io';
+import { TfiClose } from 'react-icons/tfi';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -57,11 +58,22 @@ const Button = styled.button`
   }
 `;
 
-const LoginNeed = () => {
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+`;
+
+const LoginNeed = ({closeModal}) => {
   const navigate = useNavigate();
   return (
     <Background>
       <Modal>
+        <CloseButton onClick={closeModal}><TfiClose /></CloseButton>
         <Message>
           로그인이 필요한 메뉴입니다.<br />
           로그인 하시겠습니까?

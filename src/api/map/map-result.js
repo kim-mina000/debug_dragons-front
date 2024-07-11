@@ -2,6 +2,7 @@ import axios from "axios";
 import { BACK_URL } from "../config";
 import { v4 } from "uuid";
 
+// 아이디로 랜드마크 데이터 가져오기
 export const landmarkResponse = async (userId) => {
   try {
     const response = await axios.get(`${BACK_URL}/landmark/read?id=${userId}`);
