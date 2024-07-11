@@ -87,6 +87,8 @@ const SearchMainResult = ({ formData, setFormData }) => {
     landmarkResponse(userId).then(res => setFormData(res));
   }, []);
 
+
+
   useEffect(() => {
     if (formData) {
       const sortResult = formData.sort((a, b) => {
@@ -208,6 +210,7 @@ const SearchMainResult = ({ formData, setFormData }) => {
               </Description>
             )}
             {/* 인원 / 장소 / 날짜 */}
+            {/* t수정중 */}
             <Details>{result.writer}</Details>
           </Content>
           <TfiClose style={{ cursor: "pointer" }} onClick={() => { handleDelete(result); setFormData(formData.filter(item => item.landmarkNo !== result.landmarkNo)); }} />

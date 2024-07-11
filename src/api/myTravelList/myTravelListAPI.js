@@ -1,6 +1,7 @@
 import axios from "axios";
 import { BACK_URL } from "../config";
 
+// 코스랜드마크 DB
 export const getMyTravelList = async (userId) => {
   try {
     const userToken = localStorage.getItem('userToken');
@@ -16,6 +17,7 @@ export const getMyTravelList = async (userId) => {
   }
 }
 
+// LCMapping DB
 export const getMyTravelListDetail = async (courseNo) => {
   try {
     const userToken = localStorage.getItem('userToken');
@@ -31,6 +33,7 @@ export const getMyTravelListDetail = async (courseNo) => {
   }
 }
 
+// Landmark DB
 export const getLandmarkInfo = async (landmarkNo) => {
   try {
     const userToken = localStorage.getItem('userToken');
