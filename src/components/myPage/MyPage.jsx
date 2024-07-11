@@ -22,13 +22,18 @@ const ProfileDiv = styled.div`
     font-size: 16px;
   }
 `
-const ProfileImage = styled.div`
-  width: 225px;
-  height: 225px;
+const ProfileImageBox = styled.div`
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   background-color:#ccc;
   position: relative;
   margin-bottom: 10px;
+`
+
+const ProfileImage = styled.div`
+  width: 100%;
+  border-radius: 50%;
 `
 
 const ProfileEdit = styled.div`
@@ -60,7 +65,9 @@ const HashScrap = styled.div`
 const HashTagBox = styled.div`
   width: 100%;
   height: 220px;
-  font-size: 60px;
+  font-size: 50px;
+  white-space: pre-line; /* 줄바꿈 유지 */
+  word-break: break-all;
   .Tag {
     padding-bottom: 15px;
   }
@@ -161,8 +168,9 @@ const CustomerServiceBox = styled.div`
 
 function MyPage() {
   const Member = useSelector(selectUser);
-  console.log(Member);
+  console.log(Member.userProfileImagePath);
   const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
+  const [hashtags, setHashtags] = useState(["HashTag1", "HashTag2", "HashTag3"]);
 
   // 프로필 편집 모달 열기 핸들러
   const handleProfileEditClick = () => {
@@ -170,28 +178,29 @@ function MyPage() {
   };
 
   return (
-    <>
+    <>  
       <Header userName={Member.nickname} />
 
       <TopDiv>
         <ProfileDiv>
-          <ProfileImage>
+          <ProfileImageBox>
+            <ProfileImage image={Member.userProfileImagePath} />
             <ProfileEdit>
               <MdOutlineEdit
                 className="EditIcon"
                 onClick={handleProfileEditClick}
-              />  
+              />
             </ProfileEdit>
-          </ProfileImage>
+          </ProfileImageBox>
           <span className="UserId"><HiStar color="#95D7FC" />{Member.nickname} 님의 계정입니다</span>
         </ProfileDiv>
-      <MenuBar/>
+        <MenuBar />
 
         <HashScrap>
           <HashTagBox>
-            <div className="Tag">#애견동반</div>
-            <div className="Tag">#드라이브여행</div>
-            <div className="Tag">#풀빌라가있는 숙소</div>
+            {hashtags.map((tag, index) => (
+              <div className="Tag" key={index}>{tag}</div>
+            ))}
           </HashTagBox>
           <ScrapBox>
             <span>스크랩 수 000</span>
@@ -220,24 +229,25 @@ function MyPage() {
           <MyCollection></MyCollection>
         </CollectionBox>
       </BottomDiv>
-        <CustomerServiceBox>
-          <div className="CsDiv">
-            <span className="CustomerService">자주 묻는 질문</span>
-            <span className="CustomerService">1:1 카카오 문의</span>
-            <span className="CustomerService">고객센터 연결</span>
-          </div>
-          <div className="Information">
-            <span>이용약관/개인정보</span>
-          </div>
-        </CustomerServiceBox>
+      <CustomerServiceBox>
+        <div className="CsDiv">
+          <span className="CustomerService">자주 묻는 질문</span>
+          <span className="CustomerService">1:1 카카오 문의</span>
+          <span className="CustomerService">고객센터 연결</span>
+        </div>
+        <div className="Information">
+          <span>이용약관/개인정보</span>
+        </div>
+      </CustomerServiceBox>
 
-        {/* MyPageProfile 모달 */}
-        {isProfileEditModalOpen && (
-          <MyPageProfile
-            closeModal={() => setIsProfileEditModalOpen(false)}
-            Member = {Member}
-          />
-        )}
+      {/* MyPageProfile 모달 */}
+      {isProfileEditModalOpen && (
+        <MyPageProfile
+          closeModal={() => setIsProfileEditModalOpen(false)}
+          Member={Member}
+          setHashtags={setHashtags}
+        />
+      )}
     </>
   );
 };
