@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Modal from 'react-modal';
+import { BACK_URL } from "../../api/config";
 
 
 // 컨테이너 틀
@@ -140,7 +141,7 @@ function SignUp() {
 
   const checkDuplicate = async (value) => {
     try {
-      const response = await axios.post(`http://localhost:8080/member/check-duplicate`, value);
+      const response = await axios.post(`${BACK_URL}/member/check-duplicate`, value);
       console.log(response.data);
       return response.data;
     } catch (error) {
@@ -274,11 +275,11 @@ function SignUp() {
       formData.append('file', uploadFile);
 
       // 서버에 유저정보 전송
-      const response = await axios.post('http://localhost:8080/member/register', userInfo
+      const response = await axios.post(`${BACK_URL}/member/register`, userInfo
       );
 
       if (uploadFile) {
-        await axios.post('http://localhost:8080/member/upload', formData);
+        await axios.post(`${BACK_URL}/member/upload`, formData);
         console.log(uploadFile);
       }
 
