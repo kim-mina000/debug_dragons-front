@@ -32,15 +32,6 @@ export function addEventHandle(target, type, callback) {
   }
 }
 
-
-
-// function removeMarker() {
-//   for ( var i = 0; i < markers.length; i++ ) {
-//       markers[i].setMap(null);
-//   }   
-//   markers = [];
-// }
-
 export const searchLandmark = async (address) => {
   try {
     // 대형마트 편의점 주차장 주유소 지하철역 은행 문화시설 공공기관 관광명소 숙박 음식점 카페 검색

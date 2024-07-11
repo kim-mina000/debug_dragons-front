@@ -16,8 +16,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
     if (!user) return; // 로그인 정보가 없다면 여기서 멈춤
     store.dispatch(getUserInfo(user));
     store.dispatch(getUserToken(user));
-  })();
-  
+})();
+
 root.render(
     <Provider store={store}>
         <App />  
