@@ -29,6 +29,7 @@ const Category = styled.div`
   margin: 0 10px; /* 좌우 여백 설정 */
 `;
 
+
 const CategoryButton = styled.button`
   width: 100%;
   height: 100%; 
@@ -59,6 +60,7 @@ const CategoryButton = styled.button`
     margin-top: 5px; 
     cursor: pointer; 
     font-size: 14px;
+    font-family: 'MaplestoryOTFBold';
   }
 
   &:hover {
@@ -90,6 +92,7 @@ const EditableCategoryName = styled.input`
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 14px;
+  font-family: 'MaplestoryOTFBold';
 `;
 
 const BoxesContainer = styled.div`
@@ -101,28 +104,27 @@ const BoxesContainer = styled.div`
   max-height: 70vh; 
   overflow-y: scroll; 
 
-  /* 스크롤바 설정 */
+  /* 스크롤바 css */
   &::-webkit-scrollbar {
-    width: 20px;
+    width: 8px;
+    background-color: none;
   }
 
-  /* 스크롤바 막대 설정 */
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 1);
-    border-radius: 10px;
-    border: 7px solid rgba(0, 0, 0, 0.8);
-  }
-
-  /* 스크롤바 뒷 배경 설정 */
-  &::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0);
+    background: linear-gradient(#d4f9ff00, #D4F9FF, #A5DEF0, #ffffff, #ffffff,#a5def000);
+    border-radius: 20px;
   }
 `;
+
+  
+
 
 const BoxLink = styled(Link)`
   width: 22rem;
   height: 22rem;
-  background-color: #798bda;
+  background-image: url('http://via.placeholder.com/250x250');
+  background-size: cover;
+  background-position: center;
   margin: 10px;
   text-decoration: none;
   display: flex;

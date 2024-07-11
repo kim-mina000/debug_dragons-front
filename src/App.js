@@ -59,12 +59,12 @@ const GlobalStyles = createGlobalStyle`
 
     /* 스크롤바 css */
     ::-webkit-scrollbar {
-    width: 12px;
-    background-color: black;
+    width: 8px;
+    background-color: none;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(#D4F9FF, #A5DEF0);
+    background: linear-gradient(#d4f9ff00, #D4F9FF, #A5DEF0, #ffffff, #ffffff,#a5def000);
     border-radius: 20px;
   }
 

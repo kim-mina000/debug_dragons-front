@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import profile_fake from '../../image/profile_fake_img.png';
-// import { handleLogout } from '../../api/member/member_localstorage';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -20,6 +19,15 @@ const HeaderContainer = styled.div`
   position: sticky;
   top: 0;
   z-index: 9;
+
+  overflow: hidden; /* 스크롤 방지 */
+
+  /* 헤더 숨기기 애니메이션 적용 */
+  transition: transform 0.3s ease;
+  transform: translateY(0); /* 초기 위치 */
+  &.hidden {
+    transform: translateY(-100%); /* 숨길 때 위치 */
+  }
 `;
 
 // 왼쪽 컨테이너 스타일
@@ -56,31 +64,47 @@ const LogoutButton = styled.button`
 const Header = ({ userName }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      setVisible(prevScrollPos > currentScrollPos || currentScrollPos === 0);
+      setPrevScrollPos(currentScrollPos);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [prevScrollPos]);
 
   const handleLogout = async () => {
     const token = localStorage.getItem('userToken');
   
+
     await axios.get(`${BACK_URL}/logout`, {headers:{
       Authorization: token,
     }});
+
   
     dispatch(logout());
-    
     localStorage.removeItem('userToken');
     localStorage.removeItem('userInfo');
     navigate('/');
-  }
+  };
 
   return (
-    <HeaderContainer>
+    <HeaderContainer className={!visible ? 'hidden' : ''}>
       <LeftContainer>
         <ProfileImage src={profile_fake} alt="프로필 이미지" />
         <UserName>{userName ? `${userName} 님 환영합니다` : '환영합니다'}</UserName>
-      </LeftContainer >
+      </LeftContainer>
       <RightContainer>
-        {
-          userName === "사용자" || userName === undefined ?
-          <LogoutButton onClick={()=>{navigate('/login')}}>로그인</LogoutButton>
+        {userName === "사용자" || userName === undefined ?
+          <LogoutButton onClick={() => { navigate('/login') }}>로그인</LogoutButton>
           :
           <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
         }

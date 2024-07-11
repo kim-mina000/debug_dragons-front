@@ -72,6 +72,28 @@ const Details = styled.div`
   color: #666;
 `;
 
+// "모든 데이터 저장" 버튼 스타일 컴포넌트
+const SaveButton = styled.button`
+  border: none;
+  background-color: #8fa4bfc4;
+  font-size: 1.2rem;
+  margin: 1%;
+  padding: 1%;
+  border-radius: 5px; 
+  cursor: pointer; 
+  font-family: 'MaplestoryOTFBold';
+  
+  &:hover {
+    background-color: #7289a1; 
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin: 1.5%;
+`;
+
 const SearchMainResult = ({ formData, setFormData }) => {
   const [editDayIndex, setEditDayIndex] = useState(null);
   const [editTimeIndex, setEditTimeIndex] = useState(null);
@@ -86,6 +108,8 @@ const SearchMainResult = ({ formData, setFormData }) => {
   useEffect(() => {
     landmarkResponse(userId).then(res => setFormData(res));
   }, []);
+
+
 
   useEffect(() => {
     if (formData) {
@@ -208,12 +232,15 @@ const SearchMainResult = ({ formData, setFormData }) => {
               </Description>
             )}
             {/* 인원 / 장소 / 날짜 */}
+            {/* t수정중 */}
             <Details>{result.writer}</Details>
           </Content>
           <TfiClose style={{ cursor: "pointer" }} onClick={() => { handleDelete(result); setFormData(formData.filter(item => item.landmarkNo !== result.landmarkNo)); }} />
         </Container>
       ))}
-      <button onClick={() => { handleSaveAll(formData) }}>모든 데이터 저장</button>
+      <ButtonContainer>
+        <SaveButton onClick={() => { handleSaveAll(formData) }}>모든 데이터 저장</SaveButton>
+      </ButtonContainer>
     </>
   );
 };

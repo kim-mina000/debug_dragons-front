@@ -30,7 +30,6 @@ import LoginNeed from '../modal/LoginNeed';
 // 전체 레이아웃을 감싸는 Container. 가운데 정렬.
 const Container = styled.div`
   width: 100%;
-  height: calc(100% - 160px);
   display: flex;
   justify-content: center;
   position: absolute;
@@ -39,8 +38,8 @@ const Container = styled.div`
 
 const ContentWrap = styled.div`
   width: 90%; 
-  height: 800px;
   display: flex;
+  margin: 1% 0;
 `;
 
 const SearchH2 = styled.p`
@@ -57,6 +56,7 @@ const LeftWrap = styled.div`
   margin-right: 1%;
   border: 5px #93a2f1 solid;
   box-sizing: border-box;
+  overflow-y: hidden;
 `;
 
 // 검색 영역의 스타일
@@ -88,9 +88,8 @@ const SearchContainer = styled.div`
 // 나의 코스 영역의 스타일
 const MyCourseContainer = styled.div`
   width: 100%;
-  height: 600px;
+  height: 583px;
   background-color: #8bdcfc63;
-
   // 리스트 길어질 수록 바디 영역이 길어져서 스크롤 넣어놓음
   overflow-y: auto;
 `;

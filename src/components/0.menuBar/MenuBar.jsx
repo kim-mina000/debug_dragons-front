@@ -20,6 +20,7 @@ const IconContainer = styled.div`
   background-color: #fff;
   z-index: 1000;
   height: 70px; /* 고정 높이 */
+  overflow: hidden; /* 스크롤 방지 */
 `;
 
 // 메뉴바 애니메이션
