@@ -30,7 +30,6 @@ import LoginNeed from '../modal/LoginNeed';
 // 전체 레이아웃을 감싸는 Container. 가운데 정렬.
 const Container = styled.div`
   width: 100%;
-  height: calc(100% - 160px);
   display: flex;
   justify-content: center;
   position: absolute;
@@ -39,8 +38,8 @@ const Container = styled.div`
 
 const ContentWrap = styled.div`
   width: 90%; 
-  height: 800px;
   display: flex;
+  margin: 1% 0;
 `;
 
 const SearchH2 = styled.p`
