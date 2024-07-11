@@ -25,6 +25,8 @@ import Lookaround from './components/menuBar/Lookaround';
 import Comments from './components/subpage/Comments';
 
 import MainOrMylist from './components/modal/MainOrMylist';
+import TermsPrivacy from './components/other/TermsPrivacy';
+import CustomerService from './components/other/CustomerService';
 
 
 
@@ -118,6 +120,9 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/scrap" element={<Clipping />} />
         <Route path="/around" element={<Lookaround />} />
+
+        <Route path="/terms-privacy" element={<TermsPrivacy />} />
+        <Route path="/customerservice" element={<CustomerService />} />
 
 
         {/* 임시라우터 */}
