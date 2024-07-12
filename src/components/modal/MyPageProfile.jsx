@@ -6,6 +6,7 @@
   import { selectUser, getUserInfo, updateProfileImage } from '../../features/member/memberSlice';
   import { getLocalStorages } from '../../api/member/member_localstorage';
   import { useNavigate } from 'react-router-dom';
+import { BACK_URL } from '../../api/config';
 
   const Overlay = styled.div`
     position: fixed;
@@ -169,15 +170,17 @@
   `
 
   function MyPageProfile(props) {
-    const { closeModal, Member, hashtags = [], setHashtags } = props;
+    const { closeModal, userInfo : Member, hashtags = [], setHashtags } = props;
     const dispatch = useDispatch();
     const userInfo = useSelector(selectUser);
     const navigate = useNavigate();
 
-    console.log(getLocalStorages());
-    const member = JSON.stringify(localStorage.getItem("userInfo"));
+    // console.log(getLocalStorages());
+    // const member = JSON.stringify(localStorage.getItem("userInfo"));
 
-    const localUserInfo = getLocalStorages();
+    // const localUserInfo = getLocalStorages();
+
+    console.log(userInfo);
 
     const [name, setName] = useState(Member.userName);
     const [email, setEmail] = useState(Member.userEmail);
@@ -217,8 +220,9 @@
           birth: birth,
           userProfileImagePath: profileImage
         };
-        
-        const update = await axios.post(`http://localhost:8080/member/update`, userData);
+
+        const update = await axios.post(`${BACK_URL}/member/update`, userData);
+
         console.log(update.data);
         
         dispatch(getUserInfo(userData));
@@ -233,7 +237,7 @@
         console.log(tags);
 
         if (ImageEdit) {
-          await axios.post('http://localhost:8080/member/update', formData);
+          await axios.post(`${BACK_URL}/member/upload?userId=${Member.userId}`, formData);
           console.log(ImageEdit);
         }
 

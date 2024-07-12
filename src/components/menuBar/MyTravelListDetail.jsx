@@ -54,7 +54,7 @@ const MyTravelListDetail = () => {
   return (
     <Container>
       <SearchContainer>
-        <BackButton onClick={() => navigate('/menuBar/MyTravelList')}>
+        <BackButton onClick={() => navigate('/main/MyTravelList')}>
           뒤로가기
         </BackButton>
         <SearchMainResult />

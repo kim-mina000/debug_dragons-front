@@ -25,8 +25,13 @@ import Lookaround from './components/menuBar/Lookaround';
 import Comments from './components/subpage/Comments';
 
 import MainOrMylist from './components/modal/MainOrMylist';
+
+import SearchMain from './components/1.searchPage/SearchMain';
+import { useSelector } from 'react-redux';
+
 import TermsPrivacy from './components/other/TermsPrivacy';
 import CustomerService from './components/other/CustomerService';
+
 
 
 
@@ -79,7 +84,8 @@ const GlobalStyles = createGlobalStyle`
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userName, setUserName] = useState('사용자');
-
+  
+  const userInfo = useSelector(state => state.member.userInfo);
   const handleLogout = () => {
     setUserName(null);
   };
@@ -112,14 +118,17 @@ function App() {
         <Route path='/thanks-for-signup' element={<SignUpComplete />} />
         <Route path='/find' element={<Find />} />
         <Route path='/FindEnd' element={<FindEnd />} />
-        <Route path='/main' element={<MainContainer />} />
 
-        <Route path="/menuBar/MyTravelList" element={<MyTravelList />} />
-        <Route path="/detail" element={<MyTravelListDetail />} />
-        <Route path="/menuBar" element={<MenuBar />} />
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="/scrap" element={<Clipping />} />
-        <Route path="/around" element={<Lookaround />} />
+        <Route path='/main' element={<MainContainer />}>
+          <Route path='' element={<SearchMain userInfo={userInfo} />} />
+          <Route path="mypage" element={<MyPage />} />
+          <Route path="scrap" element={<Clipping />} />
+          <Route path="around" element={<Lookaround />} />
+          <Route path="MyTravelList" element={<MyTravelList />} />
+          <Route path="detail" element={<MyTravelListDetail />} />
+        </Route>
+
+        {/* <Route path="/menuBar" element={<MenuBar />} /> */}
 
         <Route path="/terms-privacy" element={<TermsPrivacy />} />
         <Route path="/customerservice" element={<CustomerService />} />

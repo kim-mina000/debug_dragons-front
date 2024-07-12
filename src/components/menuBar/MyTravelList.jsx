@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { RiFolderAddLine, RiFolderAddFill } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 
-import MenuBar from '../0.menuBar/MenuBar';
-import Header from '../0.menuBar/Header';
 import { getMyTravelList, getMyTravelListDetail } from '../../api/myTravelList/myTravelListAPI';
 import { useSelector } from 'react-redux';
 
@@ -236,7 +234,6 @@ const MyTravelList = () => {
 
   return (
     <>
-      <Header/>
       <TravelListContainer>
         <Categories>
           {categories.map((category, index) => (
@@ -282,7 +279,6 @@ const MyTravelList = () => {
           <BoxLink to="/detail">컨텐츠 9</BoxLink>
         </BoxesContainer>
       </TravelListContainer>
-      <MenuBar/>
     </>
   );
 };
