@@ -44,6 +44,11 @@ const ProfileImage = styled.img`
   height: 40px;
   border-radius: 50%;
   margin-right: 10px;
+  background-color: white;
+
+  background-size: cover;
+  background-position: center;
+  background-image: url(${props => props?.image});
 `;
 
 // 사용자 이름 스타일
@@ -61,7 +66,7 @@ const LogoutButton = styled.button`
 `;
 
 // 헤더 컴포넌트 정의
-const Header = ({ userName }) => {
+const Header = ({ userName, image }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [prevScrollPos, setPrevScrollPos] = useState(0);
@@ -72,6 +77,7 @@ const Header = ({ userName }) => {
       const currentScrollPos = window.pageYOffset;
       setVisible(prevScrollPos > currentScrollPos || currentScrollPos === 0);
       setPrevScrollPos(currentScrollPos);
+
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -99,7 +105,7 @@ const Header = ({ userName }) => {
   return (
     <HeaderContainer className={!visible ? 'hidden' : ''}>
       <LeftContainer>
-        <ProfileImage src={profile_fake} alt="프로필 이미지" />
+        <ProfileImage image={image} alt="프로필 이미지" />
         <UserName>{userName ? `${userName} 님 환영합니다` : '환영합니다'}</UserName>
       </LeftContainer>
       <RightContainer>

@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Header from '../0.menuBar/Header';
-import MenuBar from '../0.menuBar/MenuBar';
+
 
 const Wrapper = styled.div`
   margin: 2% 0 0 10%;
@@ -62,7 +61,6 @@ const RightEmptyContainer = styled.div`
 const Lookaround = () => {
   return (
     <>
-      <Header/>
       <Wrapper>
         <Container>
           <LeftContainer>
@@ -159,7 +157,6 @@ const Lookaround = () => {
           <RightEmptyContainer />
         </Container>
       </Wrapper>
-      <MenuBar/>
     </>
   );
 };

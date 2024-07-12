@@ -6,13 +6,17 @@ import { useState } from "react";
 import MyPageProfile from "../modal/MyPageProfile";
 import { getUserInfo, selectUser } from "../../features/member/memberSlice";
 import { useSelector } from "react-redux";
-import Header from "../menuBar/Header";
 
+const Wrap = styled.div`
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+`;
 
 const TopDiv = styled.div`
   width: 1200px;
   display: flex;
-  margin: 70px auto 0;
+  margin: 30px auto 0;
 `
 const ProfileDiv = styled.div`
   width: 280px;
@@ -26,10 +30,12 @@ const ProfileImageBox = styled.div`
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background-color:#ccc;
   position: relative;
   margin-bottom: 10px;
-`
+  background-size: cover;
+  background-position: center;
+  background-image: url(${props => props.image});
+  `
 
 const ProfileImage = styled.div`
   width: 100%;
@@ -167,8 +173,7 @@ const CustomerServiceBox = styled.div`
 
 
 function MyPage() {
-  const Member = useSelector(selectUser);
-  console.log(Member.userProfileImagePath);
+  const userInfo = useSelector(selectUser);
   const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
   const [hashtags, setHashtags] = useState(["HashTag1", "HashTag2", "HashTag3"]);
 
@@ -178,13 +183,11 @@ function MyPage() {
   };
 
   return (
-    <>  
-      <Header userName={Member.nickname} />
-
+    <Wrap>  
       <TopDiv>
         <ProfileDiv>
-          <ProfileImageBox>
-            <ProfileImage image={Member.userProfileImagePath} />
+          <ProfileImageBox image={userInfo.userProfileImagePath}>
+            <ProfileImage />
             <ProfileEdit>
               <MdOutlineEdit
                 className="EditIcon"
@@ -192,14 +195,13 @@ function MyPage() {
               />
             </ProfileEdit>
           </ProfileImageBox>
-          <span className="UserId"><HiStar color="#95D7FC" />{Member.nickname} 님의 계정입니다</span>
+          <span className="UserId"><HiStar color="#95D7FC" />{userInfo.nickname} 님의 계정입니다</span>
         </ProfileDiv>
-        <MenuBar />
 
         <HashScrap>
           <HashTagBox>
             {hashtags.map((tag, index) => (
-              <div className="Tag" key={index}>{tag}</div>
+              <div className="Tag" key={index}># {tag}</div>
             ))}
           </HashTagBox>
           <ScrapBox>
@@ -209,6 +211,7 @@ function MyPage() {
           </ScrapBox>
         </HashScrap>
       </TopDiv>
+
       <BottomDiv>
         <UserInfo>
           <Title>Course Follower</Title>
@@ -244,11 +247,11 @@ function MyPage() {
       {isProfileEditModalOpen && (
         <MyPageProfile
           closeModal={() => setIsProfileEditModalOpen(false)}
-          Member={Member}
+          userInfo={userInfo}
           setHashtags={setHashtags}
         />
       )}
-    </>
+    </Wrap>
   );
 };
 

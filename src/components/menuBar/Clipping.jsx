@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { RiFolderAddLine, RiFolderAddFill } from "react-icons/ri";
 import { MdFolder } from "react-icons/md";
 import { PiHeartStraightBreak, PiHeartStraightBreakFill } from "react-icons/pi";
-import Header from '../0.menuBar/Header';
-import MenuBar from '../0.menuBar/MenuBar';
 
 const Container = styled.div`
   width: 100%;
@@ -222,7 +220,6 @@ const Clipping = () => {
 
   return (
     <>
-    <Header/>
     <Container>
       <Content>
         <ItemContainer>
@@ -270,7 +267,6 @@ const Clipping = () => {
         </ItemContainer>
       </Content>
     </Container>
-    <MenuBar/>
     </>
   );
 };
