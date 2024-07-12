@@ -4,7 +4,7 @@
   import axios from 'axios';
   import { useDispatch, useSelector } from 'react-redux';
   import { selectUser, getUserInfo, updateProfileImage } from '../../features/member/memberSlice';
-  import { getLocalStorages } from '../../api/member/member_localstorage';
+  import { getLocalStorages, handleImageChange2 } from '../../api/member/member';
   import { useNavigate } from 'react-router-dom';
 import { BACK_URL } from '../../api/config';
 
@@ -175,13 +175,6 @@ import { BACK_URL } from '../../api/config';
     const userInfo = useSelector(selectUser);
     const navigate = useNavigate();
 
-    // console.log(getLocalStorages());
-    // const member = JSON.stringify(localStorage.getItem("userInfo"));
-
-    // const localUserInfo = getLocalStorages();
-
-    console.log(userInfo);
-
     const [name, setName] = useState(Member.userName);
     const [email, setEmail] = useState(Member.userEmail);
     const [phone, setPhone] = useState(Member.phone);
@@ -254,21 +247,27 @@ import { BACK_URL } from '../../api/config';
     }
 
     const handleImageChange = async (e) => {
+      
 
       const file = e.target.files[0];
       setImageEdit(file);
 
       const reader = new FileReader();
+      const url = handleImageChange2(file, userInfo.userId);
+      // url을 로컬스토리지에 올려줘야함 url 잘 리턴되는지 확인이안됨,,
+      // 근데아마될것같아 ,,여기서부터하기
+      console.log(url);
 
       reader.onloadend = () => {
         const imageBase = reader.result;
-        setProfileImage(imageBase);
-        dispatch(updateProfileImage(imageBase));
+        setProfileImage(imageBase)
       }
 
       if (file) {
         reader.readAsDataURL(file);
       }
+
+
       
     };
 

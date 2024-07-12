@@ -209,7 +209,7 @@ function MyPage() {
               <EditIcon onClick={handleProfileEditClick} />
             </ProfileEdit>
           </ProfileImageBox>
-          <span className="UserId"><HiStar color="#95D7FC" />{userInfo.nickname} 님의 계정입니다</span>
+          <span className="UserId"><HiStar color="#95D7FC" />{userInfo?.nickname} 님의 계정입니다</span>
         </ProfileDiv>
 
 
