@@ -78,7 +78,7 @@ const MainModalInfoWindow = ({ closeModal, userClickInfo, formData, setFormData,
   const [imgUrl, setImgUrl] = useState(""); 
   const tempData = {
     "landmarkNo": 0,
-    "writer": userInfo.userId || "사용자",
+    "writer": userInfo?.userId || "사용자",
     "landmarkAddress": userClickInfo.address_name,
     "landmarkName": userClickInfo.place_name || userClickInfo.address_name,
     "landmarkOrigin": true,
@@ -111,9 +111,10 @@ const MainModalInfoWindow = ({ closeModal, userClickInfo, formData, setFormData,
             <p>{userClickInfo.phone}</p>
           
 
-          <SearchButton onClick={()=>{
-            handleMyTripSave(userClickInfo, userInfo?.userId, imgUrl)
-            closeModal()
+          <SearchButton onClick={ async ()=>{
+            const res = await handleMyTripSave(userClickInfo, userInfo?.userId, imgUrl);
+            tempData.landmarkNo = res.landmarkNo;
+            closeModal();
             setFormData([...formData,tempData]);
             }}>내 일정에 저장하기</SearchButton>
         </Content>

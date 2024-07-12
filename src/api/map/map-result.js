@@ -2,10 +2,14 @@ import axios from "axios";
 import { BACK_URL } from "../config";
 import { v4 } from "uuid";
 
+// 아이디로 랜드마크 데이터 가져오기
 export const landmarkResponse = async (userId) => {
   try {
+    console.log(userId);
     const response = await axios.get(`${BACK_URL}/landmark/read?id=${userId}`);
-    return await response.data;
+    const result = await response.data?.filter(item => item.landmarkOrigin === false);
+
+    return result;
   } catch (error) {
 
     console.error('error', error);
@@ -31,6 +35,7 @@ export const handleDelete = async (data) =>{
 }
 
 export const handleMappingSave = async (data,id) => {
+  console.log(data);
   try {
     const courseId = v4().substring(0,10);
 
@@ -43,10 +48,7 @@ export const handleMappingSave = async (data,id) => {
         "isSave": true,
         "courseNo":courseId
       }
-      console.log(lcMapping);
       await axios.post(`${BACK_URL}/lc/register?id=${id}`, lcMapping);
-
-
     }
   } catch (error) {
     console.error(error);

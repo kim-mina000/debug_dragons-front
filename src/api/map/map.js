@@ -10,7 +10,7 @@ export const handleMyTripSave = async (data, userId, imgUrl) => {
     "writer": userId || "사용자",
     "landmarkAddress": data.address_name,
     "landmarkName": data.place_name || data.address_name,
-    "landmarkOrigin": true,
+    "landmarkOrigin": false,
     "longitude": data.x || xy.x,
     "latitude": data.y || xy.y,
     "landmarkImgPath" : imgUrl
@@ -18,7 +18,7 @@ export const handleMyTripSave = async (data, userId, imgUrl) => {
 
   try {
     const response = await axios.post(`${BACK_URL}/landmark/register`, postData);
-    
+    return await response.data;
   } catch (error) {
     console.error(error);
   }
@@ -32,15 +32,6 @@ export function addEventHandle(target, type, callback) {
   }
 }
 
-
-
-// function removeMarker() {
-//   for ( var i = 0; i < markers.length; i++ ) {
-//       markers[i].setMap(null);
-//   }   
-//   markers = [];
-// }
-
 export const searchLandmark = async (address) => {
   try {
     // 대형마트 편의점 주차장 주유소 지하철역 은행 문화시설 공공기관 관광명소 숙박 음식점 카페 검색
@@ -50,7 +41,7 @@ export const searchLandmark = async (address) => {
         Authorization: `KakaoAK ${KAKAO_RESTKEY}`
       }
     })
-    return await response.data;
+    return response.data;
   } catch (error) {
     console.error(error);
   }
@@ -63,7 +54,7 @@ export const xyToAddress = async (x,y) => {
         Authorization : `KakaoAK ${KAKAO_RESTKEY}`
       }
     })
-    return await response.data;
+    return response.data;
   } catch (error) {
     console.error(error);
   }
@@ -72,7 +63,7 @@ export const xyToAddress = async (x,y) => {
 // 이미지검색
 export const searchData = async (keyword)=>{
   try {
-    const response = await axios.get(`https://dapi.kakao.com/v2/search/image?query=${keyword}&size=1`,{
+    const response = await axios.get(`https://dapi.kakao.com/v2/search/image?query=${encodeURIComponent(keyword)}&size=1`,{
       headers:{
         Authorization : `KakaoAK ${KAKAO_RESTKEY}`
       }
@@ -87,7 +78,7 @@ export const searchData = async (keyword)=>{
 // 주소로 좌표 찾기
 export const addressToXY = async (address)=>{
   try {
-    const response = await axios.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${address}`,{
+    const response = await axios.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(address)}`,{
       headers:{
         Authorization : `KakaoAK ${KAKAO_RESTKEY}`
       }

@@ -1,5 +1,8 @@
 
-export const BACK_URL = 'http://localhost:8080';
+// export const BACK_URL = 'http://localhost:8080';
+// export const BACK_URL = 'ec2-52-79-253-218.ap-northeast-2.compute.amazonaws.com:8080';
+
+export const BACK_URL = 'http://attibus.store:8080';
 
 export const KAKAO_RESTKEY = '9d4de3df4c7c5e0199e412627381f00a';
 

@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import MainModalPlace from '../modal/MainModalPlace';
 import MainModalPerson from '../modal/MainModalPerson';
 import MainModalDate from '../modal/MainModalDate'; // 모달 컴포넌트 import
-import buttonLabels from '../modal/MainModalPlace';
+// import buttonLabels from '../modal/MainModalPlace';
+import { buttonLabels } from '../modal/MainModalPlace';
 
 
 // 이미지 경로 설정
@@ -19,12 +20,16 @@ import { MARKER_IMG_URL } from '../../api/config';
 import { handleMappingSave } from '../../api/map/map-result';
 import { useNavigate } from 'react-router-dom';
 
+import { IoIosArrowRoundForward } from 'react-icons/io';
+import MainOrMylist from '../modal/MainOrMylist';
+import LoginNeed from '../modal/LoginNeed';
+
+
 
 
 // 전체 레이아웃을 감싸는 Container. 가운데 정렬.
 const Container = styled.div`
   width: 100%;
-  height: calc(100% - 160px);
   display: flex;
   justify-content: center;
   position: absolute;
@@ -33,8 +38,8 @@ const Container = styled.div`
 
 const ContentWrap = styled.div`
   width: 90%; 
-  height: 800px;
   display: flex;
+  margin: 1% 0;
 `;
 
 const SearchH2 = styled.p`
@@ -51,6 +56,7 @@ const LeftWrap = styled.div`
   margin-right: 1%;
   border: 5px #93a2f1 solid;
   box-sizing: border-box;
+  overflow-y: hidden;
 `;
 
 // 검색 영역의 스타일
@@ -82,9 +88,8 @@ const SearchContainer = styled.div`
 // 나의 코스 영역의 스타일
 const MyCourseContainer = styled.div`
   width: 100%;
-  height: 600px;
+  height: 583px;
   background-color: #8bdcfc63;
-
   // 리스트 길어질 수록 바디 영역이 길어져서 스크롤 넣어놓음
   overflow-y: auto;
 `;
@@ -130,13 +135,12 @@ const SaveButton = styled.button`
   color: white;
 
   cursor: pointer;
-
   &:hover {
     background-color: #8fa4bf;
   }
 
   font-size: 20px;
-  z-index: 50;
+  z-index: 7;
 
 `;
 
@@ -161,12 +165,25 @@ function SearchMain({userInfo}) {
   const [isPlaceModalOpen, setIsPlaceModalOpen] = useState(false);
   const [isPersonModalOpen, setIsPersonModalOpen] = useState(false);
   const [isInfoWindow, setIsInfoWindow] = useState(false); 
+  const [isWhereIgo, setIsWhereIgo] = useState(false);
+  const [isLoginNeed, setIsLoginNeed] = useState(false);
 
   // MainModalPerson에서 선택된 값 저장
   const handleSavePerson = (selectedValues) => {
     setSelectedPersonButtons(selectedValues);
     setIsPersonModalOpen(false);
   };
+
+  
+  const handleSaveFormData = (key)=>{
+    if (key) {
+      handleMappingSave(formData,userInfo.userId)
+      setFormData([]);
+      setIsWhereIgo(true);
+    } else {
+      setIsLoginNeed(true)
+    }
+  }
 
 
   const markers = []; // 지도에 표시된 마커 객체를 가지고 있을 배열
@@ -208,6 +225,7 @@ function SearchMain({userInfo}) {
     }
 
     function displayMarker(place) {    // 지도에 마커를 표시하는 함수입니다
+
       const marker = new kakao.maps.Marker({ // 마커를 생성하고 지도에 표시합니다
           map: map,
           position: new kakao.maps.LatLng(place.y, place.x) 
@@ -238,12 +256,17 @@ function SearchMain({userInfo}) {
     // 지도를 클릭했을때 클릭한 위치에 마커를 추가하도록 지도에 클릭이벤트를 등록
     kakao.maps.event.addListener(map, 'click', async (mouseEvent) => {
       try {
-        
         const data = await searchLandmark(mouseEvent.latLng);
-        
-        for(let i = 0; i < data.meta.total_count; i++){
-          displayMarker(data.documents[i]);
+        if (data.meta.total_count > 15) {
+          for(let i = 0; i < 15; i++){
+            displayMarker(data.documents[i]);
+          }
+        } else {
+          for(let i = 0; i < data.meta.total_count; i++){
+            displayMarker(data.documents[i]);
+          }
         }
+        
         addMarker(mouseEvent.latLng); // 클릭한 위치에 마커를 표시
         
       } catch (error) {
@@ -288,7 +311,7 @@ function SearchMain({userInfo}) {
       });
 
       await kakao.maps.event.addListener(marker, 'click', function() {
-        setUserClickInfo(data.documents[0].address);
+        setUserClickInfo(data.documents[0]?.address);
         setIsInfoWindow(true);
       });
 
@@ -356,7 +379,6 @@ function SearchMain({userInfo}) {
     setSelectedPlaceButtons(selectedValues);
     setIsPlaceModalOpen(false);
   };
-  console.log(formData);
 
   return (
     <Container>
@@ -422,14 +444,11 @@ function SearchMain({userInfo}) {
                 관광지
             </li>   
           </MapCategory>
+
           <SaveButton 
-            onClick = {()=>{
-              handleMappingSave(formData,userInfo.userId);
-              setFormData([]);
-              navigater('/');
-            }}>저장하기→</SaveButton>
-          {/* 여기서부터시작! */}
-          {/* 해당 컨포넌트 작업 후 다시 주석 해제할 예정 */}
+            // disabled = {!formData.length}
+            onClick = {()=>{handleSaveFormData(userInfo)}}>저장하기<IoIosArrowRoundForward /></SaveButton>
+
         </MapContainer>
       </ContentWrap>
 
@@ -471,7 +490,21 @@ function SearchMain({userInfo}) {
           userInfo={userInfo}
         />
       )}
+
+      {isWhereIgo && (
+        <MainOrMylist
+          setIsWhereIgo={setIsWhereIgo}
+        />
+      )}
+
+      {isLoginNeed && (
+        <LoginNeed 
+          closeModal={()=> setIsLoginNeed(false)}
+        />
+      )}
     </Container>
+
+    
   );
 }
 

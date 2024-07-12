@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Modal from 'react-modal';
+import { BACK_URL } from "../../api/config";
 
 
 // 컨테이너 틀
@@ -124,7 +125,7 @@ function SignUp() {
     profile: null,
     userRole: "ROLE_USER",
     userProfileImagePath: null,
-    nickName: null,
+    nickname: null,
     phone: null,
     birth: null
   });
@@ -140,7 +141,7 @@ function SignUp() {
 
   const checkDuplicate = async (value) => {
     try {
-      const response = await axios.post(`http://localhost:8080/member/check-duplicate`, value);
+      const response = await axios.post(`${BACK_URL}/member/check-duplicate`, value);
       console.log(response.data);
       return response.data;
     } catch (error) {
@@ -198,25 +199,25 @@ function SignUp() {
     console.log(/^[a-zA-Z0-9]*$/.test(value));
 
     if (!/^[a-zA-Z0-9_.]*$/.test(value)) {
-      setUserInfo({ ...userInfo, nickName: '' });
+      setUserInfo({ ...userInfo, nickname: '' });
       alert("입력 불가능한 문자입니다.");
       return null;
     } else {
-      setUserInfo({ ...userInfo, nickName: value });
+      setUserInfo({ ...userInfo, nickname: value });
     }
 
   };
 
   // nickName 체크
-  const handleCheckNickName = async () => {
-    const copyNickName = userInfo.nickName;
-    const isDuplicate = await checkDuplicate(copyNickName);
-    console.log(isDuplicate);
-    if (isDuplicate) {
-      openModal("이미 다른 사람이 사용중이에요😥");
-    }
-    setUserInfo({ ...userInfo, nickName: copyNickName });
-  };
+  // const handleCheckNickName = async () => {
+  //   const copyNickName = userInfo.nickname;
+  //   const isDuplicate = await checkDuplicate(copyNickName);
+  //   console.log(isDuplicate);
+  //   if (isDuplicate) {
+  //     openModal("이미 다른 사람이 사용중이에요😥");
+  //   }
+  //   setUserInfo({ ...userInfo, nickName: copyNickName });
+  // };
 
   // 전화번호 유효성 검사
   const handlePhone = (e) => {
@@ -274,11 +275,12 @@ function SignUp() {
       formData.append('file', uploadFile);
 
       // 서버에 유저정보 전송
-      const response = await axios.post('http://localhost:8080/member/register', userInfo
+      const response = await axios.post(`${BACK_URL}/member/register`, userInfo
       );
 
       if (uploadFile) {
-        await axios.post('http://localhost:8080/member/upload', formData);
+        await axios.post(`${BACK_URL}/member/upload`, formData);
+        console.log(uploadFile);
       }
 
       if (response.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
@@ -333,16 +335,9 @@ function SignUp() {
             <Input
               type="text"
               style={{ flex: 1 }}
-              value={userInfo.nickName}
+              value={userInfo.nickname}
               onChange={handleNickName}
             />
-            <DoSign
-              detailWidth="150px"
-              style={{ margin: '10px 0 0 10px', height: '45px' }}
-              onClick={handleCheckNickName}
-            >
-              닉네임 중복검사
-            </DoSign>
           </IdWrap>
           <Text>BIRTHDAY</Text>
           <Input type="date"

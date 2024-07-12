@@ -91,6 +91,12 @@ const CloseButton = styled.button`
   cursor: pointer;
 `;
 
+export const buttonLabels = [
+  "전체", "경기", "경상", "전라",
+  "제주", "서울", "강원", "부산", "인천",
+  "광주", "대전", "대구", "울산"
+];
+
 function MainModalPlace({ closeModal, selectedButtons, setSelectedButtons, onSave }) {
   const [tempSelectedButtons, setTempSelectedButtons] = useState([...selectedButtons]);
 
@@ -122,11 +128,7 @@ function MainModalPlace({ closeModal, selectedButtons, setSelectedButtons, onSav
     closeModal();
   };
 
-  const buttonLabels = [
-    "전체", "경기", "경상", "전라",
-    "제주", "서울", "강원", "부산", "인천",
-    "광주", "대전", "대구", "울산"
-  ];
+
 
   return (
     <Overlay onClick={handleClose}>
