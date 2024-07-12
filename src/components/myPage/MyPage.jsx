@@ -170,8 +170,8 @@ const CustomerServiceBox = styled.div`
 function MyPage() {
   const Member = useSelector(selectUser);
   const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
-  const [hashtags, setHashtags] = useState(['HashTag1', 'HashTag2', 'HashTag3']);
 
+  const [hashtags, setHashtags] = useState(['HashTag1', 'HashTag2', 'HashTag3']);
   const navigate = useNavigate();
 
   // 프로필 편집 모달 열기 핸들러
