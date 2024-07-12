@@ -5,13 +5,13 @@ import { handleDelete, handleSaveAll, landmarkResponse } from '../../api/map/map
 import { TfiClose } from "react-icons/tfi";
 
 // 피그마에 색상 다른것처럼 표현 됬길래 팔레트임... 수정하기만 하면 됨
-const colors = ['#B98CFF', '#8B7FE8', '#98A7FF', '#7FAAE8', '#8CD9FF'];
+const colors = ['#D5ECFA','#D5ECFA', '#a4dcff', '#a4dcff', '#79ccff', '#79ccff', '#2f86ff', '#2f86ff', '#006aff', '#006aff', '#2f44ff', ];
 
 const Container = styled.div`
-  height: 80px;
+  height: auto;
   display: flex;
   align-items: center;
-  padding: 10px 15px 10px;
+  padding: 15px;
   background-color: ${({ $bgColor }) => $bgColor};
   border-radius: 10px;
   width: auto;
@@ -25,13 +25,28 @@ const Info = styled.div`
   margin-right: 20px;
 `;
 
+const EditableField = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const EditInput = styled.input`
+  font-size: 18px;
+  margin-right: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+`;
+
 const Day = styled.div`
   font-size: 24px;
   font-weight: bold;
+  cursor: pointer;
 `;
 
 const Time = styled.div`
   font-size: 16px;
+  cursor: pointer;
 `;
 
 const Content = styled.div`
@@ -49,6 +64,7 @@ const Description = styled.div`
   font-size: 14px;
   margin: 5px 0;
   height: 30px;
+  cursor: pointer;
 `;
 
 const Details = styled.div`
@@ -56,42 +72,63 @@ const Details = styled.div`
   color: #666;
 `;
 
+// "모든 데이터 저장" 버튼 스타일 컴포넌트
+const SaveButton = styled.button`
+  border: none;
+  background-color: #8fa4bfc4;
+  font-size: 1.2rem;
+  margin: 1%;
+  padding: 1%;
+  border-radius: 5px; 
+  cursor: pointer; 
+  font-family: 'MaplestoryOTFBold';
+  
+  &:hover {
+    background-color: #7289a1; 
+  }
+`;
 
-const SearchMainResult = ({formData, setFormData}) => {
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin: 1.5%;
+`;
 
+const SearchMainResult = ({ formData, setFormData }) => {
   const [editDayIndex, setEditDayIndex] = useState(null);
   const [editTimeIndex, setEditTimeIndex] = useState(null);
   const [editDay, setEditDay] = useState('');
   const [editTime, setEditTime] = useState('');
+  const [editShortDescIndex, setEditShortDescIndex] = useState(null);
+  const [editShortDesc, setEditShortDesc] = useState('');
 
-  
   const userInfo = useSelector(state => state.member.userInfo);
   const userId = userInfo?.userId || "사용자";
 
-  // const results = formData;
-
   useEffect(() => {
-
-    landmarkResponse(userId)
-    .then(res => setFormData(res));
-
+    landmarkResponse(userId).then(res => setFormData(res));
   }, []);
 
-  const sortResult = formData?.sort((a, b) => {
-    const dayA = (typeof a.landmarkDay === 'number') ? a.landmarkDay : Number(a.landmarkDay);
-    const dayB = (typeof b.landmarkDay === 'number') ? b.landmarkDay : Number(b.landmarkDay);
-    
-    if (dayA !== dayB) {
-      return dayA - dayB; 
-    } else {
-      const timeA = (typeof a.landmarkTime === 'string') ? a.landmarkTime : String(a.landmarkTime);
-      const timeB = (typeof b.landmarkTime === 'string') ? b.landmarkTime : String(b.landmarkTime);
-      return timeA.localeCompare(timeB);
+
+
+  useEffect(() => {
+    if (formData) {
+      const sortResult = formData.sort((a, b) => {
+        const dayA = (typeof a.landmarkDay === 'number') ? a.landmarkDay : Number(a.landmarkDay);
+        const dayB = (typeof b.landmarkDay === 'number') ? b.landmarkDay : Number(b.landmarkDay);
+
+        if (dayA !== dayB) {
+          return dayA - dayB;
+        } else {
+          const timeA = (typeof a.landmarkTime === 'string') ? a.landmarkTime : String(a.landmarkTime);
+          const timeB = (typeof b.landmarkTime === 'string') ? b.landmarkTime : String(b.landmarkTime);
+          return timeA.localeCompare(timeB);
+        }
+      });
+      setFormData(sortResult);
     }
-  });
-  
-  setFormData(sortResult);
-  
+  }, [formData, setFormData]);
+
   const handleEditDay = (index, day) => {
     setEditDayIndex(index);
     setEditDay(day);
@@ -110,7 +147,6 @@ const SearchMainResult = ({formData, setFormData}) => {
     setEditDayIndex(null);
   };
 
-
   const handleSaveTime = (index) => {
     const updatedFormData = formData.map((item, i) =>
       i === index ? { ...item, landmarkTime: editTime } : item
@@ -119,43 +155,23 @@ const SearchMainResult = ({formData, setFormData}) => {
     setEditTimeIndex(null);
   };
 
-  const formatTime = (time) => {
-    if (!time) {
-      return ''; // 예외 처리: time이 null 또는 undefined인 경우 빈 문자열 반환
-    }
-    const [hours, minutes] = time.split(':').map(Number);
-    return new Date(2024, 7, 8, hours, minutes).toLocaleTimeString('ko-KR', {
-      hour12: false,
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
-  const handleDayChange = (e) => {
-    setEditDay(e.target.value);
-  };
-
-  const handleTimeChange = (e) => {
-    setEditTime(e.target.value);
-  };
-
-  const [editShortDescIndex, setEditShortDescIndex] = useState(null);
-  const [editShortDesc, setEditShortDesc] = useState('');
-
-  const handleShortDescChange = (e)=>{
-    setEditShortDesc(e.target.value);
-  };
-
   const handleSaveShortDescChange = (index) => {
     const updatedFormData = formData.map((item, i) =>
       i === index ? { ...item, landmarkShortDesc: editShortDesc } : item
     );
     setFormData(updatedFormData);
-    setEditShortDescIndex(null);  //수정 완료 후 인덱스초기화
+    setEditShortDescIndex(null);
   };
 
-  const handleEditShortDesc = (index, shotDesc) => {
+  const handleEditShortDesc = (index, shortDesc) => {
     setEditShortDescIndex(index);
-    setEditTime(shotDesc);
+    setEditShortDesc(shortDesc);
+  };
+
+  const handleKeyPress = (e, index, saveFunction) => {
+    if (e.key === 'Enter') {
+      saveFunction(index);
+    }
   };
 
   return (
@@ -165,25 +181,33 @@ const SearchMainResult = ({formData, setFormData}) => {
           <Info>
             {/* 일자표시 */}
             {editDayIndex === index ? (
-              <>
-                <input type="text" value={editDay} onChange={handleDayChange} />
-                <button type="button" onClick={() => handleSaveDay(index)}>저장</button>
-              </>
+              <EditableField>
+                <EditInput 
+                  type="text" 
+                  value={editDay} 
+                  onChange={(e) => setEditDay(e.target.value)} 
+                  onBlur={() => handleSaveDay(index)} 
+                  onKeyPress={(e) => handleKeyPress(e, index, handleSaveDay)} 
+                  autoFocus 
+                />
+              </EditableField>
             ) : (
               <Day onClick={() => handleEditDay(index, result.landmarkDay)}>{result.landmarkDay} 일차</Day>
             )}
             {/* 시간별 표시 */}
             {editTimeIndex === index ? (
-              <>
-                <input
+              <EditableField>
+                <EditInput
                   type="time"
                   value={editTime}
-                  onChange={handleTimeChange}
+                  onChange={(e) => setEditTime(e.target.value)}
+                  onBlur={() => handleSaveTime(index)}
+                  onKeyPress={(e) => handleKeyPress(e, index, handleSaveTime)}
+                  autoFocus
                 />
-                <button onClick={() => handleSaveTime(index)}>저장</button>
-              </>
+              </EditableField>
             ) : (
-              <Time onClick={() => handleEditTime(index, result.landmarkTime)}>{result.landmarkTime}일정</Time>
+              <Time onClick={() => handleEditTime(index, result.landmarkTime)}>{result.landmarkTime} 일정</Time>
             )}
           </Info>
 
@@ -191,22 +215,32 @@ const SearchMainResult = ({formData, setFormData}) => {
             {/* 제목 */}
             <Title>{result.landmarkName}</Title>
             {/* 게시물 텍스트 */}
-            {editShortDescIndex === index ?(
-              <>
-                <input type="text" value={editShortDesc} onChange={handleShortDescChange} />
-                <button type="button" onClick={() => handleSaveShortDescChange(index)}>저장</button>
-              </>
-            ) :(
-              <Description onClick={() => {handleEditShortDesc(index, result.landmarkShortDesc)}}>{result.landmarkShortDesc? result.landmarkShortDesc : '간단코멘트작성해주세요'}</Description>
-            ) }
-            {/* <Description>{result.landmarkShortDesc}</Description> */}
-             {/* 인원 / 장소 / 날짜 << 고장값 설정 */}
+            {editShortDescIndex === index ? (
+              <EditableField>
+                <EditInput 
+                  type="text" 
+                  value={editShortDesc} 
+                  onChange={(e) => setEditShortDesc(e.target.value)} 
+                  onBlur={() => handleSaveShortDescChange(index)} 
+                  onKeyPress={(e) => handleKeyPress(e, index, handleSaveShortDescChange)} 
+                  autoFocus 
+                />
+              </EditableField>
+            ) : (
+              <Description onClick={() => handleEditShortDesc(index, result.landmarkShortDesc)}>
+                {result.landmarkShortDesc ? result.landmarkShortDesc : '간단 코멘트 작성해주세요'}
+              </Description>
+            )}
+            {/* 인원 / 장소 / 날짜 */}
+            {/* t수정중 */}
             <Details>{result.writer}</Details>
           </Content>
-          <TfiClose style={{cursor:"pointer"}} onClick={()=>{ handleDelete(result); setFormData(formData.filter(item => item.landmarkNo !== result.landmarkNo)); }} />
-      </Container>
+          <TfiClose style={{ cursor: "pointer" }} onClick={() => { handleDelete(result); setFormData(formData.filter(item => item.landmarkNo !== result.landmarkNo)); }} />
+        </Container>
       ))}
-      <button onClick={()=>{handleSaveAll(formData)}}>모든 데이터 저장</button>
+      <ButtonContainer>
+        <SaveButton onClick={() => { handleSaveAll(formData) }}>모든 데이터 저장</SaveButton>
+      </ButtonContainer>
     </>
   );
 };

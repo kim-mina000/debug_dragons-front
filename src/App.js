@@ -25,6 +25,8 @@ import Lookaround from './components/menuBar/Lookaround';
 import Comments from './components/subpage/Comments';
 
 import MainOrMylist from './components/modal/MainOrMylist';
+import TermsPrivacy from './components/other/TermsPrivacy';
+import CustomerService from './components/other/CustomerService';
 
 
 
@@ -59,12 +61,12 @@ const GlobalStyles = createGlobalStyle`
 
     /* 스크롤바 css */
     ::-webkit-scrollbar {
-    width: 12px;
-    background-color: black;
+    width: 8px;
+    background-color: none;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(#D4F9FF, #A5DEF0);
+    background: linear-gradient(#d4f9ff00, #D4F9FF, #A5DEF0, #ffffff, #ffffff,#a5def000);
     border-radius: 20px;
   }
 
@@ -87,6 +89,7 @@ function App() {
       setIsLoading(false);
     }, 3000);
   }, []);
+
 
   return (
     <>
@@ -118,9 +121,12 @@ function App() {
         <Route path="/scrap" element={<Clipping />} />
         <Route path="/around" element={<Lookaround />} />
 
+        <Route path="/terms-privacy" element={<TermsPrivacy />} />
+        <Route path="/customerservice" element={<CustomerService />} />
+
 
         {/* 임시라우터 */}
-//         <Route path="/landmarkcomment/:landmarkNo" element={<Comments/>} />
+        <Route path="/landmarkcomment/:landmarkNo" element={<Comments />} />
 
         <Route path='/whereIgo' element={<MainOrMylist />}/>
 

@@ -34,11 +34,10 @@ const Input = styled.input`
     font-size: 25px;
   }
 
-  &::focus {
+  &:focus {
     border-color: #007BFF; 
     outline: none;
   }
-
 `;
 
 // "로그인하기" 버튼
@@ -107,8 +106,6 @@ const Links = styled.div`
 `;
 
 function Login() {
-  // const [id, setId] = useState('');
-  // const [password, setPassword] = useState('');
 
   const [loginForm, setLoginForm] = useState({
     id: '',
@@ -117,46 +114,42 @@ function Login() {
 
   const handleChangeLoginForm = (e) => {
     const { name, value } = e.target;
-
     setLoginForm({
       ...loginForm,
       [name]: value
     });
   };
 
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const handleLogin = () => {
-  //   if (id && password) {
-  //     console.log('로그인 성공');
-  //   } else {
-  //     console.log('아이디와 비밀번호를 입력하세요');
-  //   }
-  // };
-  
-const handleLogin = async () =>{
-  try {
-    const response = await axios.get(`${BACK_URL}/login?userId=${loginForm.id}&userPw=${loginForm.password}`);
 
-    localStorage.setItem('userToken', response.data.token);
-    localStorage.setItem('userInfo',  JSON.stringify(response.data.user));
-    dispatch(getUserToken(response.data.token));
-    dispatch(getUserInfo(response.data.user));
-    console.log(response.data.user);
+  const handleLogin = async () => {
+    try {
+      const response = await axios.get(`${BACK_URL}/login?userId=${loginForm.id}&userPw=${loginForm.password}`);
+      localStorage.setItem('userToken', response.data.token);
+      localStorage.setItem('userInfo', JSON.stringify(response.data.user));
+      dispatch(getUserToken(response.data.token));
+      dispatch(getUserInfo(response.data.user));
+      console.log(response.data.user);
+      navigate('/main');
+      return console.log("로그인성공");
+    } catch (error) {
+      console.error(error);
+      return console.error("로그인실패");
+    }
+  };
 
-    navigate('/main');
-    return console.log("로그인성공");;
-    
-  } catch (error) {
-    console.error(error);
-    return console.error("로그인실패");
-  }
-};
+  // Enter 키가 눌렸을 때 로그인 함수 호출
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
+  };
 
-  const {Kakao} = window;
-  const kakaoLoginHandler = ()=>{
+
+  const { Kakao } = window;
+  const kakaoLoginHandler = () => {
     Kakao.Auth.authorize({
       redirectUri: `${REDIRECT_URI}`,
     })
@@ -164,13 +157,14 @@ const handleLogin = async () =>{
 
   return (
     <Container>
-      <TitleLogo/>
+      <TitleLogo />
       <Input
         type="text"
         placeholder="아이디를 입력해주세요."
         name='id'
         value={loginForm.id}
         onChange={handleChangeLoginForm}
+        onKeyPress={handleKeyPress} // Enter 키 이벤트 핸들러 추가
       />
       <Input
         type="password"
@@ -178,14 +172,14 @@ const handleLogin = async () =>{
         placeholder="비밀번호를 입력해주세요."
         value={loginForm.password}
         onChange={handleChangeLoginForm}
+        onKeyPress={handleKeyPress} // Enter 키 이벤트 핸들러 추가
       />
-
       <Button onClick={handleLogin}>시작하기</Button>
 
       <LineContainer>간편 로그인 하기</LineContainer>
 
       <Image>
-        <img src='/btnG_완성형.png' style={{ marginRight: '50px'}} />
+        <img src='/btnG_완성형.png' style={{ marginRight: '50px' }} />
         <img src="/kakao_login_medium_narrow.png" onClick={kakaoLoginHandler} />
       </Image>
 
@@ -197,7 +191,7 @@ const handleLogin = async () =>{
         <Link to={"/signup"}>회원가입</Link>
       </Links>
 
-      <MenuBar/>
+      <MenuBar />
     </Container>
   );
 };

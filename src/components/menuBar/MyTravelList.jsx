@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { RiFolderAddLine, RiFolderAddFill } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 
 import MenuBar from '../0.menuBar/MenuBar';
 import Header from '../0.menuBar/Header';
+import { getMyTravelList, getMyTravelListDetail } from '../../api/myTravelList/myTravelListAPI';
+import { useSelector } from 'react-redux';
 
 const TravelListContainer = styled.div`
   width: 80%;
@@ -26,6 +28,7 @@ const Category = styled.div`
   flex: 1; /* flex-grow 설정으로 각 아이템이 동일한 비율로 공간을 차지하게 함 */
   margin: 0 10px; /* 좌우 여백 설정 */
 `;
+
 
 const CategoryButton = styled.button`
   width: 100%;
@@ -57,6 +60,7 @@ const CategoryButton = styled.button`
     margin-top: 5px; 
     cursor: pointer; 
     font-size: 14px;
+    font-family: 'MaplestoryOTFBold';
   }
 
   &:hover {
@@ -88,6 +92,7 @@ const EditableCategoryName = styled.input`
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 14px;
+  font-family: 'MaplestoryOTFBold';
 `;
 
 const BoxesContainer = styled.div`
@@ -99,28 +104,27 @@ const BoxesContainer = styled.div`
   max-height: 70vh; 
   overflow-y: scroll; 
 
-  /* 스크롤바 설정 */
+  /* 스크롤바 css */
   &::-webkit-scrollbar {
-    width: 20px;
+    width: 8px;
+    background-color: none;
   }
 
-  /* 스크롤바 막대 설정 */
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 1);
-    border-radius: 10px;
-    border: 7px solid rgba(0, 0, 0, 0.8);
-  }
-
-  /* 스크롤바 뒷 배경 설정 */
-  &::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0);
+    background: linear-gradient(#d4f9ff00, #D4F9FF, #A5DEF0, #ffffff, #ffffff,#a5def000);
+    border-radius: 20px;
   }
 `;
+
+  
+
 
 const BoxLink = styled(Link)`
   width: 22rem;
   height: 22rem;
-  background-color: #798bda;
+  background-image: url('http://via.placeholder.com/250x250');
+  background-size: cover;
+  background-position: center;
   margin: 10px;
   text-decoration: none;
   display: flex;
@@ -195,6 +199,24 @@ const MyTravelList = () => {
   const [editingIndex, setEditingIndex] = useState(-1); // 편집 중인 카테고리 인덱스
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [sortOption, setSortOption] = useState('정렬기준');
+  
+  const userInfo = useSelector(state => state.member.userInfo);
+
+  useEffect(() => {
+    
+    const myList = getMyTravelList(userInfo.userId); // myList에 CourseLandmark가 담겨있음
+    
+    console.log(userInfo);
+    console.log(myList);
+  
+    const myListDetail = getMyTravelListDetail(myList[0]?.courseNo); // courseNo을 넣으면 해당 코스의 목록을 반환
+    console.log(myListDetail);
+
+    // getMyTravelList, getMyTravelListDetail 둘다 async 함수 내에서 await 붙이고 쓰면됨~!
+  
+  }, []);
+  
+  
 
   const handleEditCategoryName = (index) => {
     setEditingIndex(index); // 편집 상태로 전환
