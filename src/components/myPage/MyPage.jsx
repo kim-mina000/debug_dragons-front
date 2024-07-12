@@ -2,11 +2,11 @@ import styled from "styled-components";
 import MenuBar from "../0.menuBar/MenuBar";
 import { MdOutlineEdit } from "react-icons/md";
 import { HiStar } from "react-icons/hi2";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyPageProfile from "../modal/MyPageProfile";
 import { getUserInfo, selectUser } from "../../features/member/memberSlice";
 import { useSelector } from "react-redux";
-import Header from "../menuBar/Header";
+import Headers from "../0.menuBar/Header";
 import { useNavigate } from "react-router-dom";
 
 const TopDiv = styled.div`
@@ -70,6 +70,7 @@ const HashTagBox = styled.div`
   height: 220px;
   font-size: 50px;
   white-space: pre-line; /* 줄바꿈 유지 */
+  line-height: 70px;
   word-break: break-all;
   .Tag {
     padding-bottom: 15px;
@@ -170,28 +171,41 @@ const CustomerServiceBox = styled.div`
 function MyPage() {
   const Member = useSelector(selectUser);
   const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
+  const userInfoRedux = useSelector(state => state.member.userInfo);
 
+  
+  
   const [hashtags, setHashtags] = useState(['HashTag1', 'HashTag2', 'HashTag3']);
   const navigate = useNavigate();
-
+  
   // 프로필 편집 모달 열기 핸들러
   const handleProfileEditClick = () => {
     setIsProfileEditModalOpen(true);
   };
-
+  
   // 고객센터 연결 클릭 핸들러
   const handleCustomerServiceClick = () => {
     navigate('/customerservice');
   };
+  
+  useEffect(() => {
+  
+    setUserInfo(userInfoRedux);  // 리덕스 스토어에서 받아서 유저정보 넣어줌
+
+    if (!userInfo) {  // 새로고침이 일어나면 로컬스토리지에서 받아줌
+      setUserInfo(JSON.parse(localStorage.getItem('userInfo')));
+    }
+  }, []);
 
   return (
     <>
-      <Header userName={Member.nickname} />
+      <Headers userName={userInfo ? userInfo.nickname : "사용자"} />
 
       <TopDiv>
         <ProfileDiv>
           <ProfileImageBox>
-            <ProfileImage image={Member.userProfileImagePath} />
+            <ProfileImage image={userInfo.userProfileImagePath} />
             <ProfileEdit>
               <EditIcon onClick={handleProfileEditClick} />
             </ProfileEdit>

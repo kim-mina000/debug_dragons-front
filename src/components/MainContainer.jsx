@@ -30,7 +30,7 @@ function MainContainer() {
 
   return (
     <>    
-      <Headers userName={userInfo ? userInfo.userName : "사용자"} />
+      <Headers userName={userInfo ? userInfo.nickname : "사용자"} />
       <Wrap>
       
         <SearchMain userInfo={userInfo} />
