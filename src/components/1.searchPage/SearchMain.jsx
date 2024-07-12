@@ -189,6 +189,7 @@ function SearchMain({userInfo}) {
   const markers = []; // 지도에 표시된 마커 객체를 가지고 있을 배열
   // 화면이 처음 렌더링 될 때 지도를 가져옴.
   useEffect(() => {
+    
     kakao.maps.load(() => {
     // 지도 초기 생성 옵션
     const options = {
@@ -419,6 +420,7 @@ function SearchMain({userInfo}) {
             <SearchMainResult formData={formData} setFormData={setFormData}/>
           </MyCourseContainer>
         </LeftWrap>
+        
         <MapContainer ref={container} id='map'>
           <MapCategory id='category'>
 
