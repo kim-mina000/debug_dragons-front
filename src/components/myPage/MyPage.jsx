@@ -2,10 +2,12 @@ import styled from "styled-components";
 import MenuBar from "../0.menuBar/MenuBar";
 import { MdOutlineEdit } from "react-icons/md";
 import { HiStar } from "react-icons/hi2";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyPageProfile from "../modal/MyPageProfile";
 import { getUserInfo, selectUser } from "../../features/member/memberSlice";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 
 const Wrap = styled.div`
   width: 100%;
@@ -16,8 +18,10 @@ const Wrap = styled.div`
 const TopDiv = styled.div`
   width: 1200px;
   display: flex;
+
   margin: 30px auto 0;
 `
+
 const ProfileDiv = styled.div`
   width: 280px;
   height: 280px;
@@ -25,11 +29,12 @@ const ProfileDiv = styled.div`
   .UserId {
     font-size: 16px;
   }
-`
+`;
 const ProfileImageBox = styled.div`
   width: 200px;
   height: 200px;
   border-radius: 50%;
+
   position: relative;
   margin-bottom: 10px;
   background-size: cover;
@@ -37,77 +42,82 @@ const ProfileImageBox = styled.div`
   background-image: url(${props => props.image});
   `
 
+
 const ProfileImage = styled.div`
   width: 100%;
+  height: 100%;
   border-radius: 50%;
-`
+  background-image: url(${props => props.image});
+  background-size: cover;
+`;
 
 const ProfileEdit = styled.div`
   width: 65px;
   height: 65px;
   border-radius: 50%;
   border: 3px solid #ffffff;
-  background-color:#ccc;
+  background-color: #ccc;
   position: absolute;
   bottom: 0;
   right: 0;
+`;
 
-  .EditIcon {
-    width: 45px;
-    height: 45px;
-    position: absolute;
-    left: 10px;
-    top: 10px;
-    cursor: pointer;
-  }
-`
+const EditIcon = styled(MdOutlineEdit)`
+  width: 45px;
+  height: 45px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  cursor: pointer;
+`;
 
 const HashScrap = styled.div`
   width: 700px;
   height: 275px;
   margin-left: 140px;
-`
+`;
 
 const HashTagBox = styled.div`
   width: 100%;
   height: 220px;
   font-size: 50px;
   white-space: pre-line; /* 줄바꿈 유지 */
+  line-height: 70px;
   word-break: break-all;
   .Tag {
     padding-bottom: 15px;
   }
-`
+`;
 const ScrapBox = styled.div`
   width: 640px;
   height: 25px;
-  background-color: #CCC;
-  font-size: 20px;  
+  background-color: #ccc;
+  font-size: 20px;
   margin-top: 10px;
   display: flex;
   justify-content: space-between;
   padding: 15px 30px 0;
-  font-family: 'NEXON Lv1 Gothic OTF', sans-serif;  
-`
+  font-family: 'NEXON Lv1 Gothic OTF', sans-serif;
+`;
 
 const BottomDiv = styled.div`
   width: 1200px;
   height: 450px;
   margin: 0 auto 10px;
   display: flex;
-`
+`;
 
 const UserInfo = styled.div`
   width: 700px;
   height: 420px;
   margin-right: 50px;
-  `
+`;
 
 const Title = styled.h1`
   font-size: 36px;
   font-weight: bold;
-  font-family: 'NEXON Lv1 Gothic OTF', sans-serif;  
-  `
+  font-family: 'NEXON Lv1 Gothic OTF', sans-serif;
+`;
 const InfoContent = styled.div`
   width: 660px;
   height: 60px;
@@ -115,18 +125,18 @@ const InfoContent = styled.div`
   line-height: 60px;
   margin: 5px auto;
   font-size: 20px;
-  background-color: #CCC;
-`
+  background-color: #ccc;
+`;
 const CollectionBox = styled.div`
   width: 450px;
   height: 420px;
-  `
+`;
 const PointDiv = styled.div`
   width: 390px;
   height: 60px;
   padding: 0 30px;
   margin: 10px 0;
-  background-color: #CCC;
+  background-color: #ccc;
   font-size: 20px;
   line-height: 60px;
   display: flex;
@@ -136,14 +146,13 @@ const PointDiv = styled.div`
     cursor: pointer;
     color: #4e4e4e;
   }
-`
+`;
 const MyCollection = styled.div`
   width: 450px;
   height: 290px;
   margin-top: 10px;
-  background-color: #CCC;
-
-`
+  background-color: #ccc;
+`;
 
 const CustomerServiceBox = styled.div`
   width: 1200px;
@@ -154,7 +163,7 @@ const CustomerServiceBox = styled.div`
 
   .CustomerService {
     margin: 0 75px;
-  } 
+  }
 
   .CsDiv {
     :hover {
@@ -162,25 +171,45 @@ const CustomerServiceBox = styled.div`
       color: #4e4e4e;
     }
   }
-  
+
   .Information {
     :hover {
       cursor: pointer;
       color: #4e4e4e;
     }
   }
-`
-
+`;
 
 function MyPage() {
+
   const userInfo = useSelector(selectUser);
   const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
-  const [hashtags, setHashtags] = useState(["HashTag1", "HashTag2", "HashTag3"]);
+  const [userInfo, setUserInfo] = useState(null);
+  const userInfoRedux = useSelector(state => state.member.userInfo);
 
+  
+  
+  const [hashtags, setHashtags] = useState(['HashTag1', 'HashTag2', 'HashTag3']);
+  const navigate = useNavigate();
+  
   // 프로필 편집 모달 열기 핸들러
   const handleProfileEditClick = () => {
     setIsProfileEditModalOpen(true);
   };
+  
+  // 고객센터 연결 클릭 핸들러
+  const handleCustomerServiceClick = () => {
+    navigate('/customerservice');
+  };
+  
+  useEffect(() => {
+  
+    setUserInfo(userInfoRedux);  // 리덕스 스토어에서 받아서 유저정보 넣어줌
+
+    if (!userInfo) {  // 새로고침이 일어나면 로컬스토리지에서 받아줌
+      setUserInfo(JSON.parse(localStorage.getItem('userInfo')));
+    }
+  }, []);
 
   return (
     <Wrap>  
@@ -189,14 +218,12 @@ function MyPage() {
           <ProfileImageBox image={userInfo.userProfileImagePath}>
             <ProfileImage />
             <ProfileEdit>
-              <MdOutlineEdit
-                className="EditIcon"
-                onClick={handleProfileEditClick}
-              />
+              <EditIcon onClick={handleProfileEditClick} />
             </ProfileEdit>
           </ProfileImageBox>
           <span className="UserId"><HiStar color="#95D7FC" />{userInfo.nickname} 님의 계정입니다</span>
         </ProfileDiv>
+
 
         <HashScrap>
           <HashTagBox>
@@ -236,9 +263,11 @@ function MyPage() {
         <div className="CsDiv">
           <span className="CustomerService">자주 묻는 질문</span>
           <span className="CustomerService">1:1 카카오 문의</span>
-          <span className="CustomerService">고객센터 연결</span>
+          <span className="CustomerService" onClick={handleCustomerServiceClick}>
+            고객센터 연결
+          </span>
         </div>
-        <div className="Information">
+        <div className="Information" onClick={() => navigate('/terms-privacy')}>
           <span>이용약관/개인정보</span>
         </div>
       </CustomerServiceBox>
@@ -253,6 +282,6 @@ function MyPage() {
       )}
     </Wrap>
   );
-};
+}
 
 export default MyPage;

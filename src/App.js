@@ -25,8 +25,13 @@ import Lookaround from './components/menuBar/Lookaround';
 import Comments from './components/subpage/Comments';
 
 import MainOrMylist from './components/modal/MainOrMylist';
+
 import SearchMain from './components/1.searchPage/SearchMain';
 import { useSelector } from 'react-redux';
+
+import TermsPrivacy from './components/other/TermsPrivacy';
+import CustomerService from './components/other/CustomerService';
+
 
 
 
@@ -124,6 +129,9 @@ function App() {
         </Route>
 
         {/* <Route path="/menuBar" element={<MenuBar />} /> */}
+
+        <Route path="/terms-privacy" element={<TermsPrivacy />} />
+        <Route path="/customerservice" element={<CustomerService />} />
 
 
         {/* 임시라우터 */}

@@ -118,6 +118,7 @@ import { BACK_URL } from '../../api/config';
     font-size: 30px;
     border: none;
     resize: none;
+    overflow: hidden;
   `
 
   const WithAttiBus = styled.div`
@@ -221,9 +222,19 @@ import { BACK_URL } from '../../api/config';
         };
 
         const update = await axios.post(`${BACK_URL}/member/update`, userData);
-        console.log(update.data);
 
+        console.log(update.data);
+        
         dispatch(getUserInfo(userData));
+        
+        const token = localStorage.getItem('userToken')
+        const tags = newTag.trim().split(/\s+/); // 공백을 기준으로 해시태그 분리
+        await axios.post(`http://localhost:8080/membertag/get`, tags, {
+          headers: {
+            Authorization: token
+          }
+        });
+        console.log(tags);
 
         if (ImageEdit) {
           await axios.post(`${BACK_URL}/member/upload?userId=${Member.userId}`, formData);
@@ -260,16 +271,6 @@ import { BACK_URL } from '../../api/config';
       }
       
     };
-
-    // const handleTagChange = (e) => {
-    //   // const tagsArray = e.target.value.split(' ');
-    //   // console.log(tagsArray);
-
-    //   // const tagsString = tagsArray.join(' ');
-
-    //   // setNewTag(tagsString);
-    //   setNewTag(e.target.value);
-    // };
 
     // 해시태그 입력창 이벤트 핸들러
     const handleTagChange = (e) => {
@@ -331,6 +332,7 @@ import { BACK_URL } from '../../api/config';
                   value={newTag}
                   onChange={handleTagChange}
                   placeholder="Enter 키로 구분해주세요!"
+                  maxLength={32}
                 />
                 <div>
                   {hashtags.map((tag, index) => (
