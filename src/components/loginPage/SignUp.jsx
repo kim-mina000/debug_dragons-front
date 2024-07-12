@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Modal from 'react-modal';
+import { BACK_URL } from "../../api/config";
 
 
 // 컨테이너 틀
@@ -140,7 +141,7 @@ function SignUp() {
 
   const checkDuplicate = async (value) => {
     try {
-      const response = await axios.post(`http://localhost:8080/member/check-duplicate`, value);
+      const response = await axios.post(`${BACK_URL}/member/check-duplicate`, value);
       console.log(response.data);
       return response.data;
     } catch (error) {
