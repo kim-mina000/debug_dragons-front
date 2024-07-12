@@ -10,5 +10,3 @@ export const KAKAO_JSKEY = '02a031fabfd172ce7cd288e0d8cd83a9';
 
 export const MARKER_IMG_URL = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
 
-
-// 히잉 네트리파이 되어라얍
