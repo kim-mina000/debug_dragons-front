@@ -7,7 +7,7 @@ export const landmarkResponse = async (userId) => {
   try {
     const response = await axios.get(`${BACK_URL}/landmark/read?id=${userId}`);
     console.log(response.data);
-    const result = await response.data?.filter(item => item.landmarkOrigin === false);
+    const result = await response?.data?.filter(item => item.landmarkOrigin === false);
 
     return result;
   } catch (error) {

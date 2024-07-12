@@ -115,7 +115,7 @@ const MainModalInfoWindow = ({ closeModal, userClickInfo, formData, setFormData,
             const res = await handleMyTripSave(userClickInfo, userInfo?.userId, imgUrl);
             tempData.landmarkNo = res.landmarkNo;
             closeModal();
-            setFormData([...formData,tempData]);
+            setFormData([tempData,...formData]);
             }}>내 일정에 저장하기</SearchButton>
         </Content>
       </Overlay>

@@ -130,6 +130,8 @@ const SearchMainResult = ({ formData, setFormData }) => {
   }, [formData, setFormData]);
 
   const handleEditDay = (index, day) => {
+    console.log("index"+index);
+    console.log(day);
     setEditDayIndex(index);
     setEditDay(day);
   };
