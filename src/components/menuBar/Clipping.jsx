@@ -297,7 +297,6 @@ const Clipping = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <Header />
       <Container>
         <Content>
           <ItemContainer>
