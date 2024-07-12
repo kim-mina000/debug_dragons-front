@@ -11,7 +11,6 @@ import MenuBar from '../0.menuBar/MenuBar';
 // 스타일 정의
 const Container = styled.div`
   width: 100%;
-  /* height: 80vh; */
   padding: 20px 0;
   display: flex;
   flex-direction: column;
@@ -174,7 +173,6 @@ const HeartIcon = styled.div`
   cursor: pointer;
 `;
 
-// 드래그 가능한 파일 컴포넌트
 const DraggableFile = ({ file, index, toggleLike }) => {
   const [{ isDragging }, drag] = useDrag({
     type: 'FILE',
@@ -205,7 +203,6 @@ const DraggableFile = ({ file, index, toggleLike }) => {
   );
 };
 
-// 드롭 가능한 폴더 컴포넌트
 const DroppableFolder = ({ folder, onDrop, handleFolderClick, handleInputChange, handleInputBlur }) => {
   const [{ isOver }, drop] = useDrop({
     accept: 'FILE',
@@ -235,6 +232,87 @@ const DroppableFolder = ({ folder, onDrop, handleFolderClick, handleInputChange,
   );
 };
 
+const FolderContentContainer = styled(Container)`
+  .file-container {
+    width: 30%;
+    padding-top: 30%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .file-thumbnail {
+    width: 80%;
+    height: 60%;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border: 3px solid black;
+  }
+
+  .file-label {
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+
+    h3 {
+      font-size: 35px;
+      margin-bottom: 5%;
+      flex: 1;
+    }
+
+    .file-info {
+      width: 100%;
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .label-info {
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+    }
+  }
+`;
+
+const FolderContent = ({ folder, onClose }) => {
+  return (
+    <FolderContentContainer>
+      <h2>{folder.name}</h2>
+      <button onClick={onClose}>닫기</button>
+      <ItemContainer>
+        {folder.pages.map((file, index) => (
+          <File className="file-container" key={index}>
+            <FileThumbnail className="file-thumbnail" src="http://via.placeholder.com/250x250" alt="썸네일 이미지" />
+            <FileLabel className="file-label">
+              <h3>{file.name}</h3>
+              <div className="file-info">
+                <div className='label-info'>
+                  {file.liked ? <PiHeartStraightBreakFill /> : <PiHeartStraightBreak />}
+                  {file.likes}
+                </div>
+                <div>작성자 {file.author}님</div>
+              </div>
+            </FileLabel>
+          </File>
+        ))}
+      </ItemContainer>
+    </FolderContentContainer>
+  );
+};
+
 const Clipping = () => {
   const [folders, setFolders] = useState([
     { id: 1, name: "강아지랑 같이 가야만...", pages: [] },
@@ -245,7 +323,18 @@ const Clipping = () => {
     { name: "밍고랑 같이 다녀온 강원도🐶💚", likes: 510, author: "(김지연)", liked: false },
     { name: "시리와 한번 더 대전🚅🚄", likes: 221, author: "(김민아)", liked: false },
     { name: "마리랑 하루랑 현아랑🌸🌸", likes: 309, author: "(최현아)", liked: false },
+    { name: "💙밍고랑 데이트 간 날💙", likes: 5151, author: "(김지연)", liked: false },
+    { name: "대전에서 스윗데이들💛💛", likes: 985, author: "(김민아)", liked: false },
+    { name: "한화가 이긴날 07.12❗", likes: 694, author: "(최현아)", liked: false },
+    { name: "윤식형님이랑 드라이브", likes: 168, author: "(윤다훈)", liked: false },
+    { name: "시리 밍고 마리 하루 모임", likes: 115, author: "(김민아)", liked: false },
+    { name: "동강모임 성공적💥", likes: 269, author: "(최현아)", liked: false },
+    { name: "다훈형이랑 드라이브", likes: 266, author: "(김윤식)", liked: false },
+    { name: "지연샘 보고시품", likes: 658, author: "(지연,민아,현아 공동)", liked: false },
+    { name: "플젝...성공적 07.18💨", likes: 106646, author: "(민아,윤식,지연,다훈)", liked: false },
   ]);
+
+  const [openFolder, setOpenFolder] = useState(null);
 
   const addFolder = () => {
     const newFolder = {
@@ -272,10 +361,11 @@ const Clipping = () => {
   };
 
   const handleFolderClick = (id) => {
-    const updatedFolders = folders.map(folder =>
-      folder.id === id ? { ...folder, isEditing: true } : folder
-    );
-    setFolders(updatedFolders);
+    setOpenFolder(id);
+  };
+
+  const handleCloseFolder = () => {
+    setOpenFolder(null);
   };
 
   const handleDrop = (fileIndex, folderId) => {
@@ -295,30 +385,36 @@ const Clipping = () => {
     setFiles(updatedFiles);
   };
 
+  const currentFolder = folders.find(folder => folder.id === openFolder);
+
   return (
     <DndProvider backend={HTML5Backend}>
       <Container>
-        <Content>
-          <ItemContainer>
-            <AddFolderIcon onClick={addFolder}>
-              <IconHoverBf className="add-before" />
-              <IconHoverAf className="add-after" />
-            </AddFolderIcon>
-            {folders.map(folder => (
-              <DroppableFolder
-                key={folder.id}
-                folder={folder}
-                onDrop={handleDrop}
-                handleFolderClick={handleFolderClick}
-                handleInputChange={handleInputChange}
-                handleInputBlur={handleInputBlur}
-              />
-            ))}
-            {files.map((file, index) => (
-              <DraggableFile key={index} file={file} index={index} toggleLike={toggleLike} />
-            ))}
-          </ItemContainer>
-        </Content>
+        {currentFolder ? (
+          <FolderContent folder={currentFolder} onClose={handleCloseFolder} />
+        ) : (
+          <Content>
+            <ItemContainer>
+              <AddFolderIcon onClick={addFolder}>
+                <IconHoverBf className="add-before" />
+                <IconHoverAf className="add-after" />
+              </AddFolderIcon>
+              {folders.map(folder => (
+                <DroppableFolder
+                  key={folder.id}
+                  folder={folder}
+                  onDrop={handleDrop}
+                  handleFolderClick={handleFolderClick}
+                  handleInputChange={handleInputChange}
+                  handleInputBlur={handleInputBlur}
+                />
+              ))}
+              {files.map((file, index) => (
+                <DraggableFile key={index} file={file} index={index} toggleLike={toggleLike} />
+              ))}
+            </ItemContainer>
+          </Content>
+        )}
       </Container>
       <MenuBar />
     </DndProvider>
