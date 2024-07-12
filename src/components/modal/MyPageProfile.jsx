@@ -117,6 +117,7 @@
     font-size: 30px;
     border: none;
     resize: none;
+    overflow: hidden;
   `
 
   const WithAttiBus = styled.div`
@@ -328,6 +329,7 @@
                   value={newTag}
                   onChange={handleTagChange}
                   placeholder="Enter 키로 구분해주세요!"
+                  maxLength={32}
                 />
                 <div>
                   {hashtags.map((tag, index) => (
