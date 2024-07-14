@@ -5,10 +5,11 @@ import { BACK_URL } from "../config";
 /* 해당 Landmark게시글 하나에 적용(LandmarkNo로 구분)
 : 좋아요 추가, 제거는 true, false값으로 구분 */
 const token = localStorage.getItem('userToken');
-export const fetchToggleLikeLandmark = async (landmarkNo, userId) => {
+
+export const fetchToggleLikeCourse = async (courseNo, userId) => {
   try {
-    const response = await axios.post(`${BACK_URL}/landmarkLike/isLike`, {
-      landmrkNo: landmarkNo,
+    const response = await axios.post(`${BACK_URL}/courseLike/isLike`, {
+      landmrkNo: courseNo,
       userId: userId
     }, {
       headers: {
@@ -24,14 +25,11 @@ export const fetchToggleLikeLandmark = async (landmarkNo, userId) => {
 
 
 // 해당 Landmark게시글의 true갯수 헤아림(좋아요 갯수)
-export const fetchLikeCountLandmark = async (landmarkNo) => {
+export const fetchLikeCountCourse = async (courseNo) => {
   try {
-    const response = await axios.get(`${BACK_URL}/landmarkLike/${landmarkNo}/likes`);
+    const response = await axios.get(`${BACK_URL}/landmarkLike/${courseNo}/likes`);
     return response.data;
   } catch (error) {
     console.log('좋아요갯수에러' + error);
   };
 };
-
-
-
