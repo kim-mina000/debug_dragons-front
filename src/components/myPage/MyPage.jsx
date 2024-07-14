@@ -2,18 +2,26 @@ import styled from "styled-components";
 import MenuBar from "../0.menuBar/MenuBar";
 import { MdOutlineEdit } from "react-icons/md";
 import { HiStar } from "react-icons/hi2";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyPageProfile from "../modal/MyPageProfile";
 import { getUserInfo, selectUser } from "../../features/member/memberSlice";
 import { useSelector } from "react-redux";
-import Header from "../menuBar/Header";
 import { useNavigate } from "react-router-dom";
+
+
+const Wrap = styled.div`
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+`;
 
 const TopDiv = styled.div`
   width: 1200px;
   display: flex;
-  margin: 70px auto 0;
-`;
+
+  margin: 30px auto 0;
+`
+
 const ProfileDiv = styled.div`
   width: 280px;
   height: 280px;
@@ -26,10 +34,14 @@ const ProfileImageBox = styled.div`
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background-color: #ccc;
+
   position: relative;
   margin-bottom: 10px;
-`;
+  background-size: cover;
+  background-position: center;
+  background-image: url(${props => props.image});
+  `
+
 
 const ProfileImage = styled.div`
   width: 100%;
@@ -70,6 +82,7 @@ const HashTagBox = styled.div`
   height: 220px;
   font-size: 50px;
   white-space: pre-line; /* 줄바꿈 유지 */
+  line-height: 70px;
   word-break: break-all;
   .Tag {
     padding-bottom: 15px;
@@ -168,48 +181,42 @@ const CustomerServiceBox = styled.div`
 `;
 
 function MyPage() {
-  const Member = useSelector(selectUser);
-  const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
 
+  const userInfo = useSelector(state => state.member.userInfo);
+  const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
+  
   const [hashtags, setHashtags] = useState(['HashTag1', 'HashTag2', 'HashTag3']);
   const navigate = useNavigate();
-
+  
   // 프로필 편집 모달 열기 핸들러
   const handleProfileEditClick = () => {
     setIsProfileEditModalOpen(true);
   };
-
+  
   // 고객센터 연결 클릭 핸들러
   const handleCustomerServiceClick = () => {
     navigate('/customerservice');
   };
 
-  return (
-    <>
-      <Header userName={Member.nickname} />
 
+  return (
+    <Wrap>  
       <TopDiv>
         <ProfileDiv>
-          <ProfileImageBox>
-            <ProfileImage image={Member.userProfileImagePath} />
+          <ProfileImageBox image={userInfo.userProfileImagePath}>
+            <ProfileImage />
             <ProfileEdit>
               <EditIcon onClick={handleProfileEditClick} />
             </ProfileEdit>
           </ProfileImageBox>
-          <span className="UserId">
-            <HiStar color="#95D7FC" />
-            {Member.nickname} 님의 계정입니다
-          </span>
+          <span className="UserId"><HiStar color="#95D7FC" />{userInfo?.nickname} 님의 계정입니다</span>
         </ProfileDiv>
-        {/* MenuBar component 추가 */}
-        <MenuBar />
+
 
         <HashScrap>
           <HashTagBox>
             {hashtags.map((tag, index) => (
-              <div className="Tag" key={index}>
-                {tag}
-              </div>
+              <div className="Tag" key={index}># {tag}</div>
             ))}
           </HashTagBox>
           <ScrapBox>
@@ -219,6 +226,7 @@ function MyPage() {
           </ScrapBox>
         </HashScrap>
       </TopDiv>
+
       <BottomDiv>
         <UserInfo>
           <Title>Course Follower</Title>
@@ -256,11 +264,11 @@ function MyPage() {
       {isProfileEditModalOpen && (
         <MyPageProfile
           closeModal={() => setIsProfileEditModalOpen(false)}
-          Member={Member}
+          userInfo={userInfo}
           setHashtags={setHashtags}
         />
       )}
-    </>
+    </Wrap>
   );
 }
 

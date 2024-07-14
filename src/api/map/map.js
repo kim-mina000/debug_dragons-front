@@ -1,5 +1,5 @@
 import axios from "axios"
-import { BACK_URL, KAKAO_RESTKEY } from "../config";
+import { BACK_URL, KAKAO_JSKEY, KAKAO_RESTKEY } from "../config";
 
 
 export const handleMyTripSave = async (data, userId, imgUrl) => {
@@ -17,6 +17,7 @@ export const handleMyTripSave = async (data, userId, imgUrl) => {
   }
 
   try {
+    console.log(postData);
     const response = await axios.post(`${BACK_URL}/landmark/register`, postData);
     return await response.data;
   } catch (error) {
@@ -63,7 +64,7 @@ export const xyToAddress = async (x,y) => {
 // 이미지검색
 export const searchData = async (keyword)=>{
   try {
-    const response = await axios.get(`https://dapi.kakao.com/v2/search/image?query=${encodeURIComponent(keyword)}&size=1`,{
+    const response = await axios.get(`https://dapi.kakao.com/v2/search/image?query=${keyword}&size=1`,{
       headers:{
         Authorization : `KakaoAK ${KAKAO_RESTKEY}`
       }

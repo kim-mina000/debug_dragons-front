@@ -76,13 +76,13 @@ function MenuBar() {
         <div />
         <div />
         {/* 나의 여행 리스트 가기 */}
-        <Link to="/menuBar/MyTravelList">
+        <Link to="/main/MyTravelList">
           <Icon $isVisible={isExpanded}>
             <img src='/리스트.png' alt="리스트" />
           </Icon>
         </Link>
         
-        <Link to="/around">
+        <Link to="/main/around">
           <Icon $isVisible={isExpanded}>
             <img src='/둘러보기.png' alt="둘러보기" />
           </Icon>
@@ -95,13 +95,13 @@ function MenuBar() {
           </Icon>
         </Link>
 
-        <Link to="/scrap">
+        <Link to="/main/scrap">
           <Icon $isVisible={isExpanded}>
             <img src='/스크랩.png' alt="스크랩" />
           </Icon>
         </Link>
         
-        <Link to="/mypage">
+        <Link to="/main/mypage">
           <Icon $isVisible={isExpanded}>
             <img src='/마이페이지.png' alt="마이페이지" />
           </Icon>

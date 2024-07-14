@@ -4,8 +4,9 @@
   import axios from 'axios';
   import { useDispatch, useSelector } from 'react-redux';
   import { selectUser, getUserInfo, updateProfileImage } from '../../features/member/memberSlice';
-  import { getLocalStorages } from '../../api/member/member_localstorage';
+  import { getLocalStorages, handleImageChange2 } from '../../api/member/member';
   import { useNavigate } from 'react-router-dom';
+import { BACK_URL } from '../../api/config';
 
   const Overlay = styled.div`
     position: fixed;
@@ -169,15 +170,10 @@
   `
 
   function MyPageProfile(props) {
-    const { closeModal, Member, hashtags = [], setHashtags } = props;
+    const { closeModal, userInfo : Member, hashtags = [], setHashtags } = props;
     const dispatch = useDispatch();
     const userInfo = useSelector(selectUser);
     const navigate = useNavigate();
-
-    console.log(getLocalStorages());
-    const member = JSON.stringify(localStorage.getItem("userInfo"));
-
-    const localUserInfo = getLocalStorages();
 
     const [name, setName] = useState(Member.userName);
     const [email, setEmail] = useState(Member.userEmail);
@@ -218,13 +214,23 @@
           userProfileImagePath: profileImage
         };
 
-        const update = await axios.post(`http://localhost:8080/member/update`, userData);
-        console.log(update.data);
+        const update = await axios.post(`${BACK_URL}/member/update`, userData);
 
+        console.log(update.data);
+        
         dispatch(getUserInfo(userData));
+        
+        const token = localStorage.getItem('userToken')
+        const tags = newTag.trim().split(/\s+/); // 공백을 기준으로 해시태그 분리
+        await axios.post(`http://localhost:8080/membertag/get`, tags, {
+          headers: {
+            Authorization: token
+          }
+        });
+        console.log(tags);
 
         if (ImageEdit) {
-          await axios.post('http://localhost:8080/member/update', formData);
+          await axios.post(`${BACK_URL}/member/upload?userId=${Member.userId}`, formData);
           console.log(ImageEdit);
         }
 
@@ -241,33 +247,29 @@
     }
 
     const handleImageChange = async (e) => {
+      
 
       const file = e.target.files[0];
       setImageEdit(file);
 
       const reader = new FileReader();
+      const url = handleImageChange2(file, userInfo.userId);
+      // url을 로컬스토리지에 올려줘야함 url 잘 리턴되는지 확인이안됨,,
+      // 근데아마될것같아 ,,여기서부터하기
+      console.log(url);
 
       reader.onloadend = () => {
         const imageBase = reader.result;
-        setProfileImage(imageBase);
-        dispatch(updateProfileImage(imageBase));
+        setProfileImage(imageBase)
       }
 
       if (file) {
         reader.readAsDataURL(file);
       }
+
+
       
     };
-
-    // const handleTagChange = (e) => {
-    //   // const tagsArray = e.target.value.split(' ');
-    //   // console.log(tagsArray);
-
-    //   // const tagsString = tagsArray.join(' ');
-
-    //   // setNewTag(tagsString);
-    //   setNewTag(e.target.value);
-    // };
 
     // 해시태그 입력창 이벤트 핸들러
     const handleTagChange = (e) => {
