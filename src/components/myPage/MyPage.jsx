@@ -7,9 +7,10 @@ import { useNavigate } from "react-router-dom";
 import Tagify from '@yaireo/tagify';
 import '@yaireo/tagify/dist/tagify.css';
 import LoginNeed from "../modal/LoginNeed";
-import MyPageProfile from "../modal/MyPageProfile";
+import MyPageProfile from "../modal/MyPageProfile"; 
 import { SiWikidotjs } from "react-icons/si";
 import { WISH_LIST } from "../../api/config";
+
 
 
 const Wrap = styled.div`
@@ -212,7 +213,6 @@ function MyPage() {
   const [hashtags, setHashtags] = useState(['자신만의', '태그들을', '입력해주세요']);
   const navigate = useNavigate();
   const tagifyRef = useRef();
-  
 
   const handleProfileEditClick = () => {
     setIsProfileEditModalOpen(true);
