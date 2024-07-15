@@ -123,7 +123,7 @@ function App() {
 
         {/* <Route path='main' element={<SearchMain userInfo={userInfo} />} />     */}
         <Route path='/main' element={<MainContainer />}>
-          <Route path='*' element={<SearchMain userInfo={userInfo} />} />
+          <Route path='search' element={<SearchMain userInfo={userInfo} />} />
           <Route path="mypage" element={<MyPage />} />
           <Route path="scrap" element={<Clipping />} />
           <Route path="around" element={<Lookaround />} />

@@ -37,8 +37,9 @@ function MainContainer() {
     <>    
 
 
-      <Headers userName={userInfo ? userInfo.userName : "사용자"} 
-      image={userInfo?.userProfileImagePath} 
+      <Headers 
+        userName={userInfo ? userInfo.userName : "사용자"} 
+        image={userInfo?.userProfileImagePath} 
       />
       <Wrap>
       <Outlet />
