@@ -1,14 +1,12 @@
 import styled from "styled-components";
-import SearchMain from "./1.searchPage/SearchMain";
+
 import MenuBar from "./0.menuBar/MenuBar";
 import Headers from "./0.menuBar/Header";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import Clipping from "./2.menuBar/Clipping";
-import Lookaround from "./2.menuBar/Lookaround";
-import MyTravelList from "./2.menuBar/MyTravelList";
-import MyPage from "./myPage/MyPage";
-import { Outlet } from "react-router-dom";
+
+import { Outlet, useNavigate } from "react-router-dom";
+import LoginNeed from "./modal/LoginNeed";
 
 const Wrap = styled.div`
   /* height: 90vh; */
@@ -21,8 +19,21 @@ const Wrap = styled.div`
 
 function MainContainer() {
   const [userInfo, setUserInfo] = useState(null);
+  const [isLoginNeed, setIsLoginNeed] = useState(false);
   const userInfoRedux = useSelector(state => state.member.userInfo);
-  
+  const navigate = useNavigate();
+
+  const [isLoginNeedModalOpen, setIsLoginNeedModalOpen] = useState(false);
+
+  // "마이페이지" 아이콘 클릭 핸들러
+  const handleMyPageClick = () => {
+    const storedUserInfo = localStorage.getItem('userInfo');
+    if (!storedUserInfo) {
+      setIsLoginNeedModalOpen(true); // 로그인 필요 모달 띄우기
+    } else {
+      navigate('/main/mypage'); // 유저 정보가 있으면 마이페이지로 이동
+    }
+  };
   
   useEffect(() => {
     
@@ -32,7 +43,8 @@ function MainContainer() {
       setUserInfo(JSON.parse(localStorage.getItem('userInfo')));
     }
   }, []);
-
+  console.log(isLoginNeed);
+  
   return (
     <>    
 
@@ -40,12 +52,17 @@ function MainContainer() {
       <Headers 
         userName={userInfo ? userInfo.nickname : "사용자"} 
         image={userInfo?.userProfileImagePath} 
-      />
+        />
       <Wrap>
       <Outlet />
       
       </Wrap>
-      <MenuBar />
+      {/* <MenuBar /> */}
+      {/* <MenuBar onMyPageClick={handleMyPageClick} /> */}
+      <MenuBar isLoginNeed={isLoginNeed} setIsLoginNeed={setIsLoginNeed} />
+      {/* {isLoginNeedModalOpen && (
+        <LoginNeed closeModal={() => setIsLoginNeedModalOpen(false)} />
+      )} */}
     </>
 
   );
