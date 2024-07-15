@@ -11,7 +11,7 @@ import MyPage from "./myPage/MyPage";
 import { Outlet } from "react-router-dom";
 
 const Wrap = styled.div`
-  height: 90vh;
+  /* height: 90vh; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,6 +35,7 @@ function MainContainer() {
 
   return (
     <>    
+
 
       <Headers userName={userInfo ? userInfo.userName : "사용자"} 
       image={userInfo?.userProfileImagePath} 

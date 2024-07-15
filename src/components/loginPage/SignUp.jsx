@@ -6,6 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Modal from 'react-modal';
 import { BACK_URL } from "../../api/config";
+import { checkDuplicate } from "../../api/member/member";
 
 
 // 컨테이너 틀
@@ -139,16 +140,7 @@ function SignUp() {
     setModalIsOpen(false);
   };
 
-  const checkDuplicate = async (value) => {
-    try {
-      const response = await axios.post(`${BACK_URL}/member/check-duplicate`, value);
-      console.log(response.data);
-      return response.data;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  };
+
 
   // ID 유효성 검사
   const handleID = (e) => {
@@ -255,7 +247,6 @@ function SignUp() {
     const reader = new FileReader();
 
     reader.onloadend = () => {
-      // reader.result 바이너리 값으로 이미지를 바로 웹에 띄워주는 역할을 함
       setUserProfileImage(reader.result);
     };
 
@@ -280,7 +271,6 @@ function SignUp() {
 
       if (uploadFile) {
         await axios.post(`${BACK_URL}/member/upload`, formData);
-        console.log(uploadFile);
       }
 
       if (response.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
