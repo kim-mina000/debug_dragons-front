@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Tagify from '@yaireo/tagify';
 import '@yaireo/tagify/dist/tagify.css';
+import LoginNeed from "../modal/LoginNeed";
+
 
 const Wrap = styled.div`
   width: 100%;
@@ -208,9 +210,16 @@ function MyPage() {
   const navigate = useNavigate();
   const tagifyRef = useRef();
 
+
+  const navigate = useNavigate();
+  
+
   const handleProfileEditClick = () => {
     setIsProfileEditModalOpen(true);
   };
+
+
+  // 고객센터 연결 클릭 핸들러
 
   const handleCustomerServiceClick = () => {
     navigate('/customerservice');
@@ -377,6 +386,18 @@ function MyPage() {
           업데이트 <VersionText>1.0.0 ver</VersionText>
         </span>
       </CustomerServiceBox>
+
+
+      {/* MyPageProfile 모달 */}
+      {isProfileEditModalOpen && (
+        <MyPageProfile
+          closeModal={() => setIsProfileEditModalOpen(false)}
+          userInfo={userInfo}
+          setHashtags={setHashtags}
+        />
+      )}
+
+
     </Wrap>
   );
 }

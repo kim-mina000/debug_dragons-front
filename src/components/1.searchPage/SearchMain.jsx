@@ -144,7 +144,7 @@ const SaveButton = styled.button`
 
 `;
 
-function SearchMain({userInfo}) {
+function SearchMain({userInfo,isLoginNeed,setIsLoginNeed}) {
   const { kakao } = window;
   const container = useRef(null);
   const navigater = useNavigate();
@@ -166,7 +166,7 @@ function SearchMain({userInfo}) {
   const [isPersonModalOpen, setIsPersonModalOpen] = useState(false);
   const [isInfoWindow, setIsInfoWindow] = useState(false); 
   const [isWhereIgo, setIsWhereIgo] = useState(false);
-  const [isLoginNeed, setIsLoginNeed] = useState(false);
+
 
   // MainModalPerson에서 선택된 값 저장
   const handleSavePerson = (selectedValues) => {
