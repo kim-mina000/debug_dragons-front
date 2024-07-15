@@ -16,7 +16,7 @@ const Wrap = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow-x: scroll;
+  /* overflow-x: scroll; */
 `;
 
 function MainContainer() {
