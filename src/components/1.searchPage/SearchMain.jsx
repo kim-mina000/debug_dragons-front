@@ -399,7 +399,7 @@ function SearchMain({userInfo,isLoginNeed,setIsLoginNeed}) {
                 alt="date icon"
                 onClick={handleDateIconClick}
               />
-              <SearchH2>언제 떠나볼까요? {selectedDateButtons.length > 0 && `: ${selectedDateButtons.join(', ')}`}</SearchH2>
+              <SearchH2>언제 떠나볼까요? {selectedDateButtons.length > 0 && `: ${selectedDateButtons}`}</SearchH2>
             </div>
             <div>
             <img
@@ -416,7 +416,13 @@ function SearchMain({userInfo,isLoginNeed,setIsLoginNeed}) {
           </SearchContainer>
           {/* 검색결과나오는곳 현재는 하드코딩으로 작업해놓음 */}
           <MyCourseContainer>
-            <SearchMainResult formData={formData} setFormData={setFormData}/>
+            <SearchMainResult
+              formData={formData}
+              setFormData={setFormData}
+              selectedPlaceButtons = {selectedPlaceButtons}
+              selectedDateButtons = {selectedDateButtons}
+              selectedPersonButtons = {selectedPersonButtons}
+            />
           </MyCourseContainer>
         </LeftWrap>
         <MapContainer ref={container} id='map'>
