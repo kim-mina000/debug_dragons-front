@@ -6,9 +6,14 @@ import { v4 } from "uuid";
 export const landmarkResponse = async (userId) => {
   try {
     const response = await axios.get(`${BACK_URL}/landmark/read?id=${userId}`);
-    const result = await response.data?.filter(item => item.landmarkOrigin === false);
+    
+    if(response.data){
+      const result = await response.data.filter(item => item.landmarkOrigin === false);
+      return result;
+    } else {
+      return [];
+    }
 
-    return result;
   } catch (error) {
 
     console.error('error', error);
