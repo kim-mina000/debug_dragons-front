@@ -94,7 +94,8 @@ const ButtonContainer = styled.div`
   margin: 1.5%;
   `;
 
-const SearchMainResult = ({ formData, setFormData }) => {
+const SearchMainResult = ({ formData, setFormData, selectedPlaceButtons, selectedDateButtons, selectedPersonButtons }) => {
+  console.log(selectedPersonButtons);
   const [editDayIndex, setEditDayIndex] = useState(null);
   const [editTimeIndex, setEditTimeIndex] = useState(null);
   const [editDay, setEditDay] = useState('');
@@ -170,6 +171,8 @@ const SearchMainResult = ({ formData, setFormData }) => {
     }
   };
 
+  const family = selectedPersonButtons.adults + selectedPersonButtons.children + selectedPersonButtons.infants + selectedPersonButtons.pets
+
   return (
     <>
       {formData.map((result, index) => (
@@ -229,7 +232,7 @@ const SearchMainResult = ({ formData, setFormData }) => {
             )}
             {/* 인원 / 장소 / 날짜 */}
             {/* t수정중 */}
-            <Details>{result.writer}</Details>
+            <Details>{result.writer} : {selectedPlaceButtons}, {selectedDateButtons}, 인원: {family} </Details>
           </Content>
           <TfiClose style={{ cursor: "pointer" }} onClick={() => { handleDelete(result); setFormData(formData.filter(item => item.landmarkNo !== result.landmarkNo)); }} />
         </Container>
