@@ -85,7 +85,7 @@ const GlobalStyles = createGlobalStyle`
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userName, setUserName] = useState('사용자');
-  
+
   const userInfo = useSelector(state => state.member.userInfo);
   const handleLogout = () => {
     setUserName(null);
@@ -115,22 +115,22 @@ function App() {
             )
           } />
 
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<SignUp />} />
-        <Route path='/thanks-for-signup' element={<SignUpComplete />} />
-        <Route path='/find' element={<Find />} />
-        <Route path='/FindEnd' element={<FindEnd />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/thanks-for-signup' element={<SignUpComplete />} />
+          <Route path='/find' element={<Find />} />
+          <Route path='/FindEnd' element={<FindEnd />} />
 
 
-        {/* <Route path='main' element={<SearchMain userInfo={userInfo} />} />     */}
-        <Route path='/main' element={<MainContainer />}>
-          <Route path='search' element={<SearchMain userInfo={userInfo} />} />
-          <Route path="mypage" element={<MyPage />} />
-          <Route path="scrap" element={<Clipping />} />
-          <Route path="around" element={<Lookaround />} />
-          <Route path="MyTravelList" element={<MyTravelList />} />
-          <Route path="detail" element={<MyTravelListDetail />} />
-        </Route>
+          {/* <Route path='main' element={<SearchMain userInfo={userInfo} />} />     */}
+          <Route path='/main' element={<MainContainer />}>
+            <Route path='search' element={<SearchMain userInfo={userInfo} />} />
+            <Route path="mypage" element={<MyPage />} />
+            <Route path="scrap" element={<Clipping />} />
+            <Route path="around" element={<Lookaround />} />
+            <Route path="MyTravelList" element={<MyTravelList />} />
+            <Route path="detail" element={<MyTravelListDetail />} />
+          </Route>
 
           <Route path="/terms-privacy" element={<TermsPrivacy />} />
           <Route path="/customerservice" element={<CustomerService />} />
@@ -138,20 +138,20 @@ function App() {
 
           {/* 임시라우터 */}
           <Route path="/landmarkcomment/:landmarkNo" element={<Comments />} />
+          <Route path="/landmarkLike/:landmarkNo" element={<LikeTest />} />
+
+          <Route path='/whereIgo' element={<MainOrMylist />} />
+
+          {/* </Routes> */}
+
+
+          <Route path="/terms-privacy" element={<TermsPrivacy />} />
+          <Route path="/customerservice" element={<CustomerService />} />
 
 
           <Route path='/whereIgo' element={<MainOrMylist />} />
 
-        {/* </Routes> */}
-
-
-        <Route path="/terms-privacy" element={<TermsPrivacy />} />
-        <Route path="/customerservice" element={<CustomerService />} />
-
-
-        <Route path='/whereIgo' element={<MainOrMylist />}/>
-
-      </Routes>
+        </Routes>
       </BrowserRouter>
     </>
   );
