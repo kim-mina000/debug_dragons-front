@@ -89,7 +89,7 @@ function MenuBar() {
         </Link>
         
         {/* 스타트 페이지 이동 */}
-        <Link to="/main">
+        <Link to="/main/search">
           <Icon $isVisible={true}>
             <img src='/홈.png' alt="홈" />
           </Icon>

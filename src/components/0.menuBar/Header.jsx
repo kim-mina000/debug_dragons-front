@@ -39,7 +39,7 @@ const LeftContainer = styled.div`
 const RightContainer = styled.div``;
 
 // 프로필 이미지 스타일
-const ProfileImage = styled.img`
+const ProfileImage = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 50%;

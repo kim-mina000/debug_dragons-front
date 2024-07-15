@@ -203,13 +203,13 @@ function MyPage() {
     <Wrap>  
       <TopDiv>
         <ProfileDiv>
-          <ProfileImageBox image={userInfo.userProfileImagePath}>
+          <ProfileImageBox image={userInfo?.userProfileImagePath}>
             <ProfileImage />
             <ProfileEdit>
               <EditIcon onClick={handleProfileEditClick} />
             </ProfileEdit>
           </ProfileImageBox>
-          <span className="UserId"><HiStar color="#95D7FC" />{userInfo.nickname} 님의 계정입니다</span>
+          <span className="UserId"><HiStar color="#95D7FC" />{userInfo?.nickname} 님의 계정입니다</span>
         </ProfileDiv>
 
 

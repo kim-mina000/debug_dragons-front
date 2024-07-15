@@ -16,11 +16,11 @@ import FindEnd from './components/loginPage/FindEnd';
 import MainContainer from './components/MainContainer';
 import SignUpComplete from './components/loginPage/SignUpComplete';
 import MenuBar from './components/0.menuBar/MenuBar';
-import MyTravelList from './components/menuBar/MyTravelList'
+import MyTravelList from './components/2.menuBar/MyTravelList'
 import MyPage from './components/myPage/MyPage';
-import Clipping from './components/menuBar/Clipping';
-import MyTravelListDetail from './components/menuBar/MyTravelListDetail';
-import Lookaround from './components/menuBar/Lookaround';
+import Clipping from './components/2.menuBar/Clipping';
+import MyTravelListDetail from './components/2.menuBar/MyTravelListDetail';
+import Lookaround from './components/2.menuBar/Lookaround';
 
 import Comments from './components/subpage/Comments';
 
@@ -31,6 +31,7 @@ import { useSelector } from 'react-redux';
 
 import TermsPrivacy from './components/other/TermsPrivacy';
 import CustomerService from './components/other/CustomerService';
+import LikeTest from './api/lanmarkLike/LikeTest';
 
 
 
@@ -99,19 +100,20 @@ function App() {
 
   return (
     <>
-    <BrowserRouter>
-      <GlobalStyles />  
+      <BrowserRouter>
+        <GlobalStyles />
         <Routes>
-        <Route path="/" element={<Navigate to="/startpage" replace />} />
-        <Route path="/startpage" element={
-          isLoading ? (
-            <Loading />
-          ) : (
-            <>
-              <Startpage />
-            </>
-          )
-        } />
+
+          <Route path="/" element={<Navigate to="/startpage" replace />} />
+          <Route path="/startpage" element={
+            isLoading ? (
+              <Loading />
+            ) : (
+              <>
+                <Startpage />
+              </>
+            )
+          } />
 
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
@@ -119,8 +121,10 @@ function App() {
         <Route path='/find' element={<Find />} />
         <Route path='/FindEnd' element={<FindEnd />} />
 
+
+        {/* <Route path='main' element={<SearchMain userInfo={userInfo} />} />     */}
         <Route path='/main' element={<MainContainer />}>
-          <Route path='' element={<SearchMain userInfo={userInfo} />} />
+          <Route path='search' element={<SearchMain userInfo={userInfo} />} />
           <Route path="mypage" element={<MyPage />} />
           <Route path="scrap" element={<Clipping />} />
           <Route path="around" element={<Lookaround />} />
@@ -128,7 +132,18 @@ function App() {
           <Route path="detail" element={<MyTravelListDetail />} />
         </Route>
 
-        {/* <Route path="/menuBar" element={<MenuBar />} /> */}
+          <Route path="/terms-privacy" element={<TermsPrivacy />} />
+          <Route path="/customerservice" element={<CustomerService />} />
+
+
+          {/* 임시라우터 */}
+          <Route path="/landmarkcomment/:landmarkNo" element={<Comments />} />
+
+
+          <Route path='/whereIgo' element={<MainOrMylist />} />
+
+        {/* </Routes> */}
+
 
         <Route path="/terms-privacy" element={<TermsPrivacy />} />
         <Route path="/customerservice" element={<CustomerService />} />
@@ -140,14 +155,8 @@ function App() {
         <Route path='/whereIgo' element={<MainOrMylist />}/>
 
       </Routes>
-
-    {/* <GlobalStyles />  
-    <MyPage /> */}
-    {/* <SignUpComplete /> */}
-    {/* <GlobalStyles />  
-    <SignUpComplete /> */}
-    </BrowserRouter>
-  </>
+      </BrowserRouter>
+    </>
   );
 }
 
