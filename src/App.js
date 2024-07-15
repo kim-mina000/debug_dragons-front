@@ -149,9 +149,6 @@ function App() {
         <Route path="/customerservice" element={<CustomerService />} />
 
 
-        {/* 임시라우터 */}
-        <Route path="/landmarkcomment/:landmarkNo" element={<Comments />} />
-
         <Route path='/whereIgo' element={<MainOrMylist />}/>
 
       </Routes>

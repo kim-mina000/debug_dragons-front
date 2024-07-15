@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { v4 as uuidv4 } from 'uuid';
 import { deleteComment, fetchLandmarkComment, registerLandmarkComment } from '../../api/landmarkComment/landmarkComment';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectUser } from '../../features/member/memberSlice';
+
 
 const Container = styled.div`
   width: 80%;
@@ -62,17 +60,16 @@ const Comments = () => {
 
   const { landmarkNo } = useParams(); // URL 파라미터로부터 landmarkNo를 가져옴
   const [comments, setComments] = useState([]);
-  const [newCommentContent, setNewCommentContent] = useState();
+  const [newCommentContent, setNewCommentContent] = useState('');
   
   // 댓글목록보기
   useEffect(() => {
     fetchLandmarkComment(landmarkNo)
       .then(data => {
         setComments(data);
-        
+        console.log('랜드마크NO:' + landmarkNo);  //랜드마크게시판정보
       })
       .catch(error => console.error(error));
-    console.log(landmarkNo);//랜드마크정보게시판번호
   }, [landmarkNo]);
   // 배열안에 landmarkNo 렌더링될떄마다 실행하는기 (?)
 
@@ -115,7 +112,7 @@ const Comments = () => {
     <Container>
       <h2>댓글</h2>
       <CommentList>
-        {comments.map(comment => (
+        {comments && comments.map(comment => (
           <CommentItem key={comment.landmarkCommentNo}>
             {comment.landmarkCommentContent} <p>작성자: </p> {comment.writer}
             <Button onClick={() => handleDeleteComment(comment.landmarkCommentNo)}>삭제</Button>
