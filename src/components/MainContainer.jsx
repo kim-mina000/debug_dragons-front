@@ -16,7 +16,7 @@ const Wrap = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow-x: scroll;
+  /* overflow-x: scroll; */
 `;
 
 function MainContainer() {
@@ -37,8 +37,9 @@ function MainContainer() {
     <>    
 
 
-      <Headers userName={userInfo ? userInfo.userName : "사용자"} 
-      image={userInfo?.userProfileImagePath} 
+      <Headers 
+        userName={userInfo ? userInfo.userName : "사용자"} 
+        image={userInfo?.userProfileImagePath} 
       />
       <Wrap>
       <Outlet />
