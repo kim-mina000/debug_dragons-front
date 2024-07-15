@@ -182,12 +182,8 @@ const CustomerServiceBox = styled.div`
 
 function MyPage() {
 
-  const userInfo = useSelector(selectUser);
+  const userInfo = useSelector(state => state.member.userInfo);
   const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
-  const userInfoRedux = useSelector(state => state.member.userInfo);
-
-  
   
   const [hashtags, setHashtags] = useState(['HashTag1', 'HashTag2', 'HashTag3']);
   const navigate = useNavigate();
@@ -201,27 +197,19 @@ function MyPage() {
   const handleCustomerServiceClick = () => {
     navigate('/customerservice');
   };
-  
-  useEffect(() => {
-  
-    setUserInfo(userInfoRedux);  // 리덕스 스토어에서 받아서 유저정보 넣어줌
 
-    if (!userInfo) {  // 새로고침이 일어나면 로컬스토리지에서 받아줌
-      setUserInfo(JSON.parse(localStorage.getItem('userInfo')));
-    }
-  }, []);
 
   return (
     <Wrap>  
       <TopDiv>
         <ProfileDiv>
-          <ProfileImageBox image={userInfo.userProfileImagePath}>
+          <ProfileImageBox image={userInfo?.userProfileImagePath}>
             <ProfileImage />
             <ProfileEdit>
               <EditIcon onClick={handleProfileEditClick} />
             </ProfileEdit>
           </ProfileImageBox>
-          <span className="UserId"><HiStar color="#95D7FC" />{userInfo.nickname} 님의 계정입니다</span>
+          <span className="UserId"><HiStar color="#95D7FC" />{userInfo?.nickname} 님의 계정입니다</span>
         </ProfileDiv>
 
 

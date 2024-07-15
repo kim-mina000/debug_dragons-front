@@ -4,9 +4,9 @@ import MenuBar from "./0.menuBar/MenuBar";
 import Headers from "./0.menuBar/Header";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import Clipping from "./menuBar/Clipping";
-import Lookaround from "./menuBar/Lookaround";
-import MyTravelList from "./menuBar/MyTravelList";
+import Clipping from "./2.menuBar/Clipping";
+import Lookaround from "./2.menuBar/Lookaround";
+import MyTravelList from "./2.menuBar/MyTravelList";
 import MyPage from "./myPage/MyPage";
 import { Outlet } from "react-router-dom";
 
@@ -39,7 +39,7 @@ function MainContainer() {
       <Headers userName={userInfo ? userInfo.userName : "사용자"} 
       image={userInfo?.userProfileImagePath} 
       />
-      
+      <Wrap>
       <Outlet />
       
       </Wrap>

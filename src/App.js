@@ -16,11 +16,11 @@ import FindEnd from './components/loginPage/FindEnd';
 import MainContainer from './components/MainContainer';
 import SignUpComplete from './components/loginPage/SignUpComplete';
 import MenuBar from './components/0.menuBar/MenuBar';
-import MyTravelList from './components/menuBar/MyTravelList'
+import MyTravelList from './components/2.menuBar/MyTravelList'
 import MyPage from './components/myPage/MyPage';
-import Clipping from './components/menuBar/Clipping';
-import MyTravelListDetail from './components/menuBar/MyTravelListDetail';
-import Lookaround from './components/menuBar/Lookaround';
+import Clipping from './components/2.menuBar/Clipping';
+import MyTravelListDetail from './components/2.menuBar/MyTravelListDetail';
+import Lookaround from './components/2.menuBar/Lookaround';
 
 import Comments from './components/subpage/Comments';
 

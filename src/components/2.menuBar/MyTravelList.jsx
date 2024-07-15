@@ -197,20 +197,24 @@ const MyTravelList = () => {
   const [editingIndex, setEditingIndex] = useState(-1); // 편집 중인 카테고리 인덱스
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [sortOption, setSortOption] = useState('정렬기준');
+
+  // 내 리스트
+  const [myList, setMyList] = useState(null);
   
   const userInfo = useSelector(state => state.member.userInfo);
 
   useEffect(() => {
     
-    const myList = getMyTravelList(userInfo.userId); // myList에 CourseLandmark가 담겨있음
+    setMyList(getMyTravelList(userInfo.userId)); // myList에 CourseLandmark가 담겨있음
     
     console.log(userInfo);
     console.log(myList);
   
-    const myListDetail = getMyTravelListDetail(myList[0]?.courseNo); // courseNo을 넣으면 해당 코스의 목록을 반환
-    console.log(myListDetail);
+    // const myListDetail = getMyTravelListDetail(myList[0]?.courseNo); // courseNo을 넣으면 해당 코스의 목록을 반환
+    // console.log(myListDetail);
 
     // getMyTravelList, getMyTravelListDetail 둘다 async 함수 내에서 await 붙이고 쓰면됨~!
+
   
   }, []);
   
@@ -268,15 +272,11 @@ const MyTravelList = () => {
           </DropdownContent>
         </DropdownContainer>
         <BoxesContainer>
-          <BoxLink to="/detail">컨텐츠 1</BoxLink>
-          <BoxLink to="/detail">컨텐츠 2</BoxLink>
-          <BoxLink to="/detail">컨텐츠 3</BoxLink>
-          <BoxLink to="/detail">컨텐츠 4</BoxLink>
-          <BoxLink to="/detail">컨텐츠 5</BoxLink>
-          <BoxLink to="/detail">컨텐츠 6</BoxLink>
-          <BoxLink to="/detail">컨텐츠 7</BoxLink>
-          <BoxLink to="/detail">컨텐츠 8</BoxLink>
-          <BoxLink to="/detail">컨텐츠 9</BoxLink>
+          {/* <p>{myList}</p> */}
+          {/* {myList &&
+            myList.map(list => {
+            console.log(list);
+            return <BoxLink to="/detail">{list.tilte}</BoxLink>})} */}
         </BoxesContainer>
       </TravelListContainer>
     </>
