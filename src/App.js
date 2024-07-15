@@ -30,6 +30,7 @@ import { useSelector } from 'react-redux';
 import TermsPrivacy from './components/other/TermsPrivacy';
 import CustomerService from './components/other/CustomerService';
 import MyTravelListDetail from './components/2.menuBar/MyTravelListDetail';
+import LikeTest from './api/lanmarkLike/LikeTest';
 
 
 
@@ -121,16 +122,16 @@ function App() {
           <Route path='/FindEnd' element={<FindEnd />} />
 
 
-        {/* <Route path='main' element={<SearchMain userInfo={userInfo} />} />     */}
-        <Route path='/main' element={<MainContainer />}>
+          {/* <Route path='main' element={<SearchMain userInfo={userInfo} />} />     */}
+          <Route path='/main' element={<MainContainer />}>
 
-          <Route path='search' element={<SearchMain userInfo={userInfo} />} />
-          <Route path="mypage" element={<MyPage />} />
-          <Route path="scrap" element={<Clipping />} />
-          <Route path="around" element={<Lookaround />} />
-          <Route path="MyTravelList" element={<MyTravelList />} />
-          <Route path="detail/:no" element={<MyTravelListDetail />} />
-        </Route>
+            <Route path='search' element={<SearchMain userInfo={userInfo} />} />
+            <Route path="mypage" element={<MyPage />} />
+            <Route path="scrap" element={<Clipping />} />
+            <Route path="around" element={<Lookaround />} />
+            <Route path="MyTravelList" element={<MyTravelList />} />
+            <Route path="detail/:no" element={<MyTravelListDetail />} />
+          </Route>
 
           <Route path="/terms-privacy" element={<TermsPrivacy />} />
           <Route path="/customerservice" element={<CustomerService />} />
