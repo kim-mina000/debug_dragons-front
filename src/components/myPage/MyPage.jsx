@@ -7,6 +7,7 @@ import MyPageProfile from "../modal/MyPageProfile";
 import { getUserInfo, selectUser } from "../../features/member/memberSlice";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import LoginNeed from "../modal/LoginNeed";
 
 
 const Wrap = styled.div`
@@ -184,15 +185,15 @@ function MyPage() {
 
   const userInfo = useSelector(state => state.member.userInfo);
   const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
-  
   const [hashtags, setHashtags] = useState(['HashTag1', 'HashTag2', 'HashTag3']);
   const navigate = useNavigate();
   
+
   // 프로필 편집 모달 열기 핸들러
   const handleProfileEditClick = () => {
     setIsProfileEditModalOpen(true);
   };
-  
+
   // 고객센터 연결 클릭 핸들러
   const handleCustomerServiceClick = () => {
     navigate('/customerservice');
@@ -200,7 +201,7 @@ function MyPage() {
 
 
   return (
-    <Wrap>  
+    <Wrap>
       <TopDiv>
         <ProfileDiv>
           <ProfileImageBox image={userInfo?.userProfileImagePath}>
@@ -268,6 +269,7 @@ function MyPage() {
           setHashtags={setHashtags}
         />
       )}
+
     </Wrap>
   );
 }
