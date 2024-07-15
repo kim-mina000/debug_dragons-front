@@ -84,7 +84,7 @@ const GlobalStyles = createGlobalStyle`
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userName, setUserName] = useState('사용자');
-  
+
   const userInfo = useSelector(state => state.member.userInfo);
   const handleLogout = () => {
     setUserName(null);
@@ -114,11 +114,11 @@ function App() {
             )
           } />
 
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<SignUp />} />
-        <Route path='/thanks-for-signup' element={<SignUpComplete />} />
-        <Route path='/find' element={<Find />} />
-        <Route path='/FindEnd' element={<FindEnd />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/thanks-for-signup' element={<SignUpComplete />} />
+          <Route path='/find' element={<Find />} />
+          <Route path='/FindEnd' element={<FindEnd />} />
 
 
         {/* <Route path='main' element={<SearchMain userInfo={userInfo} />} />     */}
@@ -138,20 +138,20 @@ function App() {
 
           {/* 임시라우터 */}
           <Route path="/landmarkcomment/:landmarkNo" element={<Comments />} />
+          <Route path="/landmarkLike/:landmarkNo" element={<LikeTest />} />
+
+          <Route path='/whereIgo' element={<MainOrMylist />} />
+
+          {/* </Routes> */}
+
+
+          <Route path="/terms-privacy" element={<TermsPrivacy />} />
+          <Route path="/customerservice" element={<CustomerService />} />
 
 
           <Route path='/whereIgo' element={<MainOrMylist />} />
 
-        {/* </Routes> */}
-
-
-        <Route path="/terms-privacy" element={<TermsPrivacy />} />
-        <Route path="/customerservice" element={<CustomerService />} />
-
-
-        <Route path='/whereIgo' element={<MainOrMylist />}/>
-
-      </Routes>
+        </Routes>
       </BrowserRouter>
     </>
   );

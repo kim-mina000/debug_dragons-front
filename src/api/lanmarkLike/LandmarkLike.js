@@ -8,8 +8,8 @@ const token = localStorage.getItem('userToken');
 export const fetchToggleLikeLandmark = async (landmarkNo, userId) => {
   try {
     const response = await axios.post(`${BACK_URL}/landmarkLike/isLike`, {
-      landmrkNo: landmarkNo,
-      userId: userId
+      landmarkNo,
+      userId
     }, {
       headers: {
         Authorization: token
@@ -26,12 +26,10 @@ export const fetchToggleLikeLandmark = async (landmarkNo, userId) => {
 // 해당 Landmark게시글의 true갯수 헤아림(좋아요 갯수)
 export const fetchLikeCountLandmark = async (landmarkNo) => {
   try {
-    const response = await axios.get(`${BACK_URL}/landmarkLike/${landmarkNo}/likes`);
+    const response = await axios.get(`${BACK_URL}/landmarkLike/likes/${landmarkNo}`);
     return response.data;
   } catch (error) {
     console.log('좋아요갯수에러' + error);
   };
 };
-
-
 

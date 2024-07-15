@@ -9,15 +9,17 @@ function LikeTest() {
 
   const { landmarkNo, userId } = useParams();  // useParams를 사용하여 URL 파라미터를 가져오기
 
+  // 좋아요갯수보기
   useEffect(() => {
-    fetchToggleLikeLandmark(landmarkNo)
+    fetchLikeCountLandmark(landmarkNo)
       .then(data => {
         setLikeCount(data);
-        setLikeTrue(data > 0);  //  좋아요 갯수가 0보다 크면 이미 좋아요 상태
+        console.log('좋아요갯수데이터:' + data);
       })
-      .catch(error => console.error('좋아요갯수조회에러' + error));
-  }, [landmarkNo]);   // 컴포넌트가 마운트되거나 landmarkNo가 변경될 때 좋아요 갯수를 조회
+      .catch(error => console.log('좋아요갯수에러 ' + error));
+  }, [landmarkNo]);
 
+  // 좋아요 등록
   const handleLikeToggle = async () => {
     try {
       await fetchToggleLikeLandmark(landmarkNo, userId);
