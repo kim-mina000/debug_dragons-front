@@ -127,8 +127,8 @@ const File = styled.div`
 `;
 
 const FileThumbnail = styled.img`
-  width: 80%;
-  height: 60%;
+  width: ${({ inFolder }) => (inFolder ? '70%' : '80%')};
+  height: ${({ inFolder }) => (inFolder ? '70%' : '60%')};
   position: absolute;
   top: 10%;
   left: 50%;
@@ -143,7 +143,7 @@ const FileLabel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 95%;
+  width: ${({ inFolder }) => (inFolder ? '70%' : '95%')};
 
   h3 {
     font-size: 35px;
@@ -173,7 +173,7 @@ const HeartIcon = styled.div`
   cursor: pointer;
 `;
 
-const DraggableFile = ({ file, index, toggleLike }) => {
+const DraggableFile = ({ file, index, toggleLike, inFolder }) => {
   const [{ isDragging }, drag] = useDrag({
     type: 'FILE',
     item: { index },
@@ -184,8 +184,8 @@ const DraggableFile = ({ file, index, toggleLike }) => {
 
   return (
     <File ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
-      <FileThumbnail src="http://via.placeholder.com/250x250" alt="썸네일 이미지" />
-      <FileLabel>
+      <FileThumbnail src="http://via.placeholder.com/250x250" alt="썸네일 이미지" inFolder={inFolder} />
+      <FileLabel inFolder={inFolder}>
         <h3>{file.name}</h3>
         <div className="file-info">
           <div className='label-info'>
@@ -232,59 +232,18 @@ const DroppableFolder = ({ folder, onDrop, handleFolderClick, handleInputChange,
   );
 };
 
-const FolderContentContainer = styled(Container)`
-  .file-container {
-    width: 30%;
-    padding-top: 30%;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-    border: 2px solid #000;
-    border-radius: 5px;
-    text-align: center;
-  }
-
-  .file-thumbnail {
-    width: 80%;
-    height: 60%;
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translate(-50%, 0);
-    border: 3px solid black;
-  }
-
-  .file-label {
-    margin-top: 10px;
-    font-size: 14px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 95%;
-
-    h3 {
-      font-size: 35px;
-      margin-bottom: 5%;
-      flex: 1;
-    }
-
-    .file-info {
-      width: 100%;
-      margin-top: 10px;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .label-info {
-      display: flex;
-      align-items: center;
-      font-size: 15px;
-    }
-  }
+const FolderContentContainer = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  background: white;
+  border: 2px solid black;
+  padding: 20px;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  overflow: auto;
 `;
 
 const FolderContent = ({ folder, onClose }) => {
@@ -294,19 +253,7 @@ const FolderContent = ({ folder, onClose }) => {
       <button onClick={onClose}>닫기</button>
       <ItemContainer>
         {folder.pages.map((file, index) => (
-          <File className="file-container" key={index}>
-            <FileThumbnail className="file-thumbnail" src="http://via.placeholder.com/250x250" alt="썸네일 이미지" />
-            <FileLabel className="file-label">
-              <h3>{file.name}</h3>
-              <div className="file-info">
-                <div className='label-info'>
-                  {file.liked ? <PiHeartStraightBreakFill /> : <PiHeartStraightBreak />}
-                  {file.likes}
-                </div>
-                <div>작성자 {file.author}님</div>
-              </div>
-            </FileLabel>
-          </File>
+          <DraggableFile key={index} file={file} index={index} inFolder={true} />
         ))}
       </ItemContainer>
     </FolderContentContainer>
@@ -314,11 +261,6 @@ const FolderContent = ({ folder, onClose }) => {
 };
 
 const Clipping = () => {
-  const [folders, setFolders] = useState([
-    { id: 1, name: "강아지랑 같이 가야만...", pages: [] },
-    { id: 2, name: "제목을 내게.......", pages: [], author: "(ooo)" },
-  ]);
-
   const [files, setFiles] = useState([
     { name: "밍고랑 같이 다녀온 강원도🐶💚", likes: 510, author: "(김지연)", liked: false },
     { name: "시리와 한번 더 대전🚅🚄", likes: 221, author: "(김민아)", liked: false },
@@ -332,6 +274,11 @@ const Clipping = () => {
     { name: "다훈형이랑 드라이브", likes: 266, author: "(김윤식)", liked: false },
     { name: "지연샘 보고시품", likes: 658, author: "(지연,민아,현아 공동)", liked: false },
     { name: "플젝...성공적 07.18💨", likes: 106646, author: "(민아,윤식,지연,다훈)", liked: false },
+  ]);
+
+  const [folders, setFolders] = useState([
+    { id: 1, name: "강아지랑 같이 가야만...", pages: [] },
+    { id: 2, name: "제목을 내게.......", pages: [] },
   ]);
 
   const [openFolder, setOpenFolder] = useState(null);

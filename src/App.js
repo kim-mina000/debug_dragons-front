@@ -6,7 +6,7 @@ import Login from './components/loginPage/Login';
 
 import SignUp from './components/loginPage/SignUp';
 import Startpage from './components/loadingItem/Startpage';
-import Header from './components/0.menuBar/Header';
+
 
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Find from './components/loginPage/Find';
@@ -15,11 +15,9 @@ import FindEnd from './components/loginPage/FindEnd';
 
 import MainContainer from './components/MainContainer';
 import SignUpComplete from './components/loginPage/SignUpComplete';
-import MenuBar from './components/0.menuBar/MenuBar';
 import MyTravelList from './components/2.menuBar/MyTravelList'
 import MyPage from './components/myPage/MyPage';
 import Clipping from './components/2.menuBar/Clipping';
-import MyTravelListDetail from './components/2.menuBar/MyTravelListDetail';
 import Lookaround from './components/2.menuBar/Lookaround';
 
 import Comments from './components/subpage/Comments';
@@ -31,7 +29,8 @@ import { useSelector } from 'react-redux';
 
 import TermsPrivacy from './components/other/TermsPrivacy';
 import CustomerService from './components/other/CustomerService';
-import LikeTest from './api/lanmarkLike/LikeTest';
+import MyTravelListDetail from './components/2.menuBar/MyTravelListDetail';
+
 
 
 
@@ -122,15 +121,16 @@ function App() {
           <Route path='/FindEnd' element={<FindEnd />} />
 
 
-          {/* <Route path='main' element={<SearchMain userInfo={userInfo} />} />     */}
-          <Route path='/main' element={<MainContainer />}>
-            <Route path='search' element={<SearchMain userInfo={userInfo} />} />
-            <Route path="mypage" element={<MyPage />} />
-            <Route path="scrap" element={<Clipping />} />
-            <Route path="around" element={<Lookaround />} />
-            <Route path="MyTravelList" element={<MyTravelList />} />
-            <Route path="detail" element={<MyTravelListDetail />} />
-          </Route>
+        {/* <Route path='main' element={<SearchMain userInfo={userInfo} />} />     */}
+        <Route path='/main' element={<MainContainer />}>
+
+          <Route path='search' element={<SearchMain userInfo={userInfo} />} />
+          <Route path="mypage" element={<MyPage />} />
+          <Route path="scrap" element={<Clipping />} />
+          <Route path="around" element={<Lookaround />} />
+          <Route path="MyTravelList" element={<MyTravelList />} />
+          <Route path="detail/:no" element={<MyTravelListDetail />} />
+        </Route>
 
           <Route path="/terms-privacy" element={<TermsPrivacy />} />
           <Route path="/customerservice" element={<CustomerService />} />

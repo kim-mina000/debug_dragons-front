@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import SearchMainResult from '../1.searchPage/SearchMainResult';
+import { getLandmarkInfo, getMyTravelListDetail } from '../../api/myTravelList/myTravelListAPI';
 
 const Container = styled.div`
   display: flex;
@@ -50,6 +51,27 @@ const RouteContainer = styled.div`
 
 const MyTravelListDetail = () => {
   const navigate = useNavigate();
+  const {no} = useParams();
+  // 코스-매핑 리스트 LCMappingList
+  // const [detailList, setDetailList] = useState([]);
+  const [courseList, setCourseList] = useState(null);
+  
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        const myCourseList = await getMyTravelListDetail(no);
+        const promises  = await myCourseList.map(landmark => getLandmarkInfo(landmark.landmarkNo));
+        const landmarkList = await Promise.all(promises);
+        setCourseList(landmarkList);
+      } catch (error) {
+        console.error(error);
+      };
+    };
+
+    fetchData();
+
+  }, []);
 
   return (
     <Container>
@@ -57,7 +79,7 @@ const MyTravelListDetail = () => {
         <BackButton onClick={() => navigate('/main/MyTravelList')}>
           뒤로가기
         </BackButton>
-        <SearchMainResult />
+        {courseList ? <SearchMainResult formData={courseList} setFormData={setCourseList} /> : <p>Loading...</p>}
       </SearchContainer>
       <DetailsContainer>
         <PhotoTextContainer>
