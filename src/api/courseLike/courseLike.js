@@ -27,7 +27,7 @@ export const fetchToggleLikeCourse = async (courseNo, userId) => {
 // 해당 Landmark게시글의 true갯수 헤아림(좋아요 갯수)
 export const fetchLikeCountCourse = async (courseNo) => {
   try {
-    const response = await axios.get(`${BACK_URL}/landmarkLike/${courseNo}/likes`);
+    const response = await axios.get(`${BACK_URL}/courseLike/${courseNo}/likes`);
     return response.data;
   } catch (error) {
     console.log('좋아요갯수에러' + error);
