@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { handleDelete, handleSaveAll, landmarkResponse } from '../../api/map/map-result';
+import { getLandmarkResponse, handleDelete, handleSaveAll } from '../../api/map/map-result';
 import { TfiClose } from "react-icons/tfi";
 
 // 피그마에 색상 다른것처럼 표현 됬길래 팔레트임... 수정하기만 하면 됨
@@ -92,7 +92,7 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   margin: 1.5%;
-`;
+  `;
 
 const SearchMainResult = ({ formData, setFormData }) => {
   const [editDayIndex, setEditDayIndex] = useState(null);
@@ -102,13 +102,9 @@ const SearchMainResult = ({ formData, setFormData }) => {
   const [editShortDescIndex, setEditShortDescIndex] = useState(null);
   const [editShortDesc, setEditShortDesc] = useState('');
 
-  const userInfo = useSelector(state => state.member.userInfo);
-  const userId = userInfo?.userId || "사용자";
-
-  useEffect(() => {
-    landmarkResponse(userId).then(res => setFormData(res));
-  }, []);
-
+  // useEffect(() => {
+  //   getLandmarkResponse(userId).then(res => console.log(res));
+  // }, [userId]);
 
 
   useEffect(() => {
@@ -176,7 +172,7 @@ const SearchMainResult = ({ formData, setFormData }) => {
 
   return (
     <>
-      {formData?.map((result, index) => (
+      {formData.map((result, index) => (
         <Container key={index} $bgColor={colors[index % colors.length]}>
           <Info>
             {/* 일자표시 */}

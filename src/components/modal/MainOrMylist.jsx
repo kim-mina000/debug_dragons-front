@@ -46,7 +46,7 @@ function MainOrMylist({setIsWhereIgo}) {
     <Wrap>
 
       <SaveButton onClick={()=>{setIsWhereIgo(false)}}>더많은 코스 만들기 <IoIosReturnLeft /></SaveButton>
-      <SaveButton onClick={()=>{navigate('/menuBar/MyTravelList')}}>저장된 리스트 보러가기 <IoIosArrowRoundForward /></SaveButton>
+      <SaveButton onClick={()=>{navigate('/main/MyTravelList')}}>저장된 리스트 보러가기 <IoIosArrowRoundForward /></SaveButton>
 
     </Wrap>
   );
