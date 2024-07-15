@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import Tagify from '@yaireo/tagify';
 import '@yaireo/tagify/dist/tagify.css';
 import LoginNeed from "../modal/LoginNeed";
+import MyPageProfile from "../modal/MyPageProfile"; 
+
 
 
 const Wrap = styled.div`
