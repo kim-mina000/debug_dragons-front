@@ -210,9 +210,7 @@ function MyPage() {
   const navigate = useNavigate();
   const tagifyRef = useRef();
 
-
-  const navigate = useNavigate();
-  
+ 
 
   const handleProfileEditClick = () => {
     setIsProfileEditModalOpen(true);
