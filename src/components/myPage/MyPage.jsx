@@ -9,7 +9,7 @@ import '@yaireo/tagify/dist/tagify.css';
 import LoginNeed from "../modal/LoginNeed";
 import MyPageProfile from "../modal/MyPageProfile";
 import { SiWikidotjs } from "react-icons/si";
-import { WISH_LIST } from "../../api/config";
+import { USER_IMG, WISH_LIST } from "../../api/config";
 
 
 const Wrap = styled.div`
@@ -252,13 +252,13 @@ function MyPage() {
     <Wrap>
       <TopDiv>
         <ProfileDiv>
-          <ProfileImageBox image={userInfo.userProfileImagePath}>
+          <ProfileImageBox image={userInfo ? userInfo.userProfileImagePath : USER_IMG}>
             <ProfileImage />
             <ProfileEdit>
               <EditIcon onClick={handleProfileEditClick} />
             </ProfileEdit>
           </ProfileImageBox>
-          <span className="UserId"><HiStar color="#95D7FC" />{userInfo.nickname} 님의 계정입니다</span>
+          <span className="UserId"><HiStar color="#95D7FC" />{userInfo?.nickname} 님의 계정입니다</span>
         </ProfileDiv>
 
         <HashScrap>

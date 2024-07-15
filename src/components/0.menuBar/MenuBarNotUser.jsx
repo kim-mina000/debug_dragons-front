@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { Link } from 'react-router-dom';
+import LoginNeed from '../modal/LoginNeed';
 
 const StyledFooter = styled.footer`
   position: sticky;
@@ -54,9 +55,11 @@ const Icon = styled.div`
   }
 `;
 
-function MenuBar() {
+function MenuBarNotUSer({loginProps}) {
+  const {isLoginNeed, setIsLoginNeed} = loginProps;
   const [isExpanded, setIsExpanded] = useState(false);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  console.log(isLoginNeed);
 
   // 메뉴 컨테이너에 마우스가 들어올 때 호출되는 함수
   const handleMouseEnter = () => {
@@ -68,52 +71,61 @@ function MenuBar() {
     setIsExpanded(false);
   };
 
+  const handleOpenModal = () => {
+    setIsLoginNeed(true);
+  }
+
   return (
-    <StyledFooter>
-      <IconContainer
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        <div />
-        <div />
-        {/* 나의 여행 리스트 가기 */}
-          <Link to="/main/MyTravelList">
-            <Icon $isVisible={isExpanded}>
-              <img src='/리스트.png' alt="리스트" />
+    <>
+      {isLoginNeed && 
+        <LoginNeed closeModal={()=>{setIsLoginNeed(false)}} />
+      }
+      <StyledFooter>
+        <IconContainer
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div />
+          <div />
+          {/* 나의 여행 리스트 가기 */}
+            <Link>
+              <Icon $isVisible={isExpanded} onClick={handleOpenModal}>
+                <img src='/리스트.png' alt="리스트" />
+              </Icon>
+            </Link>
+
+          
+          <Link>
+            <Icon $isVisible={isExpanded} onClick={handleOpenModal}>
+              <img src='/둘러보기.png' alt="둘러보기" />
+            </Icon>
+          </Link>
+          
+          {/* 스타트 페이지 이동 */}
+          <Link to="/main">
+            <Icon $isVisible={true}>
+              <img src='/홈.png' alt="홈" />
             </Icon>
           </Link>
 
-        
-        <Link to="/main/around">
-          <Icon $isVisible={isExpanded}>
-            <img src='/둘러보기.png' alt="둘러보기" />
-          </Icon>
-        </Link>
-        
-        {/* 스타트 페이지 이동 */}
-        <Link to="/main">
-          <Icon $isVisible={true}>
-            <img src='/홈.png' alt="홈" />
-          </Icon>
-        </Link>
+          <Link>
+            <Icon $isVisible={isExpanded} onClick={handleOpenModal}>
+              <img src='/스크랩.png' alt="스크랩" />
+            </Icon>
+          </Link>
+          
+          <Link>
+            <Icon $isVisible={isExpanded} onClick={handleOpenModal}>
+              <img src='/마이페이지.png' alt="마이페이지" />
+            </Icon>
+          </Link>
 
-        <Link to="/main/scrap">
-          <Icon $isVisible={isExpanded}>
-            <img src='/스크랩.png' alt="스크랩" />
-          </Icon>
-        </Link>
-        
-        <Link to="/main/mypage">
-          <Icon $isVisible={isExpanded}>
-            <img src='/마이페이지.png' alt="마이페이지" />
-          </Icon>
-        </Link>
-
-        <div />
-        <div />
-      </IconContainer>
-    </StyledFooter>
+          <div />
+          <div />
+        </IconContainer>
+      </StyledFooter>
+    </>
   );
 }
 
-export default MenuBar;
+export default MenuBarNotUSer;
