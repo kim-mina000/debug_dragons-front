@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const StyledFooter = styled.footer`
   position: sticky;
@@ -54,8 +54,12 @@ const Icon = styled.div`
   }
 `;
 
-function MenuBar() {
+function MenuBar({ onMyPageClick, isLoginNeed, setIsLoginNeed }) {
+  console.log(isLoginNeed);
+  console.log(setIsLoginNeed);
   const [isExpanded, setIsExpanded] = useState(false);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const navigator = useNavigate();
 
   // 메뉴 컨테이너에 마우스가 들어올 때 호출되는 함수
   const handleMouseEnter = () => {
@@ -89,7 +93,7 @@ function MenuBar() {
         </Link>
         
         {/* 스타트 페이지 이동 */}
-        <Link to="/main">
+        <Link to="/main/search">
           <Icon $isVisible={true}>
             <img src='/홈.png' alt="홈" />
           </Icon>
@@ -101,11 +105,19 @@ function MenuBar() {
           </Icon>
         </Link>
         
+        { userInfo ?
         <Link to="/main/mypage">
-          <Icon $isVisible={isExpanded}>
+          <Icon $isVisible={isExpanded} onClick={()=>{console.log(isLoginNeed);}}>
             <img src='/마이페이지.png' alt="마이페이지" />
           </Icon>
         </Link>
+        :
+        <Link>
+          <Icon $isVisible={isExpanded}>
+            <img src='/마이페이지.png' alt="마이페이지" onClick={()=>{setIsLoginNeed(true)}}/>
+          </Icon>
+        </Link>
+        }
         <div />
         <div />
       </IconContainer>

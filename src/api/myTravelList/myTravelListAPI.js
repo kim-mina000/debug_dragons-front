@@ -18,6 +18,7 @@ export const getMyTravelList = async (userId) => {
 }
 
 // LCMapping DB
+// 코스 명으로 검색
 export const getMyTravelListDetail = async (courseNo) => {
   try {
     const userToken = localStorage.getItem('userToken');
@@ -32,6 +33,24 @@ export const getMyTravelListDetail = async (courseNo) => {
     console.error(error);
   }
 }
+
+// LCMapping DB
+// 아이디로 해당 유저가 작성한 코스 검색
+export const getMyTravelListById = async (userId) => {
+  try {
+    const userToken = localStorage.getItem('userToken');
+    const response = await axios.get(`${BACK_URL}/lc/read?id=${userId}`,{
+      headers:{
+        Authorization : userToken
+      }
+    })
+    return response.data;
+
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 
 // Landmark DB
 export const getLandmarkInfo = async (landmarkNo) => {

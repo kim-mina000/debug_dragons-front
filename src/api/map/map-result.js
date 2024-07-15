@@ -3,7 +3,7 @@ import { BACK_URL } from "../config";
 import { v4 } from "uuid";
 
 // 아이디로 랜드마크 데이터 가져오기
-export const landmarkResponse = async (userId) => {
+export const getLandmarkResponse = async (userId) => {
   try {
     const response = await axios.get(`${BACK_URL}/landmark/read?id=${userId}`);
     
@@ -39,7 +39,6 @@ export const handleDelete = async (data) =>{
 }
 
 export const handleMappingSave = async (data,id) => {
-  console.log(data);
   try {
     const courseId = v4().substring(0,10);
 

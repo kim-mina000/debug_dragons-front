@@ -1,10 +1,12 @@
+import Papa from "papaparse";
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { RiFolderAddLine, RiFolderAddFill } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 
-import { getMyTravelList, getMyTravelListDetail } from '../../api/myTravelList/myTravelListAPI';
+import { getMyTravelList } from '../../api/myTravelList/myTravelListAPI';
 import { useSelector } from 'react-redux';
+
 
 const TravelListContainer = styled.div`
   width: 80%;
@@ -114,8 +116,6 @@ const BoxesContainer = styled.div`
   }
 `;
 
-  
-
 
 const BoxLink = styled(Link)`
   width: 22rem;
@@ -197,23 +197,18 @@ const MyTravelList = () => {
   const [editingIndex, setEditingIndex] = useState(-1); // 편집 중인 카테고리 인덱스
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [sortOption, setSortOption] = useState('정렬기준');
-  
+  // 내 리스트
+  const [myList, setMyList] = useState(null);
+
   const userInfo = useSelector(state => state.member.userInfo);
 
-  useEffect(() => {
-    
-    const myList = getMyTravelList(userInfo.userId); // myList에 CourseLandmark가 담겨있음
-    
-    console.log(userInfo);
-    console.log(myList);
   
-    const myListDetail = getMyTravelListDetail(myList[0]?.courseNo); // courseNo을 넣으면 해당 코스의 목록을 반환
-    console.log(myListDetail);
 
-    // getMyTravelList, getMyTravelListDetail 둘다 async 함수 내에서 await 붙이고 쓰면됨~!
-  
+  useEffect(() => {
+    // myList에 CourseLandmark가 담겨있음
+    getMyTravelList(userInfo.userId)
+    .then(res => setMyList(res));
   }, []);
-  
   
 
   const handleEditCategoryName = (index) => {
@@ -231,6 +226,31 @@ const MyTravelList = () => {
     setSortOption(option);
     setDropdownVisible(false);
   };
+  
+  // csv 파일 읽어오기
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('images.csv');
+        if (!response.ok) {
+          throw new Error('Failed to fetch CSV');
+        }
+        const csvData = await response.text();
+    
+        // CSV를 JSON으로 파싱하기
+        const parsedData = Papa.parse(csvData, { header: true }); // header: true는 첫 줄을 헤더로 사용함을 의미
+    
+        console.log(parsedData.data); // 파싱된 데이터 확인
+    
+        // 여기서 parsedData.data를 처리하거나 필요한 작업 수행
+    
+      } catch (error) {
+        console.error('Error fetching or parsing CSV:', error);
+      }
+    };
+    
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -268,15 +288,8 @@ const MyTravelList = () => {
           </DropdownContent>
         </DropdownContainer>
         <BoxesContainer>
-          <BoxLink to="/detail">컨텐츠 1</BoxLink>
-          <BoxLink to="/detail">컨텐츠 2</BoxLink>
-          <BoxLink to="/detail">컨텐츠 3</BoxLink>
-          <BoxLink to="/detail">컨텐츠 4</BoxLink>
-          <BoxLink to="/detail">컨텐츠 5</BoxLink>
-          <BoxLink to="/detail">컨텐츠 6</BoxLink>
-          <BoxLink to="/detail">컨텐츠 7</BoxLink>
-          <BoxLink to="/detail">컨텐츠 8</BoxLink>
-          <BoxLink to="/detail">컨텐츠 9</BoxLink>
+          {myList &&
+            myList.map(list => { return <BoxLink to={`/main/detail/${list.courseNo}`} key={list.courseNo}></BoxLink>})}
         </BoxesContainer>
       </TravelListContainer>
     </>
