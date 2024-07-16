@@ -24,6 +24,21 @@ const IconContainer = styled.div`
   overflow: hidden; /* 스크롤 방지 */
 `;
 
+const MobileIconContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0 20px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+  z-index: 1000;
+  height: 70px;
+`;
+
 // 반응형 햄버거 버튼 추가
 const HamburgerMenu = styled.div`
   display: flex;
@@ -32,7 +47,6 @@ const HamburgerMenu = styled.div`
   width: 30px;
   height: 25px;
   cursor: pointer;
-  margin: 20px;
 `;
 
 const HamburgerLine = styled.div`
@@ -61,6 +75,31 @@ const MenuItem = styled(Link)`
   font-size: 20px;
   text-decoration: none;
   color: #000;
+`;
+
+const CloseButton = styled.div`
+  align-self: flex-end;
+  cursor: pointer;
+  margin-bottom: 20px;
+`;
+
+const CloseIcon = styled.div`
+  width: 25px;
+  height: 25px;
+  position: relative;
+  &:before, &:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: #000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  &:after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
 `;
 
 // 메뉴바 애니메이션
@@ -119,12 +158,17 @@ function MenuBar() {
     <StyledFooter>
       {isMobile ? (
         <>
-          <HamburgerMenu onClick={toggleMenu}>
-            <HamburgerLine />
-            <HamburgerLine />
-            <HamburgerLine />
-          </HamburgerMenu>
+          <MobileIconContainer>
+            <HamburgerMenu onClick={toggleMenu}>
+              <HamburgerLine />
+              <HamburgerLine />
+              <HamburgerLine />
+            </HamburgerMenu>
+          </MobileIconContainer>
           <MenuContent isOpen={isMenuOpen}>
+            <CloseButton onClick={toggleMenu}>
+              <CloseIcon />
+            </CloseButton>
             <MenuItem to="/main/MyTravelList">리스트</MenuItem>
             <MenuItem to="/main/around">둘러보기</MenuItem>
             <MenuItem to="/main/search">홈</MenuItem>
