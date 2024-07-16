@@ -94,8 +94,8 @@ function MenuBarNotUSer({loginProps}) {
             </Link>
 
           
-          <Link>
-            <Icon $isVisible={isExpanded} onClick={handleOpenModal}>
+          <Link to="/main/around">
+            <Icon $isVisible={isExpanded}>
               <img src='/둘러보기.png' alt="둘러보기" />
             </Icon>
           </Link>

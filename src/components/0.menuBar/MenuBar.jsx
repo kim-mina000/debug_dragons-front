@@ -174,11 +174,7 @@ function MenuBar({ onMyPageClick, isLoginNeed, setIsLoginNeed }) {
             <MenuItem to="/main/around">둘러보기</MenuItem>
             <MenuItem to="/main/search">홈</MenuItem>
             <MenuItem to="/main/scrap">스크랩</MenuItem>
-            {userInfo ? (
-              <MenuItem to="/main/mypage">마이페이지</MenuItem>
-            ) : (
-              <MenuItem onClick={() => setIsLoginNeed(true)}>마이페이지</MenuItem>
-            )}
+            <MenuItem to="/main/mypage">마이페이지</MenuItem>
           </MenuContent>
         </>
       ) : (
@@ -201,35 +197,31 @@ function MenuBar({ onMyPageClick, isLoginNeed, setIsLoginNeed }) {
             </Icon>
           </Link>
 
-          {/* 스타트 페이지 이동 */}
-          <Link to="/main/search">
-            <Icon $isVisible={true}>
-              <img src='/홈.png' alt="홈" />
-            </Icon>
-          </Link>
-          {/* 스크랩 페이지 이동 */}
-          <Link to="/main/scrap">
-            <Icon $isVisible={isExpanded}>
-              <img src='/스크랩.png' alt="스크랩" />
-            </Icon>
-          </Link>
-          {userInfo ? (
-            <Link to="/main/mypage">
-              <Icon $isVisible={isExpanded} onClick={() => { console.log(isLoginNeed); }}>
-                <img src='/마이페이지.png' alt="마이페이지" />
-              </Icon>
-            </Link>
-          ) : (
-            <Link>
-              <Icon $isVisible={isExpanded}>
-                <img src='/마이페이지.png' alt="마이페이지" onClick={() => { setIsLoginNeed(true) }} />
-              </Icon>
-            </Link>
-          )}
-          <div />
-          <div />
-        </IconContainer>
-      )}
+       
+        {/* 스타트 페이지 이동 */}
+        <Link to="/main">
+          <Icon $isVisible={true}>
+            <img src='/홈.png' alt="홈" />
+          </Icon>
+        </Link>
+
+        <Link to="/main/scrap">
+          <Icon $isVisible={isExpanded}>
+            <img src='/스크랩.png' alt="스크랩" />
+          </Icon>
+        </Link>
+        
+        <Link to="/main/mypage">
+          <Icon $isVisible={isExpanded}>
+            <img src='/마이페이지.png' alt="마이페이지" />
+          </Icon>
+        </Link>
+
+        <div />
+        <div />
+      </IconContainer>
+      )
+    }
     </StyledFooter>
   );
 }
