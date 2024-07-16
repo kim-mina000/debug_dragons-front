@@ -193,13 +193,12 @@ function MyPageProfile(props) {
 
       const update = await axios.post(`${BACK_URL}/member/update`, userData);
 
-      console.log(update.data);
-
       dispatch(getUserInfo(userData));
 
       if (ImageEdit) {
-        await axios.post(`${BACK_URL}/member/upload?userId=${Member.userId}`, formData);
-        console.log(ImageEdit);
+        console.log();
+        const res = await axios.post(`${BACK_URL}/member/upload?userId=${Member.userId}`, formData);
+        console.log(res);
       }
 
       if (update.status === 201) { 

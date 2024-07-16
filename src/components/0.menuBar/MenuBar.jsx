@@ -129,11 +129,7 @@ function MenuBar() {
             <MenuItem to="/main/around">둘러보기</MenuItem>
             <MenuItem to="/main/search">홈</MenuItem>
             <MenuItem to="/main/scrap">스크랩</MenuItem>
-            {userInfo ? (
-              <MenuItem to="/main/mypage">마이페이지</MenuItem>
-            ) : (
-              <MenuItem onClick={() => setIsLoginNeed(true)}>마이페이지</MenuItem>
-            )}
+            <MenuItem to="/main/mypage">마이페이지</MenuItem>
           </MenuContent>
         </>
       ) : (
@@ -181,7 +177,8 @@ function MenuBar() {
         <div />
         <div />
       </IconContainer>
-
+      )
+    }
     </StyledFooter>
   );
 }
