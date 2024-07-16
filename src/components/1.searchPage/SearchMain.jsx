@@ -144,28 +144,33 @@ const SaveButton = styled.button`
 
 `;
 
-function SearchMain({userInfo, loginProps}) {
+function SearchMain({userInfo}) {
   const { kakao } = window;
   const container = useRef(null);
-  const {isLoginNeed, setIsLoginNeed} = loginProps || {};
-
+  
   // 선택된 값들을 관리할 상태
   const [selectedPlaceButtons, setSelectedPlaceButtons] = useState([]);
   const [selectedDateButtons, setSelectedDateButtons] = useState([]);
   const [selectedPersonButtons, setSelectedPersonButtons] = useState([null]);
+  const selectedInformation = {
+    place: selectedPlaceButtons,
+    date: selectedDateButtons,
+    person: selectedPersonButtons
+  }
 
   const [userClickInfo, setUserClickInfo] = useState({});
   const [categoryIndex, setCategoryIndex] = useState("가볼만한 곳");
   
   const [formData, setFormData] = useState([]);
   const dispatch =  useDispatch();
-
+  
   // 각 모달의 open/close 상태 관리
   const [isDateModalOpen, setIsDateModalOpen] = useState(false);
   const [isPlaceModalOpen, setIsPlaceModalOpen] = useState(false);
   const [isPersonModalOpen, setIsPersonModalOpen] = useState(false);
   const [isInfoWindow, setIsInfoWindow] = useState(false); 
   const [isWhereIgo, setIsWhereIgo] = useState(false);
+  const [isNeedLogin, setIsNeedLogin] = useState(false);
   
   
   // MainModalPerson에서 선택된 값 저장
@@ -175,13 +180,14 @@ function SearchMain({userInfo, loginProps}) {
   };
 
   
-  const handleSaveFormData = (key)=>{
-    if (key) {
-      handleMappingSave(formData,userInfo.userId)
+  const handleSaveFormData = (key, selectedInformation)=>{
+    console.log(key);
+    if (!key) {
+      setIsNeedLogin(true);
+    } else {
+      handleMappingSave(formData,userInfo.userId, selectedInformation)
       setFormData([]);
       setIsWhereIgo(true);
-    } else {
-      // setIsLoginNeed(true)
     }
   }
   
@@ -460,7 +466,7 @@ function SearchMain({userInfo, loginProps}) {
 
           <SaveButton 
             // disabled = {!formData.length}
-            onClick = {()=>{handleSaveFormData(userInfo)}}>저장하기<IoIosArrowRoundForward /></SaveButton>
+            onClick = {()=>{handleSaveFormData(userInfo, selectedInformation)}}>저장하기<IoIosArrowRoundForward /></SaveButton>
 
         </MapContainer>
       </ContentWrap>
@@ -510,9 +516,9 @@ function SearchMain({userInfo, loginProps}) {
         />
       )}
 
-      {isLoginNeed && (
+      {isNeedLogin && (
         <LoginNeed 
-          closeModal={()=> setIsLoginNeed(false)}
+          closeModal={()=> setIsNeedLogin(false)}
         />
       )}
     </Container>

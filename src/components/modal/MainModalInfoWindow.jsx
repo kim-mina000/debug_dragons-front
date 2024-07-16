@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { handleMyTripSave, searchData } from '../../api/map/map';
-import { useSelector } from 'react-redux';
 import { TfiClose } from 'react-icons/tfi';
 
 const Overlay = styled.div`

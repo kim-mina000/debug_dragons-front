@@ -8,6 +8,7 @@ const Wrap = styled.div`
   background-color: rgba(255,255,192,0.1);
   backdrop-filter: blur(10px);
   position: fixed;
+  top:0;
   z-index: 8;
   display: flex;
   align-items: center;

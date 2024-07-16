@@ -8,6 +8,7 @@ import Tagify from '@yaireo/tagify';
 import '@yaireo/tagify/dist/tagify.css';
 import MyPageProfile from "../modal/MyPageProfile"; 
 import { USER_IMG, WISH_LIST } from "../../api/config";
+import { getMyTravelListById } from "../../api/myTravelList/myTravelListAPI";
 
 
 
@@ -207,7 +208,9 @@ const ScrapAndCourseItem = styled.div`
 
 function MyPage() {
   const userInfo = useSelector(state => state.member.userInfo);
+
   const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
+  const [myCourse, setMyCourse] = useState([]);
   const [hashtags, setHashtags] = useState(['자신만의', '태그들을', '입력해주세요']);
   const navigate = useNavigate();
   const tagifyRef = useRef();
@@ -224,6 +227,11 @@ function MyPage() {
   };
 
   useEffect(() => {
+    const fetchData = async () => {
+      const response = await getMyTravelListById(userInfo.userId);
+      setMyCourse(response);
+    }
+    fetchData();
     if (tagifyRef.current) {
       const tagifyInstance = new Tagify(tagifyRef.current, {
         enforceWhitelist: true,
@@ -279,11 +287,6 @@ function MyPage() {
               <span>00</span>
             </ScrapAndCourseHeader>
             <ScrapAndCourseItems>
-              <ScrapAndCourseItem />
-              <ScrapAndCourseItem />
-              <ScrapAndCourseItem />
-              <ScrapAndCourseItem />
-              <ScrapAndCourseItem />
             </ScrapAndCourseItems>
           </ScrapAndCourseContainer>
           <ScrapAndCourseContainer>
@@ -292,11 +295,7 @@ function MyPage() {
               <span>00</span>
             </ScrapAndCourseHeader>
             <ScrapAndCourseItems>
-              <ScrapAndCourseItem />
-              <ScrapAndCourseItem />
-              <ScrapAndCourseItem />
-              <ScrapAndCourseItem />
-              <ScrapAndCourseItem />
+              {myCourse?.map(course => <ScrapAndCourseItem />)}
             </ScrapAndCourseItems>
           </ScrapAndCourseContainer>
         </UserInfo>

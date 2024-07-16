@@ -1,11 +1,11 @@
 import non_member_img from '../image/non_member_img.png'
 
-export const BACK_URL = 'http://localhost:8080';
+// export const BACK_URL = 'http://localhost:8080';
 // export const BACK_URL = 'ec2-52-79-253-218.ap-northeast-2.compute.amazonaws.com:8080'; // 원래 이거 였는데 저희가 도메인을 사서 바뀐거에용
 
 export const USER_IMG = non_member_img;
 
-// export const BACK_URL = 'http://attibus.store:8080';
+export const BACK_URL = 'http://attibus.store:8080';
 
 export const KAKAO_RESTKEY = '9d4de3df4c7c5e0199e412627381f00a';
 
