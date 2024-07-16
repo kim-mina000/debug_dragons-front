@@ -59,7 +59,6 @@ function MenuBarNotUSer({loginProps}) {
   const {isLoginNeed, setIsLoginNeed} = loginProps;
   const [isExpanded, setIsExpanded] = useState(false);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  console.log(isLoginNeed);
 
   // 메뉴 컨테이너에 마우스가 들어올 때 호출되는 함수
   const handleMouseEnter = () => {

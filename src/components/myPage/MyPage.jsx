@@ -6,9 +6,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Tagify from '@yaireo/tagify';
 import '@yaireo/tagify/dist/tagify.css';
-import LoginNeed from "../modal/LoginNeed";
 import MyPageProfile from "../modal/MyPageProfile"; 
-import { SiWikidotjs } from "react-icons/si";
 import { USER_IMG, WISH_LIST } from "../../api/config";
 
 

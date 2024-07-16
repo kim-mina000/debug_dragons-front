@@ -27,6 +27,7 @@ export const getMyTravelListDetail = async (courseNo) => {
         Authorization : userToken
       }
     })
+    console.log(response.data);
     return response.data;
 
   } catch (error) {

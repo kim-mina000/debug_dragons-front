@@ -87,14 +87,12 @@ function App() {
   const [isLoginNeed, setIsLoginNeed] = useState(false);
   const [userName, setUserName] = useState('사용자');
 
-<<<<<<< HEAD
-=======
+
   const loginProps = {
     isLoginNeed : isLoginNeed,
     setIsLoginNeed : setIsLoginNeed
   };
   
->>>>>>> mina
   const userInfo = useSelector(state => state.member.userInfo);
   const handleLogout = () => {
     setUserName(null);
@@ -131,18 +129,6 @@ function App() {
           <Route path='/FindEnd' element={<FindEnd />} />
 
 
-<<<<<<< HEAD
-          {/* <Route path='main' element={<SearchMain userInfo={userInfo} />} />     */}
-          <Route path='/main' element={<MainContainer />}>
-
-            <Route path='search' element={<SearchMain userInfo={userInfo} />} />
-            <Route path="mypage" element={<MyPage />} />
-            <Route path="scrap" element={<Clipping />} />
-            <Route path="around" element={<Lookaround />} />
-            <Route path="MyTravelList" element={<MyTravelList />} />
-            <Route path="detail/:no" element={<MyTravelListDetail />} />
-          </Route>
-=======
         {/* <Route path='main' element={<SearchMain userInfo={userInfo} />} />     */}
         <Route path='/main' element={<MainContainer loginProps={loginProps} />}>
           <Route index element={<SearchMain userInfo={userInfo} />} />
@@ -152,41 +138,24 @@ function App() {
           <Route path='MyTravelList' element={<MyTravelList />} />
           <Route path='detail/:no' element={<MyTravelListDetail />} />
         </Route>
->>>>>>> mina
 
         <Route path='/terms-privacy' element={<TermsPrivacy />} />
         <Route path='/customerservice' element={<CustomerService />} />
 
 
-<<<<<<< HEAD
-          {/* 임시라우터 */}
-          <Route path="/landmarkcomment/:landmarkNo" element={<Comments />} />
-          <Route path="/landmarkLike/:landmarkNo" element={<LikeTest />} />
-
-          <Route path='/whereIgo' element={<MainOrMylist />} />
-
-          {/* </Routes> */}
-
-
-          <Route path="/terms-privacy" element={<TermsPrivacy />} />
-          <Route path="/customerservice" element={<CustomerService />} />
-
-
-          <Route path='/whereIgo' element={<MainOrMylist />} />
-
-        </Routes>
-=======
         {/* 임시라우터 */}
-        <Route path='/landmarkcomment/:landmarkNo' element={<Comments />} />
+        <Route path="/landmarkcomment/:landmarkNo" element={<Comments />} />
+        <Route path="/landmarkLike/:landmarkNo" element={<LikeTest />} />
 
-        <Route path='/terms-privacy' element={<TermsPrivacy />} />
-        <Route path='/customerservice' element={<CustomerService />} />
+        {/* </Routes> */}
+        <Route path="/terms-privacy" element={<TermsPrivacy />} />
+        <Route path="/customerservice" element={<CustomerService />} />
 
 
-        <Route path='/whereIgo' element={<MainOrMylist />}/>
+        <Route path='/whereIgo' element={<MainOrMylist />} />
 
       </Routes>
->>>>>>> mina
+
       </BrowserRouter>
     </>
   );
