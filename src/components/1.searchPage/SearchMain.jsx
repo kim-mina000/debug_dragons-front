@@ -424,6 +424,7 @@ function SearchMain({userInfo, loginProps}) {
               selectedPlaceButtons = {selectedPlaceButtons}
               selectedDateButtons = {selectedDateButtons}
               selectedPersonButtons = {selectedPersonButtons}
+              userInfo={userInfo}
             />
           </MyCourseContainer>
         </LeftWrap>
