@@ -265,13 +265,13 @@ function SignUp() {
       formData.append('userId', userInfo.userId);
       formData.append('file', uploadFile);
 
-      // 서버에 유저정보 전송
-      const response = await axios.post(`${BACK_URL}/member/register`, userInfo
-      );
-
       if (uploadFile) {
         await axios.post(`${BACK_URL}/member/upload`, formData);
       }
+
+      // 서버에 유저정보 전송
+      const response = await axios.post(`${BACK_URL}/member/register`, userInfo
+      );
 
       if (response.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
         return nevigate('/thanks-for-signup');

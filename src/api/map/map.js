@@ -17,7 +17,6 @@ export const handleMyTripSave = async (data, userId, imgUrl) => {
   }
 
   try {
-    console.log(postData);
     const response = await axios.post(`${BACK_URL}/landmark/register`, postData);
     return await response.data;
   } catch (error) {

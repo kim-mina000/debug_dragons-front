@@ -174,8 +174,15 @@ function MyPageProfile(props) {
 
   const handleProfileChange = async () => {
     try {
-      const formData = new FormData();
-      formData.append('file', ImageEdit);
+      // const formData = new FormData();
+      // formData.append('file', ImageEdit);
+      // console.log(1);
+      
+      // if (ImageEdit) {
+      //   console.log(Member.userId);
+      //   const res = await axios.post(`${BACK_URL}/member/upload?userId=${Member.userId}`, formData);
+      //   console.log(res);
+      // }
 
       const userData = {
         userId: userInfo.userId,
@@ -195,14 +202,9 @@ function MyPageProfile(props) {
 
       dispatch(getUserInfo(userData));
 
-      if (ImageEdit) {
-        console.log();
-        const res = await axios.post(`${BACK_URL}/member/upload?userId=${Member.userId}`, formData);
-        console.log(res);
-      }
-
-      if (update.status === 201) { 
-        return navigate('/mypage');
+      if (update.status === 200) { 
+        closeModal();
+        return navigate('/main/mypage');
       } else {
         throw new Error(`api error: ${update.status} ${update.statusText}`);
       }
@@ -213,18 +215,26 @@ function MyPageProfile(props) {
   }
 
   const handleImageChange = async (e) => {
+    // 새로입력된 이미지의 바이너리 값을 받아 바로 화면에 보여줌
     const file = e.target.files[0];
     setImageEdit(file);
-
+    
     const reader = new FileReader();
     reader.onloadend = () => {
       const imageBase = reader.result;
       setProfileImage(imageBase);
     }
-
+    
     if (file) {
       reader.readAsDataURL(file);
     }
+
+    // 새로입력된 이미지의 url를 요청
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const res = await axios.post(`${BACK_URL}/member/upload?userId=${Member.userId}`, formData);
+    setProfileImage(res.data);
   };
 
   const regDate = new Date(Member.regDate);

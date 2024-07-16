@@ -2,5 +2,12 @@ import axios from "axios"
 import { BACK_URL } from "../config"
 
 export const getShareTravelList = async () => {
-  const response = await axios.get(`${BACK_URL}//`)
+
+  try {
+    const response = await axios.get(`${BACK_URL}//`)
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
 }
