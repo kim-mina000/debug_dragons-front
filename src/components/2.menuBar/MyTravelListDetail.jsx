@@ -79,7 +79,7 @@ const MyTravelListDetail = () => {
         <BackButton onClick={() => navigate('/main/MyTravelList')}>
           뒤로가기
         </BackButton>
-        {courseList ? <SearchMainResult formData={courseList} setFormData={setCourseList} onClick={()=>{console.log(1);}} /> : <p>Loading...</p>}
+        {courseList ? <SearchMainResult formData={courseList} setFormData={setCourseList} /> : <p>Loading...</p>}
       </SearchContainer>
       <DetailsContainer>
         <PhotoTextContainer>
