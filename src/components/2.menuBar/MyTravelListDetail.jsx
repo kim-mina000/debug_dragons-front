@@ -53,7 +53,6 @@ const RouteContainer = styled.div`
 const MyTravelListDetail = () => {
   const navigate = useNavigate();
   const {no} = useParams();
-  console.log(no);
   // 코스-매핑 리스트 LCMappingList
   const [courseList, setCourseList] = useState(null);
   
@@ -65,7 +64,6 @@ const MyTravelListDetail = () => {
         const promises  = await myCourseList.map(landmark => getLandmarkInfo(landmark.landmarkNo));
         const landmarkList = await Promise.all(promises);
         setCourseList(landmarkList);
-        console.log(landmarkList);
       } catch (error) {
         console.error(error);
       };

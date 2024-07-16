@@ -299,7 +299,7 @@ const MyTravelList = () => {
         </DropdownContainer>
         <BoxesContainer>
           {myList &&
-            myList.map(list => { console.log(list); return <BoxLink to={`/main/detail/${list.courseNo}`} key={list.courseNo}></BoxLink>})}
+            myList.map(list => {return <BoxLink to={`/main/detail/${list.courseNo}`} key={list.courseNo}></BoxLink>})}
         </BoxesContainer>
       </TravelListContainer>
     </>

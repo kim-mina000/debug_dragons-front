@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import route_back_img from '../../image/route_back_img.png'
+import { searchData } from '../../api/map/map';
 
 const Wrap = styled.div`
   width: 100%;
@@ -9,6 +11,9 @@ const Wrap = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  background-image: url(${route_back_img});
+  background-repeat: no-repeat;
+  background-size: cover;
   `;
 
 const LineContainer = styled.div`
@@ -19,6 +24,7 @@ const LineContainer = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+
   `;
 
 
@@ -28,13 +34,47 @@ const StyledCircle = styled.div`
   background-color: pink;
   border-radius: 50%;
   cursor: pointer;
+  
+  & span {
+    position: absolute;
+    top: 2rem;
+    width: 100px;
+    max-height: 2.1rem;
+
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    /* 근데이거 왜 단어단위로 안내려감.,, 짱나 */
+  }
   `;
+
+// const MyTravelListCourseModal = (landmark)=>{
+//   const fetchImgUrl = async (landmark)=>{
+//     const img_url = await searchData(landmark.landmarkName);
+//     console.log(img_url);
+//     return img_url;
+//   }
+
+//   const img_url = fetchImgUrl(landmark);
+  
+//   return (
+//     <>
+//       <img src={img_url} />
+//     </>
+//   );
+// }
 
 
 
 
 const MyTravelListCourse = ({courseList}) => {
-  console.log(courseList);
+
+  // const [handleOpenModal, setHandleOpenModal] = useState(true);
+
+  if (!courseList || courseList.length === 0) {
+    return <div>Loading...</div>;
+  }
+
   const firstLine = [];
   const secondLine = [];
   const thirdLine = [];
@@ -64,10 +104,12 @@ const MyTravelListCourse = ({courseList}) => {
       }}
       >
         {thirdLine.map(location =>
-        <StyledCircle key={location.courseNo}
-          onMouseEnter={()=>{console.log(1)}}
-          onMouseLeave={()=>{console.log(2)}}
-        >
+        <StyledCircle
+          key={location.landmarkNo}
+          // onMouseEnter={()=>{setHandleOpenModal(true)}}
+          // onMouseLeave={()=>{setHandleOpenModal(false)}}
+          >
+          {/* {handleOpenModal && <MyTravelListCourseModal />} */}
           <span>{location.landmarkName}</span>
         </StyledCircle>)}
 
@@ -77,7 +119,15 @@ const MyTravelListCourse = ({courseList}) => {
 
         }}
       >
-        {secondLine.map(location => <StyledCircle key={location.courseNo}><span>{location.landmarkName}</span></StyledCircle>)}
+        {secondLine.map(location => 
+        <StyledCircle 
+        key={location.landmarkNo}
+        // onMouseEnter={()=>{setHandleOpenModal(true)}}
+        // onMouseLeave={()=>{setHandleOpenModal(false)}}
+        >
+          {/* {handleOpenModal && <MyTravelListCourseModal />} */}
+          <span>{location.landmarkName}</span>
+        </StyledCircle>)}
       </LineContainer>
       <LineContainer
         style={{
@@ -85,7 +135,15 @@ const MyTravelListCourse = ({courseList}) => {
           right:0
         }}
       >
-        {firstLine.map(location => <StyledCircle key={location.courseNo}><span>{location.landmarkName}</span></StyledCircle>)}
+        {firstLine.map(location => 
+        <StyledCircle 
+          key={location.landmarkNo}
+          // onMouseEnter={()=>{console.log(location);}}
+          // onMouseLeave={()=>{setHandleOpenModal(false)}}
+        >
+          {/* {handleOpenModal && <MyTravelListCourseModal />} */}
+          <span>{location.landmarkName}</span>
+        </StyledCircle>)}
       </LineContainer>
     
     </Wrap>
