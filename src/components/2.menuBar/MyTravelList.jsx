@@ -229,27 +229,37 @@ const MyTravelList = () => {
   
   // csv 파일 읽어오기
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('images.csv');
-        if (!response.ok) {
-          throw new Error('Failed to fetch CSV');
-        }
-        const csvData = await response.text();
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await fetch('images.csv');
+    //     if (!response.ok) {
+    //       throw new Error('Failed to fetch CSV');
+    //     }
+    //     const csvData = await response.text();
     
-        // CSV를 JSON으로 파싱하기
-        const parsedData = Papa.parse(csvData, { header: true }); // header: true는 첫 줄을 헤더로 사용함을 의미
+    //     // CSV를 JSON으로 파싱하기
+    //     const parsedData = Papa.parse(csvData, { header: true }); // header: true는 첫 줄을 헤더로 사용함을 의미
     
-        console.log(parsedData.data); // 파싱된 데이터 확인
+    //     console.log(parsedData.data); // 파싱된 데이터 확인
     
-        // 여기서 parsedData.data를 처리하거나 필요한 작업 수행
+    //     // 여기서 parsedData.data를 처리하거나 필요한 작업 수행
     
-      } catch (error) {
-        console.error('Error fetching or parsing CSV:', error);
-      }
-    };
+    //   } catch (error) {
+    //     console.error('Error fetching or parsing CSV:', error);
+    //   }
+    // };
     
-    fetchData();
+    // fetchData();
+
+    // const fs = require('fs');
+    // const Papa = require('papaparse');
+
+    // const csvFile = fs.readFileSync(
+    //   'C:\0.김민아\debug-dragons\debug_dragons-front\src\components\csvFile\images.csv',
+    //   'utf-8'
+    // );
+    // https://deadsimplechat.com/blog/csv-files-with-nodejs-papaparse/ 이거 
+
   }, []);
 
   return (
@@ -289,7 +299,7 @@ const MyTravelList = () => {
         </DropdownContainer>
         <BoxesContainer>
           {myList &&
-            myList.map(list => { return <BoxLink to={`/main/detail/${list.courseNo}`} key={list.courseNo}></BoxLink>})}
+            myList.map(list => {return <BoxLink to={`/main/detail/${list.courseNo}`} key={list.courseNo}></BoxLink>})}
         </BoxesContainer>
       </TravelListContainer>
     </>

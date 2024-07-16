@@ -94,8 +94,7 @@ const ButtonContainer = styled.div`
   margin: 1.5%;
   `;
 
-const SearchMainResult = ({ formData, setFormData, selectedPlaceButtons, selectedDateButtons, selectedPersonButtons }) => {
-  console.log(selectedPersonButtons);
+const SearchMainResult = ({ formData, setFormData, selectedPlaceButtons, selectedDateButtons, selectedPersonButtons, userInfo }) => {
   const [editDayIndex, setEditDayIndex] = useState(null);
   const [editTimeIndex, setEditTimeIndex] = useState(null);
   const [editDay, setEditDay] = useState('');
@@ -103,9 +102,12 @@ const SearchMainResult = ({ formData, setFormData, selectedPlaceButtons, selecte
   const [editShortDescIndex, setEditShortDescIndex] = useState(null);
   const [editShortDesc, setEditShortDesc] = useState('');
 
-  // useEffect(() => {
-  //   getLandmarkResponse(userId).then(res => console.log(res));
-  // }, [userId]);
+  // 사용자가 저장하지 않은 랜드마크를 불러와서 보여줌 (landmark_origin = 0)
+  useEffect(() => {
+    if (userInfo) {
+      getLandmarkResponse(userInfo.userId).then(res => setFormData(res));
+    }
+  }, []);
 
 
   useEffect(() => {
@@ -171,7 +173,9 @@ const SearchMainResult = ({ formData, setFormData, selectedPlaceButtons, selecte
     }
   };
 
-  const family = selectedPersonButtons.adults + selectedPersonButtons.children + selectedPersonButtons.infants + selectedPersonButtons.pets
+  const family = selectedPersonButtons ?
+    (selectedPersonButtons.adults + selectedPersonButtons.children + selectedPersonButtons.infants + selectedPersonButtons.pets)
+    : 0 ;
 
   return (
     <>
