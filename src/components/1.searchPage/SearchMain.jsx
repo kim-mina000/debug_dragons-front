@@ -147,7 +147,6 @@ const SaveButton = styled.button`
 function SearchMain({userInfo,isLoginNeed,setIsLoginNeed}) {
   const { kakao } = window;
   const container = useRef(null);
-  const navigater = useNavigate();
   // const [selectedButtons, setSelectedButtons] = useState([]);
 
   // 선택된 값들을 관리할 상태

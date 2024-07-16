@@ -8,6 +8,8 @@ import Tagify from '@yaireo/tagify';
 import '@yaireo/tagify/dist/tagify.css';
 import LoginNeed from "../modal/LoginNeed";
 import MyPageProfile from "../modal/MyPageProfile"; 
+import { SiWikidotjs } from "react-icons/si";
+import { WISH_LIST } from "../../api/config";
 
 
 
@@ -212,8 +214,6 @@ function MyPage() {
   const navigate = useNavigate();
   const tagifyRef = useRef();
 
- 
-
   const handleProfileEditClick = () => {
     setIsProfileEditModalOpen(true);
   };
@@ -229,67 +229,7 @@ function MyPage() {
     if (tagifyRef.current) {
       const tagifyInstance = new Tagify(tagifyRef.current, {
         enforceWhitelist: true,
-        whitelist: [
-          "반려견",
-          "반려견 동반",
-          "물또라이",
-          "수영장",
-          "수영",
-          "물놀이",
-          "물좋아",
-          "물",
-          "자기자동차있음",
-          "여행",
-          "강아지",
-          "대형견",
-          "소형견",
-          "밍고",
-          "시리",
-          "마리",
-          "하루",
-          "현아",
-          "지연",
-          "민아",
-          "여행",
-          "트레킹",
-          "캠핑",
-          "백패킹",
-          "국내여행",
-          "해외여행",
-          "호캉스",
-          "바캉스",
-          "허니문",
-          "해수욕",
-          "스노클링",
-          "다이빙",
-          "서핑",
-          "스키",
-          "스노우보드",
-          "낚시",
-          "하이킹",
-          "등산",
-          "산행",
-          "클라이밍",
-          "카약",
-          "라프팅",
-          "보트",
-          "크루즈",
-          "자전거",
-          "모터사이클",
-          "드라이브",
-          "트래킹",
-          "워킹홀리데이",
-          "숙박",
-          "호텔",
-          "리조트",
-          "펜션",
-          "에어비앤비",
-          "유스호스텔",
-          "캠핑카",
-          "텐트",
-          "글램핑",
-          "무술년"
-        ],
+        whitelist: WISH_LIST,
         maxTags: 10,
         dropdown: {
           maxItems: 20,
