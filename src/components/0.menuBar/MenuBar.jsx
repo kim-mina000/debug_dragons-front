@@ -133,14 +133,15 @@ const Icon = styled.div`
   }
 `;
 
-function MenuBar() {
+function MenuBar({ onMyPageClick, isLoginNeed, setIsLoginNeed }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const navigator = useNavigate();
 
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
-   // 메뉴 컨테이너에 마우스가 들어올 때 호출되는 함수
+  // 메뉴 컨테이너에 마우스가 들어올 때 호출되는 함수
   const handleMouseEnter = () => {
     setIsExpanded(true);
   };
@@ -184,21 +185,19 @@ function MenuBar() {
           <div />
           <div />
           {/* 나의 여행 리스트 가기 */}
-
           <Link to="/main/MyTravelList">
             <Icon $isVisible={isExpanded}>
               <img src='/리스트.png' alt="리스트" />
             </Icon>
           </Link>
+          {/*둘러보기 페이지 이동 */}
+          <Link to="/main/around">
+            <Icon $isVisible={isExpanded}>
+              <img src='/둘러보기.png' alt="둘러보기" />
+            </Icon>
+          </Link>
 
-
-        
-        <Link to="/main/around">
-          <Icon $isVisible={isExpanded}>
-            <img src='/둘러보기.png' alt="둘러보기" />
-          </Icon>
-        </Link>
-        
+       
         {/* 스타트 페이지 이동 */}
         <Link to="/main">
           <Icon $isVisible={true}>
