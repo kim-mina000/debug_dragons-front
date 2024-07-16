@@ -155,7 +155,7 @@ const MainModalPerson = ({ closeModal, setSelectedButtons }) => {
     <>
       <Overlay onClick={() => closeModal()}>
         <Content onClick={(e) => e.stopPropagation()}>
-          <Title>누구와 떠날까요?</Title>
+          <Title>누구와?</Title>
           <Line />
           <CountBox>
             <CountTitle>성인</CountTitle>
