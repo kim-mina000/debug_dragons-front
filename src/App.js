@@ -84,8 +84,17 @@ const GlobalStyles = createGlobalStyle`
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoginNeed, setIsLoginNeed] = useState(false);
   const [userName, setUserName] = useState('사용자');
 
+<<<<<<< HEAD
+=======
+  const loginProps = {
+    isLoginNeed : isLoginNeed,
+    setIsLoginNeed : setIsLoginNeed
+  };
+  
+>>>>>>> mina
   const userInfo = useSelector(state => state.member.userInfo);
   const handleLogout = () => {
     setUserName(null);
@@ -104,8 +113,8 @@ function App() {
         <GlobalStyles />
         <Routes>
 
-          <Route path="/" element={<Navigate to="/startpage" replace />} />
-          <Route path="/startpage" element={
+          <Route path='/' element={<Navigate to='/startpage' replace />} />
+          <Route path='/startpage' element={
             isLoading ? (
               <Loading />
             ) : (
@@ -122,6 +131,7 @@ function App() {
           <Route path='/FindEnd' element={<FindEnd />} />
 
 
+<<<<<<< HEAD
           {/* <Route path='main' element={<SearchMain userInfo={userInfo} />} />     */}
           <Route path='/main' element={<MainContainer />}>
 
@@ -132,11 +142,23 @@ function App() {
             <Route path="MyTravelList" element={<MyTravelList />} />
             <Route path="detail/:no" element={<MyTravelListDetail />} />
           </Route>
+=======
+        {/* <Route path='main' element={<SearchMain userInfo={userInfo} />} />     */}
+        <Route path='/main' element={<MainContainer loginProps={loginProps} />}>
+          <Route index element={<SearchMain userInfo={userInfo} />} />
+          <Route path='mypage' element={<MyPage />} />
+          <Route path='scrap' element={<Clipping />} />
+          <Route path='around' element={<Lookaround />} />
+          <Route path='MyTravelList' element={<MyTravelList />} />
+          <Route path='detail/:no' element={<MyTravelListDetail />} />
+        </Route>
+>>>>>>> mina
 
-          <Route path="/terms-privacy" element={<TermsPrivacy />} />
-          <Route path="/customerservice" element={<CustomerService />} />
+        <Route path='/terms-privacy' element={<TermsPrivacy />} />
+        <Route path='/customerservice' element={<CustomerService />} />
 
 
+<<<<<<< HEAD
           {/* 임시라우터 */}
           <Route path="/landmarkcomment/:landmarkNo" element={<Comments />} />
           <Route path="/landmarkLike/:landmarkNo" element={<LikeTest />} />
@@ -153,6 +175,18 @@ function App() {
           <Route path='/whereIgo' element={<MainOrMylist />} />
 
         </Routes>
+=======
+        {/* 임시라우터 */}
+        <Route path='/landmarkcomment/:landmarkNo' element={<Comments />} />
+
+        <Route path='/terms-privacy' element={<TermsPrivacy />} />
+        <Route path='/customerservice' element={<CustomerService />} />
+
+
+        <Route path='/whereIgo' element={<MainOrMylist />}/>
+
+      </Routes>
+>>>>>>> mina
       </BrowserRouter>
     </>
   );

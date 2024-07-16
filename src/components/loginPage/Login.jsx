@@ -132,7 +132,7 @@ function Login() {
       dispatch(getUserToken(response.data.token));
       dispatch(getUserInfo(response.data.user));
       console.log(response.data.user);
-      navigate('/main/search');
+      navigate('/main');
       return console.log("로그인성공");
     } catch (error) {
       console.error(error);

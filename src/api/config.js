@@ -1,6 +1,9 @@
+import non_member_img from '../image/non_member_img.png'
 
 // export const BACK_URL = 'http://localhost:8080';
 // export const BACK_URL = 'ec2-52-79-253-218.ap-northeast-2.compute.amazonaws.com:8080';
+
+export const USER_IMG = non_member_img;
 
 export const BACK_URL = 'http://attibus.store:8080';
 

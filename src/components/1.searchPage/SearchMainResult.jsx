@@ -95,7 +95,6 @@ const ButtonContainer = styled.div`
   `;
 
 const SearchMainResult = ({ formData, setFormData, selectedPlaceButtons, selectedDateButtons, selectedPersonButtons }) => {
-  console.log(selectedPersonButtons);
   const [editDayIndex, setEditDayIndex] = useState(null);
   const [editTimeIndex, setEditTimeIndex] = useState(null);
   const [editDay, setEditDay] = useState('');
@@ -171,7 +170,9 @@ const SearchMainResult = ({ formData, setFormData, selectedPlaceButtons, selecte
     }
   };
 
-  const family = selectedPersonButtons.adults + selectedPersonButtons.children + selectedPersonButtons.infants + selectedPersonButtons.pets
+  const family = selectedPersonButtons ?
+    (selectedPersonButtons.adults + selectedPersonButtons.children + selectedPersonButtons.infants + selectedPersonButtons.pets)
+    : 0 ;
 
   return (
     <>
