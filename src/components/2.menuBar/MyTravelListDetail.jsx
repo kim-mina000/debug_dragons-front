@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import SearchMainResult from '../1.searchPage/SearchMainResult';
 import { getLandmarkInfo, getMyTravelListDetail } from '../../api/myTravelList/myTravelListAPI';
+import MyTravelListCourse from './MyTravelListCourse';
 
 const Container = styled.div`
   display: flex;
@@ -45,7 +46,7 @@ const PhotoTextContainer = styled.div`
 
 const RouteContainer = styled.div`
   flex: 2;
-  background-color: #e4e4e4;
+  /* background-color: #e4e4e4; */
   padding: 20px;
 `;
 
@@ -53,7 +54,6 @@ const MyTravelListDetail = () => {
   const navigate = useNavigate();
   const {no} = useParams();
   // 코스-매핑 리스트 LCMappingList
-  // const [detailList, setDetailList] = useState([]);
   const [courseList, setCourseList] = useState(null);
   
   useEffect(() => {
@@ -88,9 +88,11 @@ const MyTravelListDetail = () => {
           </div>
         </PhotoTextContainer>
         <RouteContainer>
-          <div>
+          <p>경로</p>
+          {/* <div>
             경로
-          </div>
+          </div> */}
+          <MyTravelListCourse courseList={courseList} />
         </RouteContainer>
       </DetailsContainer>
     </Container>

@@ -13,6 +13,7 @@ const Background = styled.div`
   background-color: rgba(255,255,192,0.1);
   backdrop-filter: blur(10px);
   position: fixed;
+  top: 0;
   z-index: 8;
 `;
 
@@ -25,7 +26,7 @@ const Modal = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  top: 3%;
+  top: 10%;
   align-items: center;
   justify-content: center;
   position: relative;
@@ -79,8 +80,8 @@ const LoginNeed = ({closeModal}) => {
           로그인 하시겠습니까?
         </Message>
         <ButtonContainer>
-          <Button onClick={()=>{navigate('/signup')}}>회원가입 하러 가기 <IoIosArrowRoundForward /></Button>
-          <Button onClick={()=>{navigate('/login')}}>로그인 하러 가기 <IoIosArrowRoundForward /></Button>
+          <Button onClick={()=>{closeModal(); navigate('/signup')}}>회원가입 하러 가기 <IoIosArrowRoundForward /></Button>
+          <Button onClick={()=>{closeModal(); navigate('/login')}}>로그인 하러 가기 <IoIosArrowRoundForward /></Button>
         </ButtonContainer>
       </Modal>
     </Background>

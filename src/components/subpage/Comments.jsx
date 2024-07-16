@@ -56,12 +56,12 @@ const Button = styled.button`
 `;
 
 
-const Comments = () => {   
+const Comments = () => {
 
   const { landmarkNo } = useParams(); // URL 파라미터로부터 landmarkNo를 가져옴
   const [comments, setComments] = useState([]);
   const [newCommentContent, setNewCommentContent] = useState('');
-  
+
   // 댓글목록보기
   useEffect(() => {
     fetchLandmarkComment(landmarkNo)
@@ -81,7 +81,7 @@ const Comments = () => {
 
     // 댓글 등록 함수
     const newComment = {
-      "landmarkNo" : landmarkNo,
+      "landmarkNo": landmarkNo,
       "landmarkCommentContent": newCommentContent
     };
 
