@@ -67,9 +67,10 @@ const SearchContainer = styled.div`
   text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
   justify-content: center;
   border-bottom: 7px solid #79777763;
+  padding-left: 30px;
 
   div {
     display: flex;
@@ -152,7 +153,7 @@ function SearchMain({userInfo,isLoginNeed,setIsLoginNeed}) {
   // 선택된 값들을 관리할 상태
   const [selectedPlaceButtons, setSelectedPlaceButtons] = useState([]);
   const [selectedDateButtons, setSelectedDateButtons] = useState([]);
-  const [selectedPersonButtons, setSelectedPersonButtons] = useState([]);
+  const [selectedPersonButtons, setSelectedPersonButtons] = useState([null]);
 
   const [userClickInfo, setUserClickInfo] = useState({});
   const [categoryIndex, setCategoryIndex] = useState("가볼만한 곳");
@@ -360,7 +361,7 @@ function SearchMain({userInfo,isLoginNeed,setIsLoginNeed}) {
 
   // 날짜 모달 열기 핸들러
   const handleDateIconClick = () => {
-    setIsDateModalOpen(true);
+    setIsDateModalOpen(true); 
   };
 
   // 인원 모달 열기 핸들러
@@ -371,11 +372,13 @@ function SearchMain({userInfo,isLoginNeed,setIsLoginNeed}) {
   // 값 저장하기
   const handleSaveDate = (selectedValues) => {
     setSelectedDateButtons(selectedValues);
+    console.log(selectedValues);
     setIsDateModalOpen(false); // 모달 닫기
   };
 
   const handleSavePlace = (selectedValues) => {
     setSelectedPlaceButtons(selectedValues);
+    console.log(selectedValues);
     setIsPlaceModalOpen(false);
   };
 
@@ -384,13 +387,14 @@ function SearchMain({userInfo,isLoginNeed,setIsLoginNeed}) {
       <ContentWrap>
         <LeftWrap>
           <SearchContainer>
+          이번 여행은 
           <div>
               <img
                 src={SesrchPlace}
                 alt="place icon"
                 onClick={handlePlaceIconClick}
               />
-              <SearchH2>이번 여행은 어디로 {selectedPlaceButtons.length > 0 && `: ${selectedPlaceButtons}`}</SearchH2>
+              <SearchH2>어디로? {selectedPlaceButtons.length > 0 && `: ${selectedPlaceButtons}`}</SearchH2>
             </div>
             <div>
               <img
@@ -398,7 +402,7 @@ function SearchMain({userInfo,isLoginNeed,setIsLoginNeed}) {
                 alt="date icon"
                 onClick={handleDateIconClick}
               />
-              <SearchH2>언제 떠나볼까요? {selectedDateButtons.length > 0 && `: ${selectedDateButtons}`}</SearchH2>
+              <SearchH2>언제? {selectedDateButtons.length > 0 && `: ${selectedDateButtons}`}</SearchH2>
             </div>
             <div>
             <img
@@ -406,10 +410,10 @@ function SearchMain({userInfo,isLoginNeed,setIsLoginNeed}) {
                 alt="person icon"
                 onClick={() => setIsPersonModalOpen(true)}
               />
-              <SearchH2>누구와 떠날까요? {selectedPersonButtons.adults && `: 성인 ${selectedPersonButtons.adults}명, `} 
-                {selectedPersonButtons.children && `아동 ${selectedPersonButtons.children}명, `}
-                {selectedPersonButtons.infants && `영아 ${selectedPersonButtons.infants}명, `}
-                {selectedPersonButtons.pets && `반려동물 ${selectedPersonButtons.pets}마리`}
+              <SearchH2>누구와? {selectedPersonButtons.adults && `: 성인 ${selectedPersonButtons.adults}/ `} 
+                {selectedPersonButtons.children && `아동 ${selectedPersonButtons.children}/ `}
+                {selectedPersonButtons.infants && `영아 ${selectedPersonButtons.infants}/ `}
+                {selectedPersonButtons.pets && `반려동물 ${selectedPersonButtons.pets}`}
               </SearchH2>
             </div>
           </SearchContainer>

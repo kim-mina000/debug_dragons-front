@@ -94,68 +94,118 @@ const CloseButton = styled.button`
 `;
 
 function MainModalDate({ closeModal, selectedButtons, setSelectedButtons, onSave }) {
-  const [tempSelectedButtons, setTempSelectedButtons] = useState([...selectedButtons]);
+  const [selectedSeason, setSelectedSeason] = useState(null);
+  const [selectedThemes, setSelectedThemes] = useState([]);
 
   useEffect(() => {
-    setTempSelectedButtons([...selectedButtons]);
+    setSelectedSeason(selectedButtons.find(index => index >= 0 && index <= 3));
+    setSelectedThemes(selectedButtons.filter(index => index >= 4 && index <= 14));
   }, [selectedButtons]);
 
-  const handleButtonClick = (buttonIndex) => {
-    if (tempSelectedButtons.includes(buttonIndex)) {
-      setTempSelectedButtons(tempSelectedButtons.filter(index => index !== buttonIndex));
+  
+  
+
+  const handleSeasonButtonClick = (buttonIndex) => {
+    if (selectedSeason === buttonIndex) {
+      setSelectedSeason(null); // 이미 선택된 계절을 다시 클릭하면 선택 해제
     } else {
-      if (tempSelectedButtons.length < 3) {
-        setTempSelectedButtons([...tempSelectedButtons, buttonIndex]);
-      } else {
-        alert("최대 3개까지 선택 가능합니다.");
-      }
+      setSelectedSeason(buttonIndex); // 계절을 선택
     }
   };
 
+  const handleThemeButtonClick = (buttonIndex) => {
+    let newSelectedThemes = [...selectedThemes];
+
+    if (newSelectedThemes.includes(buttonIndex)) {
+      // 이미 선택된 테마 버튼을 다시 클릭하면 선택 해제
+      newSelectedThemes = newSelectedThemes.filter(index => index !== buttonIndex);
+    } else {
+      // 새로운 테마 버튼을 선택한 경우 기존 선택 해제 후 새로 선택
+      newSelectedThemes.push(buttonIndex);
+    }
+
+    // 최대 선택 개수 제한 (테마는 최대 2개까지 선택 가능)
+    if (newSelectedThemes.length > 2) {
+      newSelectedThemes.shift(); // 가장 처음 선택한 것부터 제거
+    }
+
+    setSelectedThemes(newSelectedThemes);
+  };
+
   const handleSave = () => {
-    const selectedValues = tempSelectedButtons.map(index => buttonLabels[index]);
-    setSelectedButtons(tempSelectedButtons);
-    onSave(selectedValues); // 선택된 값을 저장하는 콜백 호출
+    const selectedButtons = [];
+    if (selectedSeason !== null) {
+      selectedButtons.push(buttonLabelsWeather[selectedSeason]);
+    }
+    selectedThemes.forEach(themeIndex => {
+      selectedButtons.push(buttonLabelsTheme[themeIndex]); // 인덱스를 실제 값으로 변환
+    });
+    console.log(selectedButtons);
+
+    setSelectedButtons(selectedButtons);
+    console.log(selectedButtons);
+    onSave(selectedButtons);
     closeModal();
   };
 
-  const buttonLabels = [
-    "전체", "봄", "여름", "가을", "겨울",
+  
+
+
+  const buttonLabelsWeather = [
+    "봄", "여름", "가을", "겨울"
+  ];
+  const buttonLabelsTheme = [
     "벚꽃", "단풍", "눈", "온천", "계곡",
-    "계절", "계절", "계절"
+    "바다", "산", "도시", "가족", "커플", "우정", "드라이브"
   ];
 
   return (
     <Overlay onClick={closeModal}>
       <Content onClick={(e) => e.stopPropagation()}>
-        <CloseButton onClick={closeModal}>X</CloseButton> {/* 닫기 버튼 추가 */}
+        <CloseButton onClick={closeModal}>X</CloseButton>
         <Title>언제 떠나볼까요?</Title>
         <Line />
         <SelectedSeasons>
-          {tempSelectedButtons.map(index => buttonLabels[index]).join(', ')}
+          {selectedSeason !== null &&
+            <span>{buttonLabelsWeather[selectedSeason]}</span>
+          }
+          {' '}
+          {selectedThemes.length > 0 && ', '}
+          {selectedThemes.slice(0, 2).map(index => (
+            <span key={index}>{buttonLabelsTheme[index] + " "}</span>
+          ))}
+          {selectedSeason !== null || selectedThemes.length > 0 ? ' ' : '선택된 내용이 없습니다.'}
         </SelectedSeasons>
         <Line />
-        <SingleButtonContainer>
-          <Button
-            selected={tempSelectedButtons.includes(0)}
-            onClick={() => handleButtonClick(0)}
-          >
-            {buttonLabels[0]}
-          </Button>
-        </SingleButtonContainer>
+
         <ButtonContainer>
-          {buttonLabels.slice(1).map((label, index) => (
+          {buttonLabelsWeather.map((label, index) => (
             <Button
-              key={index + 1}
-              selected={tempSelectedButtons.includes(index + 1)}
-              onClick={() => handleButtonClick(index + 1)}
+              key={index}
+              selected={selectedSeason === index}
+              onClick={() => handleSeasonButtonClick(index)}
             >
               {label}
             </Button>
           ))}
         </ButtonContainer>
+
         <Line />
-        <SearchButton onClick={handleSave}>SEARCH</SearchButton> {/* 저장 버튼 클릭 핸들러 */}
+
+        <ButtonContainer>
+          {buttonLabelsTheme.map((label, index) => (
+            <Button
+              key={index}
+              selected={selectedThemes.includes(index)}
+              onClick={() => handleThemeButtonClick(index)}
+            >
+              {label}
+            </Button>
+          ))}
+        </ButtonContainer>
+
+        <Line />
+        <SearchButton onClick={handleSave}>SEARCH</SearchButton>
       </Content>
     </Overlay>
   );
