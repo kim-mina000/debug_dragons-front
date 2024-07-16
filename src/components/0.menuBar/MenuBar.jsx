@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
 
 const StyledFooter = styled.footer`
   position: sticky;
@@ -21,6 +22,45 @@ const IconContainer = styled.div`
   z-index: 1000;
   height: 70px; /* 고정 높이 */
   overflow: hidden; /* 스크롤 방지 */
+`;
+
+// 반응형 햄버거 버튼 추가
+const HamburgerMenu = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 25px;
+  cursor: pointer;
+  margin: 20px;
+`;
+
+const HamburgerLine = styled.div`
+  width: 100%;
+  height: 3px;
+  background-color: #000;
+`;
+
+const MenuContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: #fff;
+  height: 100%;
+  width: 250px;
+  padding: 20px;
+  transform: ${props => (props.isOpen ? 'translateX(0)' : 'translateX(100%)')};
+  transition: transform 0.3s ease;
+  z-index: 1001;
+`;
+
+const MenuItem = styled(Link)`
+  margin: 10px 0;
+  font-size: 20px;
+  text-decoration: none;
+  color: #000;
 `;
 
 // 메뉴바 애니메이션
@@ -44,10 +84,10 @@ const Icon = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  opacity: ${props => (props.$isVisible ? 1 : 0)}; /* 보임 여부에 따른 투명도 조절 */
+  opacity: ${props => (props.$isVisible ? 1 : 0)};/* 보임 여부에 따른 투명도 조절 */
   transition: opacity 0.3s ease;
   ${props => props.$isVisible && css`
-    animation: ${fadeIn} 0.3s forwards; /* 보일 때 애니메이션 적용 */
+    animation: ${fadeIn} 0.3s forwards;/* 보일 때 애니메이션 적용 */
   `}
   &:hover {
     opacity: 1;
@@ -56,9 +96,12 @@ const Icon = styled.div`
 
 function MenuBar() {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
-  // 메뉴 컨테이너에 마우스가 들어올 때 호출되는 함수
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+
+   // 메뉴 컨테이너에 마우스가 들어올 때 호출되는 함수
   const handleMouseEnter = () => {
     setIsExpanded(true);
   };
@@ -68,20 +111,46 @@ function MenuBar() {
     setIsExpanded(false);
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <StyledFooter>
-      <IconContainer
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        <div />
-        <div />
-        {/* 나의 여행 리스트 가기 */}
+      {isMobile ? (
+        <>
+          <HamburgerMenu onClick={toggleMenu}>
+            <HamburgerLine />
+            <HamburgerLine />
+            <HamburgerLine />
+          </HamburgerMenu>
+          <MenuContent isOpen={isMenuOpen}>
+            <MenuItem to="/main/MyTravelList">리스트</MenuItem>
+            <MenuItem to="/main/around">둘러보기</MenuItem>
+            <MenuItem to="/main/search">홈</MenuItem>
+            <MenuItem to="/main/scrap">스크랩</MenuItem>
+            {userInfo ? (
+              <MenuItem to="/main/mypage">마이페이지</MenuItem>
+            ) : (
+              <MenuItem onClick={() => setIsLoginNeed(true)}>마이페이지</MenuItem>
+            )}
+          </MenuContent>
+        </>
+      ) : (
+        <IconContainer
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div />
+          <div />
+          {/* 나의 여행 리스트 가기 */}
+
           <Link to="/main/MyTravelList">
             <Icon $isVisible={isExpanded}>
               <img src='/리스트.png' alt="리스트" />
             </Icon>
           </Link>
+
 
         
         <Link to="/main/around">
@@ -112,6 +181,7 @@ function MenuBar() {
         <div />
         <div />
       </IconContainer>
+
     </StyledFooter>
   );
 }

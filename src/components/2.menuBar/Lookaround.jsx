@@ -65,7 +65,6 @@ const SearchContainer = styled.div`
   position: fixed;
   width: 56%;
   bottom: 9%;
-  left: 22%; /* 추가: 고정된 위치를 설정 */
 `;
 
 const SearchBox = styled.div`
@@ -169,7 +168,6 @@ const Lookaround = () => {
             />
           </SearchBox>
         </SearchContainer>
-
       </Wrapper>
     </>
   );

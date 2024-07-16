@@ -273,7 +273,7 @@ const Clipping = () => {
     { name: "동강모임 성공적💥", likes: 269, author: "(최현아)", liked: false },
     { name: "다훈형이랑 드라이브", likes: 266, author: "(김윤식)", liked: false },
     { name: "지연샘 보고시품", likes: 658, author: "(지연,민아,현아 공동)", liked: false },
-    { name: "플젝...성공적 07.18💨", likes: 106646, author: "(민아,윤식,지연,다훈)", liked: false },
+    { name: "플젝...성공적 07.18💨", likes: 106646, author: "(민아,윤식,지연,현아,다훈)", liked: false },
   ]);
 
   const [folders, setFolders] = useState([
