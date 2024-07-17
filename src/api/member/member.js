@@ -28,3 +28,15 @@ export const handleImageChange2 = async (uploadFile, userId) => {
 
   return response.data;
 };
+
+export const findId = async (userName, userEmail) => {
+  try {
+    const response = await axios.post(`${BACK_URL}/member/findUserId`,{
+      userName: userName,
+      userEmail: userEmail
+    });
+    return response.data;
+  } catch (error) {
+    console.log('아이디찾기에러' + error);
+  }
+}
