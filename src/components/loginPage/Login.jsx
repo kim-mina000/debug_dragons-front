@@ -114,7 +114,6 @@ const LineContainer = styled.div`
 
   @media (max-width: 768px) {
     width: 80%;
-    margin: 0; 
   }
 
   @media (max-width: 480px) {
@@ -133,24 +132,24 @@ const Image = styled.div`
     height: 50px;
     cursor: pointer;
     margin-right: 20px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    @media (max-width: 768px) {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 480px) {
+      width: 120px;
+      height: 30px;
+    }
   }
 
   @media (max-width: 768px) {
     flex-direction: column;
-
-    img {
-      width: 150px;
-      height: 40px;
-      margin-right: 0;
-      margin-bottom: 10px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    img {
-      width: 120px;
-      height: 30px;
-    }
   }
 `;
 
@@ -249,7 +248,7 @@ function Login() {
       <Button onClick={handleLogin}>시작하기</Button>
       <LineContainer>간편 로그인 하기</LineContainer>
       <Image>
-        <img src="/btnG_완성형.png" style={{ marginRight: '50px' }} />
+        <img src="/btnG_완성형.png" />
         <img src="/kakao_login_medium_narrow.png" onClick={kakaoLoginHandler} />
       </Image>
       <Links>
