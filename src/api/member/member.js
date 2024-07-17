@@ -31,7 +31,7 @@ export const handleImageChange2 = async (uploadFile, userId) => {
 
 export const findId = async (userName, userEmail) => {
   try {
-    const response = await axios.post(`${BACK_URL}/member/findUserId`,{
+    const response = await axios.post(`${BACK_URL}/member/findUserId`, {
       userName: userName,
       userEmail: userEmail
     });
@@ -40,3 +40,19 @@ export const findId = async (userName, userEmail) => {
     console.log('아이디찾기에러' + error);
   }
 }
+
+
+const token = localStorage.getItem('userToken');
+
+export const currentUserWriter = async () => {
+  try {
+    const response = await axios.get(`${BACK_URL}/member/currentUser`, {
+      headers: {
+        Authorization: token
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('아이디가져오기에러' + error);
+  };
+};

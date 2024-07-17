@@ -145,7 +145,7 @@ const Lookaround = () => {
   );
 
   useEffect(() => {
-    const fetchShareTravelList = async ()=>{
+    const fetchShareTravelList = async () => {
       try {
         const response = await getShareTravelList();
         if (response) {
@@ -164,9 +164,9 @@ const Lookaround = () => {
       }
     };
     fetchShareTravelList();
-  },[]) // 배열안에 값만 넣어주면 update됨~!
+  }, []) // 배열안에 값만 넣어주면 update됨~!
 
-  const hadBookmark = (landmark, myBookmarkList)=>{
+  const hadBookmark = (landmark, myBookmarkList) => {
     for (let index = 0; index < myBookmarkList.length; index++) {
       if (landmark.landmarkNo === myBookmarkList[index]) {
         return true;
@@ -186,40 +186,40 @@ const Lookaround = () => {
               <ImageContainer img={content.landmarkImgPath} />
               <TextContainer>
                 <TitleContainer>
-                <Title>{content.landmarkName}</Title>
-                <StyledBookmarkContainer>
-                {hadBookmark(content, bookmarkList) ? 
-                <IoBookmark onClick={()=>{deleteBookmark(content.landmarkNo, userInfo.userId)}} /> 
-                :
-                <IoBookmarkOutline onClick={()=>{registerBookmark(content.landmarkNo, userInfo.userId)}}/>}
-                </StyledBookmarkContainer>
+                  <Title>{content.landmarkName}</Title>
+                  <StyledBookmarkContainer>
+                    {hadBookmark(content, bookmarkList) ?
+                      <IoBookmark onClick={() => { deleteBookmark(content.landmarkNo, userInfo.userId) }} />
+                      :
+                      <IoBookmarkOutline onClick={() => { registerBookmark(content.landmarkNo, userInfo.userId) }} />}
+                  </StyledBookmarkContainer>
                 </TitleContainer>
                 <p>{content.landmarkAddress}</p>
                 <Description>{content.landmarkShortDesc}</Description>
                 <hr />
                 <Footer>
-                  <LikeLandmark landmark ={content}  userId = {userInfo?.userId} />
-                  <div style={{color:'#999'}}>작성자 {content.writer} 님</div>
+                  <LikeLandmark landmark={content} userId={userInfo?.userId} />
+                  <div style={{ color: '#999' }}>작성자 {content.writer} 님</div>
                 </Footer>
-              </TextContainer> 
+              </TextContainer>
             </LeftContainer>
             <RightEmptyContainer>
-            <Comments landmark ={content} />
+              <Comments landmark={content} />
             </RightEmptyContainer>
           </Container>
         ))}
-        
+
         {/* 검색 입력란 */}
       </Wrapper>
-        <SearchContainer>
-          <SearchBox>
-            <SearchInput
-              placeholder="떠나고 싶은 지역을 검색해 보세요🔍"
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-          </SearchBox>
-        </SearchContainer>
+      <SearchContainer>
+        <SearchBox>
+          <SearchInput
+            placeholder="떠나고 싶은 지역을 검색해 보세요🔍"
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+        </SearchBox>
+      </SearchContainer>
     </>
   );
 };
