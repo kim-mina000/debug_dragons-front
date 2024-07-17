@@ -175,8 +175,16 @@ function SearchMain({userInfo}) {
   
   // MainModalPerson에서 선택된 값 저장
   const handleSavePerson = (selectedValues) => {
-    setSelectedPersonButtons(selectedValues);
-    setIsPersonModalOpen(false);
+  // 0 값을 null로 변환합니다
+  const sanitizedValues = {
+    adults: selectedValues.adults === 0 ? null : selectedValues.adults,
+    children: selectedValues.children === 0 ? null : selectedValues.children,
+    infants: selectedValues.infants === 0 ? null : selectedValues.infants,
+    pets: selectedValues.pets === 0 ? null : selectedValues.pets,
+  };
+
+  setSelectedPersonButtons(sanitizedValues);
+  setIsPersonModalOpen(false);
   };
 
   
@@ -419,9 +427,10 @@ function SearchMain({userInfo}) {
                 alt="person icon"
                 onClick={() => setIsPersonModalOpen(true)}
               />
-              <SearchH2>누구와? {selectedPersonButtons.adults && `: 성인 ${selectedPersonButtons.adults}/ `} 
-                {selectedPersonButtons.children && `아동 ${selectedPersonButtons.children}/ `}
-                {selectedPersonButtons.infants && `영아 ${selectedPersonButtons.infants}/ `}
+              <SearchH2>누구와?
+                {selectedPersonButtons.adults && `: 성인 ${selectedPersonButtons.adults} `} 
+                {selectedPersonButtons.children && `아동 ${selectedPersonButtons.children} `}
+                {selectedPersonButtons.infants && `영아 ${selectedPersonButtons.infants} `}
                 {selectedPersonButtons.pets && `반려동물 ${selectedPersonButtons.pets}`}
               </SearchH2>
             </div>
