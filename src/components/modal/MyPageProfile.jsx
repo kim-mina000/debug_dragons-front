@@ -272,8 +272,8 @@ function MyPageProfile(props) {
         <Divider />
         <InfoSection>
           <InfoItem>
-            <InfoTitle>아이디</InfoTitle>
-            <InfoContent value={userInfo.userId} readOnly />
+            <InfoTitle>이름</InfoTitle>
+            <InfoContent value={name} readOnly />
           </InfoItem>
           <InfoItem>
             <InfoTitle>생년월일</InfoTitle>

@@ -7,6 +7,7 @@ import 'react-tabs/style/react-tabs.css';
 import Header from '../0.menuBar/Header';
 import MenuBar from '../0.menuBar/MenuBar';
 import TitleLogo from './TitleLogo';
+import { findId } from '../../api/member/member';
 
 const StyledTabs = styled(Tabs)`
   font-family: 'MaplestoryOTFBold';
@@ -109,19 +110,25 @@ const SubmitButton = styled(Button)`
 `;
 
 const Find = () => {
-  const [id, setId] = useState('');
-  const [birthday, setBirthday] = useState('');
-  const [phone, setPhone] = useState('');
-  const [name, setName] = useState(''); // 이름 상태 추가
-  const [pwName, setPwName] = useState(''); // 비밀번호 찾기용 이름 상태 추가
-  const [pwId, setPwId] = useState(''); // 비밀번호 찾기용 아이디 상태 추가
-  
-  const navigate = useNavigate();
+  // const [pwName, setPwName] = useState(''); // 비밀번호 찾기용 이름 상태 추가
+  // const [pwId, setPwId] = useState(''); // 비밀번호 찾기용 아이디 상태 추가
+  // const [email, setEmail] = useState('');
 
-  const handleSubmit = () => {
-    const foundId = id; 
-    navigate('/findend', { state: { id: foundId } });
-  };
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userId, setUserId] = useState('');
+  
+  // const navigate = useNavigate();
+
+  const handleSubmit = async () => {
+    const id = await findId(userName, userEmail);
+    console.log(id);
+    if (id) {
+      setUserId(id);
+    }else{
+      alert('아이디를 찾을 수 없어요');
+    }
+  }
 
   return (
     <>
@@ -141,32 +148,21 @@ const Find = () => {
               <Input
                 type="text"
                 placeholder="이름을 입력해주세요."
-                value={id}
-                onChange={(e) => setId(e.target.value)}
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
               />
             </FormField>
             <FormField>
-              <Label>생년월일을 입력해주세요:</Label>
+              <Label>이메일을 입력해주세요:</Label>
               <Input
                 type="text"
-                placeholder="0000-00-00"
-                value={birthday}
-                onChange={(e) => setBirthday(e.target.value)}
+                placeholder="abc123@email.com"
+                value={userEmail}
+                onChange={(e) => setUserEmail(e.target.value)}
               />
             </FormField>
-            <FormField>
-              <Label>휴대전화:</Label>
-              <InputContainer>
-                <PhoneInput
-                  type="text"
-                  placeholder="010-0000-0000"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-                <VerifyButton type="button">인증하기</VerifyButton>
-              </InputContainer>
-            </FormField>
             <SubmitButton type="button" onClick={handleSubmit}>아이디 찾기</SubmitButton>
+            {userId && <p>찾은 아이디: {userId}</p>}
           </TabContent>
         </TabPanel>
         <TabPanel>
@@ -178,8 +174,8 @@ const Find = () => {
               <Input
                 type="text"
                 placeholder="아이디를 입력해주세요."
-                value={pwId}
-                onChange={(e) => setPwId(e.target.value)}
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
               />
             </FormField>
             <FormField>
@@ -187,30 +183,18 @@ const Find = () => {
               <Input
                 type="text"
                 placeholder="이름을 입력해주세요."
-                value={pwName}
-                onChange={(e) => setPwName(e.target.value)}
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
               />
             </FormField>
             <FormField>
-              <Label>생년월일을 입력해주세요:</Label>
+              <Label>이메일을 입력해주세요:</Label>
               <Input
                 type="text"
-                placeholder="0000-00-00"
-                value={birthday}
-                onChange={(e) => setBirthday(e.target.value)}
+                placeholder="abc123@email.com"
+                value={userEmail}
+                onChange={(e) => setUserEmail(e.target.value)}
               />
-            </FormField>
-            <FormField>
-              <Label>휴대전화:</Label>
-              <InputContainer>
-                <PhoneInput
-                  type="text"
-                  placeholder="010-0000-0000"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-                <VerifyButton type="button">인증하기</VerifyButton>
-              </InputContainer>
             </FormField>
             <SubmitButton type="button" onClick={handleSubmit}>비밀번호 찾기</SubmitButton>
           </TabContent>

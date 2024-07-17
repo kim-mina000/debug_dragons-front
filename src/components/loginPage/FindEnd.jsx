@@ -110,7 +110,7 @@ function FindEnd() {
         </StyledTabList>
         <TabPanel>
           <TabContent>
-            {id ? (
+            { id ? (
               <>
                 <h2>아이디 찾기 완료</h2>
                 <p>아이디 찾기가 완료되었습니다.</p>
