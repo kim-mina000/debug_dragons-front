@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { getShareTravelList } from '../../api/lookaround/lookaround';
 
 const Wrapper = styled.div`
   margin: 2% 0 0 10%;
@@ -86,6 +87,10 @@ const SearchInput = styled.input`
 `;
 
 const Lookaround = () => {
+
+  // 쉐어랜드마크오리진2번가져오기스테이트
+  const [shareTravelList, setShareTravelList] = useState([]);
+
   // 예시 데이터
   const contents = [
     {
@@ -137,6 +142,21 @@ const Lookaround = () => {
   const filteredContents = contents.filter((content) =>
     content.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  useEffect(() => {
+    const fetchShareTravelList = async ()=>{
+      try {
+        const response = await getShareTravelList();
+        console.log(response);
+        if (response) {
+          setShareTravelList(response);
+        }
+      } catch (error) {
+        console.error('랜드마크오리진2데이타에러' + error);
+      }
+    };
+    fetchShareTravelList();
+  },[])
 
   return (
     <>
