@@ -115,10 +115,12 @@ const Find = () => {
   const [name, setName] = useState(''); // 이름 상태 추가
   const [pwName, setPwName] = useState(''); // 비밀번호 찾기용 이름 상태 추가
   const [pwId, setPwId] = useState(''); // 비밀번호 찾기용 아이디 상태 추가
+  const [email, setEmail] = useState('');
   
   const navigate = useNavigate();
 
   const handleSubmit = () => {
+    console.log(id);
     const foundId = id; 
     navigate('/findend', { state: { id: foundId } });
   };
@@ -146,25 +148,13 @@ const Find = () => {
               />
             </FormField>
             <FormField>
-              <Label>생년월일을 입력해주세요:</Label>
+              <Label>이메일을 입력해주세요:</Label>
               <Input
                 type="text"
-                placeholder="0000-00-00"
-                value={birthday}
-                onChange={(e) => setBirthday(e.target.value)}
+                placeholder="abc123@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-            </FormField>
-            <FormField>
-              <Label>휴대전화:</Label>
-              <InputContainer>
-                <PhoneInput
-                  type="text"
-                  placeholder="010-0000-0000"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-                <VerifyButton type="button">인증하기</VerifyButton>
-              </InputContainer>
             </FormField>
             <SubmitButton type="button" onClick={handleSubmit}>아이디 찾기</SubmitButton>
           </TabContent>
@@ -192,25 +182,13 @@ const Find = () => {
               />
             </FormField>
             <FormField>
-              <Label>생년월일을 입력해주세요:</Label>
+              <Label>이메일을 입력해주세요:</Label>
               <Input
                 type="text"
-                placeholder="0000-00-00"
-                value={birthday}
-                onChange={(e) => setBirthday(e.target.value)}
+                placeholder="abc123@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-            </FormField>
-            <FormField>
-              <Label>휴대전화:</Label>
-              <InputContainer>
-                <PhoneInput
-                  type="text"
-                  placeholder="010-0000-0000"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-                <VerifyButton type="button">인증하기</VerifyButton>
-              </InputContainer>
             </FormField>
             <SubmitButton type="button" onClick={handleSubmit}>비밀번호 찾기</SubmitButton>
           </TabContent>
