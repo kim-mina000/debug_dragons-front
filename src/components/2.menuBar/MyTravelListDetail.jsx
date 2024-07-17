@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import SearchMainResult from '../1.searchPage/SearchMainResult';
-import { getLandmarkInfo, getMyTravelListDetail, postShareMyLandmark } from '../../api/myTravelList/myTravelListAPI';
+import { getLandmarkInfo, getMyTravelListDetail, postShareMyLandmark, uploadMyImg } from '../../api/myTravelList/myTravelListAPI';
 import MyTravelListCourse from './MyTravelListCourse';
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from 'react-icons/io';
 
@@ -57,7 +57,20 @@ const ImgContainer = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;
-  /* overflow: hidden; */
+  cursor: pointer;
+  `;
+
+const Img = styled.div`
+  backdrop-filter: blur(10px);
+  width: 100%;
+  height: 100%;
+  max-width: 1050px;
+  max-height: 500px;
+  background-image: url(${props => props.img});
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  text-align: center;
 `;
 
 const DetailsContainer = styled.div`
@@ -108,6 +121,10 @@ const MyTravelListDetail = () => {
   const [courseList, setCourseList] = useState(null);
   const [handleShare, setHandleShare] = useState(false);
   const [selectedShareLandmark, setSelectedShareLandmark] = useState([]);
+
+  const [showClickedLandmark, setShowClickedLandmark] = useState({});
+  const [imgClicked, setImgClicked] = useState(false);
+  const [newImg, setNewImg] = useState(null);
   
   useEffect(() => {
 
@@ -133,7 +150,7 @@ const MyTravelListDetail = () => {
       setHandleShare(false);
     }
 
-  }, []);
+  }, [showClickedLandmark]);
 
   const handleShareClick = () =>{
     postShareMyLandmark(selectedShareLandmark);
@@ -141,6 +158,26 @@ const MyTravelListDetail = () => {
     alert('공유되었습니다\n좋은 여행지 추천 감사해요!');
   }
 
+  const handleImgClicked = async (e,landmarkNo) => {
+
+    const file = e.target.files[0];
+    setImgClicked(file);
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setShowClickedLandmark({...showClickedLandmark,'landmarkImgPath': reader.result})
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+
+    }
+    
+    const img_url = uploadMyImg(file,landmarkNo);
+    setShowClickedLandmark({...showClickedLandmark,'landmarkImgPath': img_url})      
+    
+  };
   
 
   return (
@@ -153,10 +190,11 @@ const MyTravelListDetail = () => {
           </BackButton>
           <SaveButton onClick={() => {setHandleShare(!handleShare)}}>{handleShare ? '공유하지 않기' : '내 여행지 공유하기' }</SaveButton>
         </ButtonContainer>
-        {courseList ? <SearchMainResult 
+        {courseList ? <SearchMainResult
         handleShare={handleShare} formData={courseList} setFormData={setCourseList} 
         selectedShareLandmark={selectedShareLandmark}
         setSelectedShareLandmark={setSelectedShareLandmark}
+        setShowClickedLandmark={setShowClickedLandmark}
         /> : <p>Loading...</p>}
       </SearchContainer>
       
@@ -166,10 +204,24 @@ const MyTravelListDetail = () => {
           <div>
             사진 / 글
           </div>
-          {courseList && courseList.map((course, index)=>{
-
-            return <ImgContainer key={index} img={course.landmarkImgPath} />
-          })}
+          <>
+          <label htmlFor="profileImageUpload">
+          <ImgContainer img={showClickedLandmark.landmarkImgPath}>
+          {imgClicked ? (
+            <Img src={imgClicked} alt="Profile" />
+            ) : (
+            "클릭해서 내 사진으로 바꾸기"
+          )}
+          <Img img={showClickedLandmark.landmarkImgPath}/>
+          </ImgContainer>
+          </label>
+          <input
+            type="file"
+            id="profileImageUpload"
+            style={{ display: 'none' }}
+            onChange={handleImgClicked}
+            />
+          </>
           <IoIosArrowRoundForward />
         </PhotoTextContainer>
         <RouteContainer>

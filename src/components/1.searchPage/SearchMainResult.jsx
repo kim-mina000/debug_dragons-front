@@ -126,7 +126,7 @@ const ShareContainer = styled.div`
 ` ;
 
 const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceButtons, selectedDateButtons, selectedPersonButtons, userInfo,
-  setSelectedShareLandmark, selectedShareLandmark
+  setSelectedShareLandmark, selectedShareLandmark, setShowClickedLandmark
 }) => {
   const [editDayIndex, setEditDayIndex] = useState(null);
   const [editTimeIndex, setEditTimeIndex] = useState(null);
@@ -239,7 +239,7 @@ const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceBut
       {formData?.map((result, index) => (
 
         handleShare === undefined || handleShare === false ?
-        (<Container key={index} $bgColor={colors[index % colors.length]}>
+        (<Container key={index} $bgColor={colors[index % colors.length]} onClick={()=>setShowClickedLandmark(result)}>
           <Info>
             {/* 일자표시 */}
             {editDayIndex === index ? (

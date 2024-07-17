@@ -34,6 +34,22 @@ export const readBookmark = async (userId) => {
   }
 }
 
+// 컨트롤러만들어줘야함
+export const readBookmarkByLandmarkNo = async (landmarkNo)=>{
+  const userToken = localStorage.getItem('userToken');
+  try {
+    const response = await axios.get(`${BACK_URL}/bookmark/readByNo?no=${landmarkNo}`,{
+      headers:{
+        Authorization: userToken
+      }
+    });
+    return response.data;
+
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export const deleteBookmark = async (landmarkNo, userId) => {
   console.log(landmarkNo);
   try {

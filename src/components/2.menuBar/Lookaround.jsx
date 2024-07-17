@@ -33,12 +33,26 @@ const LeftContainer = styled.div`
 `;
 
 const ImageContainer = styled.div`
+
   flex: 3;
   background-color: #4a4a4a;
   margin-bottom: 20px;
   background-image: url(${props => props.img});
   background-repeat: no-repeat;
   background-size: cover;
+`;
+
+const Img = styled.div`
+  backdrop-filter: blur(10px);
+  width: 100%;
+  height: 100%;
+  max-width: 653px;
+  max-height: 280px;
+  background-image: url(${props => props.img});
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  text-align: center;
 `;
 
 const TextContainer = styled.div`
@@ -183,7 +197,9 @@ const Lookaround = () => {
         {filteredContents.map((content, index) => (
           <Container key={index}>
             <LeftContainer>
-              <ImageContainer img={content.landmarkImgPath} />
+              <ImageContainer img={content.landmarkImgPath}>
+                <Img img={content.landmarkImgPath}/>  
+              </ImageContainer>
               <TextContainer>
                 <TitleContainer>
                 <Title>{content.landmarkName}</Title>

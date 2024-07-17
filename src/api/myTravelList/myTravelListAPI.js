@@ -84,3 +84,25 @@ export const postShareMyLandmark = async (landmarkList) => {
     console.error(error);
   }
 }
+
+// img 업로드
+// controller만들어야함
+export const uploadMyImg = async (file, landmarkNo) => {
+
+  const formData = new FormData();
+  formData.append('landmarkNo', landmarkNo);
+  formData.append('file', file);
+
+  try {
+    const userToken = localStorage.getItem('userToken');
+    const response = await axios.post(`${BACK_URL}/landmark/upload`, formData, {
+      headers:{
+        Authorization : userToken
+      }
+    }
+  )
+  return response.data;
+  } catch (error) {
+    
+  }
+}

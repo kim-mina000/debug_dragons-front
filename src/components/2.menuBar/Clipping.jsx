@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { RiFolderAddLine, RiFolderAddFill } from "react-icons/ri";
 import { MdFolder } from "react-icons/md";
 import { PiHeartStraightBreak, PiHeartStraightBreakFill } from "react-icons/pi";
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import Header from '../0.menuBar/Header';
 import MenuBar from '../0.menuBar/MenuBar';
+import { readBookmark, readBookmarkByLandmarkNo } from '../../api/bookmark/bookmarkAPI';
+import { useSelector } from 'react-redux';
+import { getLandmarkInfo } from '../../api/myTravelList/myTravelListAPI';
 
 // 스타일 정의
 const Container = styled.div`
@@ -188,11 +190,21 @@ const DraggableFile = ({ file, index, toggleLike, inFolder }) => {
     }),
   });
 
+  // const getLike = async (landmarkNo) => {
+  //   const result = await readBookmarkByLandmarkNo(landmarkNo);    
+  //   if(result){
+  //     return result.length;
+  //   } else {
+  //     return 0;
+  //   }
+  // };
+
+
   return (
     <File ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
-      <FileThumbnail src="http://via.placeholder.com/250x250" alt="썸네일 이미지" inFolder={inFolder} />
+      <FileThumbnail src={file.landmarkImgPath} alt="썸네일 이미지" inFolder={inFolder} />
       <FileLabel inFolder={inFolder}>
-        <h3>{file.name}</h3>
+        <h3>{file.landmarkName}</h3>
         <div className="file-info">
           <div className='label-info'>
             {file.liked ? (
@@ -200,9 +212,9 @@ const DraggableFile = ({ file, index, toggleLike, inFolder }) => {
             ) : (
               <PiHeartStraightBreak onClick={() => toggleLike(index)} />
             )}
-            {file.likes}
+            {/* {getLike(file.landmarkNo)} */}
           </div>
-          <div style={{ fontSize: '0.7rem' }}>작성자 {file.author}님</div> 
+          <div style={{ fontSize: '0.7rem' }}>작성자 {file.writer}님</div> 
         </div>
       </FileLabel>
     </File>
@@ -286,7 +298,21 @@ const Clipping = () => {
     { id: 2, name: "제목을 내게.......", pages: [] },
   ]);
 
+  const userInfo = useSelector(state => state.member.userInfo);
   const [openFolder, setOpenFolder] = useState(null);
+
+  useEffect(() => {
+
+    const fetchData = async ()=>{
+      const res = await readBookmark(userInfo.userId);
+      if(res){
+        const promiseList = await res.map((bookmark) => getLandmarkInfo(bookmark.landmark));
+        const landmarkList = await Promise.all(promiseList);
+        setFiles(landmarkList);
+      }
+    }
+    fetchData();
+  }, []);
 
   const addFolder = () => {
     const newFolder = {
