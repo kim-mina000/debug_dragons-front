@@ -2,13 +2,15 @@ import axios from "axios";
 import { BACK_URL } from "../config";
 import { v4 } from "uuid";
 
+const token = localStorage.getItem('userToken');
+
 // 아이디로 랜드마크 데이터 가져오기
 export const getLandmarkResponse = async (userId) => {
   try {
     const response = await axios.get(`${BACK_URL}/landmark/read?id=${userId}`);
     
     if(response.data){
-      const result = await response.data.filter(item => item.landmarkOrigin === false);
+      const result = await response.data.filter(item => item.landmarkOrigin === 0);
       return result;
     } else {
       return [];
@@ -22,7 +24,11 @@ export const getLandmarkResponse = async (userId) => {
 
 export const handleSaveAll = async (formData) =>{
   try {
-    await axios.post(`${BACK_URL}/landmark/modifyLandmark`, formData);
+    await axios.post(`${BACK_URL}/landmark/modifyLandmark`, formData, {
+      headers:{
+        Authorization:token
+      }
+    });
     console.log('수정데이터 기기');
   } catch (error) {
     console.error(error);
