@@ -31,6 +31,9 @@ const ImageContainer = styled.div`
   flex: 3;
   background-color: #4a4a4a;
   margin-bottom: 20px;
+  background-image: url(${props => props.img});
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 const TextContainer = styled.div`
@@ -173,7 +176,7 @@ const Lookaround = () => {
         {filteredContents.map((content, index) => (
           <Container key={index}>
             <LeftContainer>
-              <ImageContainer />
+              <ImageContainer img={content.landmarkImgPath} />
               <TextContainer>
                 <Title>{content.landmarkName}</Title>
                 <p>{content.landmarkAddress}</p>
