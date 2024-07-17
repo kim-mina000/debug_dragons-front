@@ -92,15 +92,39 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   margin: 1.5%;
-  `;
+`;
 
-const SearchMainResult = ({ formData, setFormData, selectedPlaceButtons, selectedDateButtons, selectedPersonButtons, userInfo }) => {
+const ShareContainer = styled.div`
+  height: auto;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: ${({ $bgColor }) => $bgColor};
+  border-radius: 10px;
+  width: auto;
+  margin: 1.5%;
+  justify-content: space-between;
+  cursor: pointer;
+  position: relative;
+  z-index: 9;
+
+  &:hover {
+    background-color: #7289a1; 
+    color: #8fa4bfc4;
+  }
+` ;
+
+const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceButtons, selectedDateButtons, selectedPersonButtons, userInfo }) => {
   const [editDayIndex, setEditDayIndex] = useState(null);
   const [editTimeIndex, setEditTimeIndex] = useState(null);
   const [editDay, setEditDay] = useState('');
   const [editTime, setEditTime] = useState('');
   const [editShortDescIndex, setEditShortDescIndex] = useState(null);
   const [editShortDesc, setEditShortDesc] = useState('');
+
+  // 공유하기 관련
+  const [selectedShareLandmark, setSelectedShareLandmark] = useState([]);
+  const [isSelected, setIsSelected] = useState(false);
 
   // 사용자가 저장하지 않은 랜드마크를 불러와서 보여줌 (landmark_origin = 0)
   useEffect(() => {
@@ -173,14 +197,23 @@ const SearchMainResult = ({ formData, setFormData, selectedPlaceButtons, selecte
     }
   };
 
+  const handleShareClick = (result) => {
+    if(selectedShareLandmark.find(item => item === result)){
+      setSelectedShareLandmark(selectedShareLandmark.filter(item => item !== result));
+    } else {
+      setSelectedShareLandmark([...selectedShareLandmark,result]);
+    }
+  }
+
   const family = selectedPersonButtons ?
     (selectedPersonButtons.adults + selectedPersonButtons.children + selectedPersonButtons.infants + selectedPersonButtons.pets)
     : 0 ;
 
   return (
     <>
-      {formData.map((result, index) => (
-        <Container key={index} $bgColor={colors[index % colors.length]}>
+      {formData?.map((result, index) => (
+        handleShare?
+        (<Container key={index} $bgColor={colors[index % colors.length]}>
           <Info>
             {/* 일자표시 */}
             {editDayIndex === index ? (
@@ -239,7 +272,30 @@ const SearchMainResult = ({ formData, setFormData, selectedPlaceButtons, selecte
             <Details>{result.writer} : {selectedPlaceButtons}, {selectedDateButtons}, 인원: {family} </Details>
           </Content>
           <TfiClose style={{ cursor: "pointer" }} onClick={() => { handleDelete(result); setFormData(formData.filter(item => item.landmarkNo !== result.landmarkNo)); }} />
-        </Container>
+        </Container> )
+        :
+        (<ShareContainer onClick={()=>{handleShareClick(result)}} key={index} $bgColor={colors[index % colors.length]}>
+        <Info>
+          {/* 일자표시 */}
+          <Day onClick={() => handleEditDay(index, result.landmarkDay)}>{result.landmarkDay} 일차</Day>
+          {/* 시간별 표시 */}
+          <Time onClick={() => handleEditTime(index, result.landmarkTime)}>{result.landmarkTime} 일정</Time>
+        </Info>
+
+        <Content>
+          {/* 제목 */}
+          <Title>{result.landmarkName}</Title>
+          {/* 게시물 텍스트 */}
+
+          <Description onClick={() => handleEditShortDesc(index, result.landmarkShortDesc)}>
+            {result.landmarkShortDesc ? result.landmarkShortDesc : '간단 코멘트 작성해주세요'}
+          </Description>
+          {/* 인원 / 장소 / 날짜 */}
+          {/* t수정중 */}
+          <Details>{result.writer} : {selectedPlaceButtons}, {selectedDateButtons}, 인원: {family} </Details>
+        </Content>
+        <TfiClose style={{ cursor: "pointer" }} onClick={() => { handleDelete(result); setFormData(formData.filter(item => item.landmarkNo !== result.landmarkNo)); }} />
+        </ShareContainer>)
       ))}
       <ButtonContainer>
         <SaveButton onClick={() => { handleSaveAll(formData) }}>모든 데이터 저장</SaveButton>

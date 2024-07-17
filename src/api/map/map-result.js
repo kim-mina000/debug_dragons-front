@@ -38,10 +38,14 @@ export const handleDelete = async (data) =>{
 
 }
 
-export const handleMappingSave = async (data,id) => {
+export const handleMappingSave = async (data,id, selectedInformation) => {
   try {
-    const courseId = v4().substring(0,10);
+    const {place, date, person} = selectedInformation;
+    const information = place[0]+' #'+date.join(' #')+' '+ (person.adults+person.children+person.infants+person.pets) +'명';
+    // 여기 information 백으로 보내주기 아님 selectedInformation 보내줘도될듯 ★
 
+    const courseId = v4().substring(0,10);
+    
     for (let index = 0; index < data.length; index++) {
       const element = data[index];
       const lcMapping = {
