@@ -26,7 +26,7 @@ const Content = styled.div`
 
 const ItemContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* 반응형 그리드 */
   grid-gap: 20px;
   flex: 1;
   width: 100%;
@@ -45,6 +45,8 @@ const Folder = styled.div`
   justify-content: center;
   border: 2px dashed #ccc;
   border-radius: 5px;
+  transition: all 0.3s ease; /* transition 추가 */
+  font-size: calc(14px + (20 - 14) * ((100vw - 300px) / (1600 - 300))); /* 폰트 크기 반응형 조정 */
 `;
 
 const FolderIcon = styled(MdFolder)`
@@ -66,6 +68,8 @@ const AddFolderIcon = styled.div`
   justify-content: center;
   border: 2px dashed #ccc;
   border-radius: 5px;
+  transition: all 0.3s ease; /* transition 추가 */
+  font-size: calc(14px + (20 - 14) * ((100vw - 300px) / (1600 - 300))); /* 폰트 크기 반응형 조정 */
 
   &:hover .add-before {
     display: none;
@@ -124,6 +128,8 @@ const File = styled.div`
   border: 2px solid #000;
   border-radius: 5px;
   text-align: center;
+  transition: all 0.3s ease; /* transition 추가 */
+  font-size: calc(14px + (20 - 14) * ((100vw - 300px) / (1600 - 300))); /* 폰트 크기 반응형 조정 */
 `;
 
 const FileThumbnail = styled.img`
@@ -138,7 +144,7 @@ const FileThumbnail = styled.img`
 
 const FileLabel = styled.div`
   margin-top: 10px;
-  font-size: 14px;
+  font-size: 80%; 
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -146,7 +152,7 @@ const FileLabel = styled.div`
   width: ${({ inFolder }) => (inFolder ? '70%' : '95%')};
 
   h3 {
-    font-size: 35px;
+    font-size: 1.1rem;
     margin-bottom: 5%;
     flex: 1;
   }
@@ -161,7 +167,7 @@ const FileLabel = styled.div`
   .label-info {
     display: flex;
     align-items: center;
-    font-size: 15px;
+    font-size: calc(14px + (20 - 14) * ((100vw - 300px) / (1600 - 300))); /* 폰트 크기 반응형 조정 */
   }
 `;
 
@@ -196,7 +202,7 @@ const DraggableFile = ({ file, index, toggleLike, inFolder }) => {
             )}
             {file.likes}
           </div>
-          <div>작성자 {file.author}님</div>
+          <div style={{ fontSize: '0.7rem' }}>작성자 {file.author}님</div> 
         </div>
       </FileLabel>
     </File>
@@ -262,9 +268,8 @@ const FolderContent = ({ folder, onClose }) => {
 
 const Clipping = () => {
   const [files, setFiles] = useState([
-    { name: "밍고랑 같이 다녀온 강원도🐶💚", likes: 510, author: "(김지연)", liked: false },
-    { name: "시리와 한번 더 대전🚅🚄", likes: 221, author: "(김민아)", liked: false },
-    { name: "마리랑 하루랑 현아랑🌸🌸", likes: 309, author: "(최현아)", liked: false },
+    { name: "함께 가기 시작한 날", likes: 1365, author: "(김지연)", liked: false },
+    { name: "처음으로 시리 밍고 만난 날", likes: 455, author: "(김민아)", liked: false },
     { name: "💙밍고랑 데이트 간 날💙", likes: 5151, author: "(김지연)", liked: false },
     { name: "대전에서 스윗데이들💛💛", likes: 985, author: "(김민아)", liked: false },
     { name: "한화가 이긴날 07.12❗", likes: 694, author: "(최현아)", liked: false },
