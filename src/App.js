@@ -30,7 +30,9 @@ import { useSelector } from 'react-redux';
 import TermsPrivacy from './components/other/TermsPrivacy';
 import CustomerService from './components/other/CustomerService';
 import MyTravelListDetail from './components/2.menuBar/MyTravelListDetail';
-import LikeTest from './api/lanmarkLike/LikeTest';
+import LikeTest from './components/subpage/LikeLandmark';
+
+
 
 
 

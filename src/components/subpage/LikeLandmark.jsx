@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 
 import { useParams } from "react-router-dom";
-import { fetchLikeCountLandmark, fetchToggleLikeLandmark } from "./LandmarkLike";
+import { fetchLikeCountLandmark, fetchToggleLikeLandmark } from "../../api/lanmarkLike/LandmarkLike";
 
-function LikeTest() {
+
+function LikeLandmark() {
   const [likeCount, setLikeCount] = useState(0);
   const [likeTrue, setLikeTrue] = useState(false);
 
@@ -44,4 +45,4 @@ function LikeTest() {
   );
 };
 
-export default LikeTest;
+export default LikeLandmark;

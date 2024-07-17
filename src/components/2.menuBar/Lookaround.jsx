@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getShareTravelList } from '../../api/lookaround/lookaround';
+import Comments from '../subpage/Comments';
+import LikeLandmark from '../subpage/LikeLandmark';
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -97,7 +99,7 @@ const SearchInput = styled.input`
   margin-left: 10px;
 `;
 
-const Lookaround = () => {
+const Lookaround = ({landamrkNo, userId}) => {
 
   // 쉐어랜드마크오리진2번가져오기스테이트
   const [shareTravelList, setShareTravelList] = useState([]);
@@ -117,27 +119,6 @@ const Lookaround = () => {
   //       '인원 / 여행지 / 날짜 (고정값) \nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to...',
   //     likes: '♡80',
   //     author: 'ppp',
-  //   },
-  //   {
-  //     title: '부산 해운대 해수욕장',
-  //     description:
-  //       '인원 / 여행지 / 날짜 (고정값) \nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to...',
-  //     likes: '♡120',
-  //     author: 'qqq',
-  //   },
-  //   {
-  //     title: '제주도 바닷가 산책로',
-  //     description:
-  //       '인원 / 여행지 / 날짜 (고정값) \nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to...',
-  //     likes: '♡150',
-  //     author: 'rrr',
-  //   },
-  //   {
-  //     title: '경주 역사유적지 탐방',
-  //     description:
-  //       '인원 / 여행지 / 날짜 (고정값) \nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to...',
-  //     likes: '♡90',
-  //     author: 'sss',
   //   },
   // ];
 
@@ -186,6 +167,8 @@ const Lookaround = () => {
                   <div>작성자 {content.writer} 님</div>
                 </Footer>
               </TextContainer>
+            <Comments landamrkNo ={landamrkNo} />
+            <LikeLandmark landamrkNo ={landamrkNo} userId = {userId} />
             </LeftContainer>
             <RightEmptyContainer />
           </Container>
