@@ -5,6 +5,7 @@ import Comments from '../subpage/Comments';
 import LikeLandmark from '../subpage/LikeLandmark';
 import { useSelector } from 'react-redux';
 import { IoBookmark, IoBookmarkOutline } from 'react-icons/io5';
+import { deleteBookmark, readBookmark, registerBookmark, toggleBookmark } from '../../api/bookmark/bookmarkAPI';
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -123,7 +124,8 @@ const Lookaround = () => {
   // 쉐어랜드마크오리진2번가져오기스테이트
   const [shareTravelList, setShareTravelList] = useState([]);
   const userInfo = useSelector(state => state.member.userInfo);
-  const [clickBookmark, setClickBookmark] = useState(false);
+  const [clickBookmark, setClickBookmark] = useState([]);
+  const [bookmarkList, setBookmarkList] = useState([]);
 
 
   // 검색어 상태 관리
@@ -149,17 +151,31 @@ const Lookaround = () => {
         if (response) {
           setShareTravelList(response);
         }
+
+        const response2 = await readBookmark(userInfo.userId);
+        if (response2) {
+          console.log(response2);
+          const LandmarkList = response2.map(bookmark => bookmark.bookmarkNo);
+          console.log(LandmarkList);
+          setBookmarkList(LandmarkList); // 동작함
+        }
       } catch (error) {
         console.error('랜드마크오리진2데이타에러' + error);
       }
     };
     fetchShareTravelList();
-  },[])
+  },[]) // 배열안에 값만 넣어주면 update됨~!
 
-  const handleBookmark = () => {
-    setClickBookmark(!clickBookmark);
-
+  const hadBookmark = (landmark, myBookmarkList)=>{
+    for (let index = 0; index < myBookmarkList.length; index++) {
+      if (landmark.landmarkNo === myBookmarkList[index]) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
+
 
   return (
     <>
@@ -171,8 +187,11 @@ const Lookaround = () => {
               <TextContainer>
                 <TitleContainer>
                 <Title>{content.landmarkName}</Title>
-                <StyledBookmarkContainer onClick={handleBookmark}>
-                {clickBookmark ? <IoBookmark /> : <IoBookmarkOutline/>}
+                <StyledBookmarkContainer>
+                {hadBookmark(content, bookmarkList) ? 
+                <IoBookmark onClick={()=>{deleteBookmark(content.landmarkNo, userInfo.userId)}} /> 
+                :
+                <IoBookmarkOutline onClick={()=>{registerBookmark(content.landmarkNo, userInfo.userId)}}/>}
                 </StyledBookmarkContainer>
                 </TitleContainer>
                 <p>{content.landmarkAddress}</p>
