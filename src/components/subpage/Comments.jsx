@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { deleteComment, fetchLandmarkComment, registerLandmarkComment } from '../../api/landmarkComment/landmarkComment';
 import { useParams } from 'react-router-dom';
+import { currentUser, currentUserWriter } from '../../api/member/member';
+import { useSelector } from 'react-redux';
 
 
 const Container = styled.div`
@@ -56,9 +58,21 @@ const Button = styled.button`
 `;
 
 
-const Comments = ({landmark}) => {
+const Comments = ({ landmark }) => {
   const [comments, setComments] = useState([]);
   const [newCommentContent, setNewCommentContent] = useState('');
+
+  const [currentUser, setCurrentUser] = useState(''); //아이디 가져오기위한스테이트
+
+  const userInfoRedux = useSelector(state => state.member.userInfo);
+
+  console.log(currentUser.userId);
+  useEffect(() => {
+    setCurrentUser(userInfoRedux);  // 리덕스 스토어에서 받아서 유저정보 넣어줌
+    if (!currentUser) {  // 새로고침이 일어나면 로컬스토리지에서 받아줌
+      setCurrentUser(JSON.parse(localStorage.getItem('userInfo')));
+    }
+  }, [setCurrentUser]);
 
   // 댓글목록보기
   useEffect(() => {
@@ -113,7 +127,9 @@ const Comments = ({landmark}) => {
         {comments && comments.map(comment => (
           <CommentItem key={comment.landmarkCommentNo}>
             {comment.landmarkCommentContent} <p>작성자: </p> {comment.writer}
-            <Button onClick={() => handleDeleteComment(comment.landmarkCommentNo)}>삭제</Button>
+            {comment.writer == currentUser.userId && (
+              <Button onClick={() => handleDeleteComment(comment.landmarkCommentNo)}>삭제</Button>
+            )}
           </CommentItem>
         ))}
       </CommentList>

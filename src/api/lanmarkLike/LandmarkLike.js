@@ -32,4 +32,3 @@ export const fetchLikeCountLandmark = async (landmarkNo) => {
     console.log('좋아요갯수에러' + error);
   };
 };
-

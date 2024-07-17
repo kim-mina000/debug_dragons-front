@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchLikeCountLandmark, fetchToggleLikeLandmark } from "../../api/lanmarkLike/LandmarkLike";
+import { fetchgetUserLikeStatus, fetchLikeCountLandmark, fetchToggleLikeLandmark } from "../../api/lanmarkLike/LandmarkLike";
 import { IoIosHeartEmpty, IoMdHeart } from "react-icons/io";
 import styled from "styled-components";
 
@@ -11,9 +11,10 @@ const HeartContainer = styled.div`
   font-size: 20px;
 `;
 
-function LikeLandmark({landmark, userId}) {
+function LikeLandmark({ landmark, userId }) {
   const [likeCount, setLikeCount] = useState(0);
   const [likeTrue, setLikeTrue] = useState(false);
+
 
   // 좋아요갯수보기
   useEffect(() => {
@@ -39,6 +40,7 @@ function LikeLandmark({landmark, userId}) {
       console.error('좋아요토글버튼에러' + error);
     }
   };
+
 
   return (
     <HeartContainer onClick={handleLikeToggle}>

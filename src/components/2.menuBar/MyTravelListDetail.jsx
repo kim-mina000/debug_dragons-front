@@ -13,7 +13,7 @@ const WrapContainer = styled.div`
   top: 0;
   left: 0;
   ${props => props.handleShare &&
-  css`
+    css`
     background: rgba(0, 0, 0, 0.5);
     z-index: 5;
   `
@@ -116,25 +116,27 @@ const SaveButton = styled.button`
 
 const MyTravelListDetail = () => {
   const navigate = useNavigate();
-  const {no} = useParams();
+  const { no } = useParams();
   // 코스-매핑 리스트 LCMappingList
   const [courseList, setCourseList] = useState(null);
   const [handleShare, setHandleShare] = useState(false);
   const [selectedShareLandmark, setSelectedShareLandmark] = useState([]);
 
+
   const [showClickedLandmark, setShowClickedLandmark] = useState({});
   const [imgClicked, setImgClicked] = useState(false);
   const [newImg, setNewImg] = useState(null);
   
-  useEffect(() => {
 
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const myCourseList = await getMyTravelListDetail(no);
         if (!myCourseList) {
-          return ;
+          return;
         }
-        const promises  = await myCourseList.map(landmark => getLandmarkInfo(landmark.landmarkNo));
+        const promises = await myCourseList.map(landmark => getLandmarkInfo(landmark.landmarkNo));
         const landmarkList = await Promise.all(promises);
         setCourseList(landmarkList);
         console.log(landmarkList);
@@ -143,16 +145,15 @@ const MyTravelListDetail = () => {
         console.error(error);
       };
     };
-
     fetchData();
-
-    return ()=>{
+    return () => {
       setHandleShare(false);
     }
 
+
   }, [showClickedLandmark]);
 
-  const handleShareClick = () =>{
+  const handleShareClick = () => {
     postShareMyLandmark(selectedShareLandmark);
     setHandleShare(false);
     alert('공유되었습니다\n좋은 여행지 추천 감사해요!');
@@ -178,32 +179,35 @@ const MyTravelListDetail = () => {
     setShowClickedLandmark({...showClickedLandmark,'landmarkImgPath': img_url})      
     
   };
-  
+
 
   return (
     <Container >
-      <WrapContainer handleShare={handleShare}/>
+      <WrapContainer handleShare={handleShare} />
       <SearchContainer>
         <ButtonContainer>
-          <BackButton onClick={() => (handleShare?  handleShareClick() : navigate('/main/MyTravelList') )}>
-            {handleShare? '공유하기' : '뒤로가기'}
+          <BackButton onClick={() => (handleShare ? handleShareClick() : navigate('/main/MyTravelList'))}>
+            {handleShare ? '공유하기' : '뒤로가기'}
           </BackButton>
-          <SaveButton onClick={() => {setHandleShare(!handleShare)}}>{handleShare ? '공유하지 않기' : '내 여행지 공유하기' }</SaveButton>
+          <SaveButton onClick={() => { setHandleShare(!handleShare) }}>{handleShare ? '공유하지 않기' : '내 여행지 공유하기'}</SaveButton>
         </ButtonContainer>
         {courseList ? <SearchMainResult
+
         handleShare={handleShare} formData={courseList} setFormData={setCourseList} 
         selectedShareLandmark={selectedShareLandmark}
         setSelectedShareLandmark={setSelectedShareLandmark}
         setShowClickedLandmark={setShowClickedLandmark}
+
         /> : <p>Loading...</p>}
       </SearchContainer>
-      
+
       <DetailsContainer>
         <PhotoTextContainer>
           <IoIosArrowRoundBack />
           <div>
             사진 / 글
           </div>
+
           <>
           <label htmlFor="profileImageUpload">
           <ImgContainer img={showClickedLandmark.landmarkImgPath}>
@@ -222,6 +226,7 @@ const MyTravelListDetail = () => {
             onChange={handleImgClicked}
             />
           </>
+
           <IoIosArrowRoundForward />
         </PhotoTextContainer>
         <RouteContainer>
