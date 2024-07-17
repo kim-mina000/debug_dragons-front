@@ -56,21 +56,19 @@ const Button = styled.button`
 `;
 
 
-const Comments = () => {
-
-  const { landmarkNo } = useParams(); // URL 파라미터로부터 landmarkNo를 가져옴
+const Comments = ({landmark}) => {
   const [comments, setComments] = useState([]);
   const [newCommentContent, setNewCommentContent] = useState('');
 
   // 댓글목록보기
   useEffect(() => {
-    fetchLandmarkComment(landmarkNo)
+    fetchLandmarkComment(landmark.landmarkNo)
       .then(data => {
         setComments(data);
-        console.log('랜드마크NO:' + landmarkNo);  //랜드마크게시판정보
+        console.log('랜드마크NO:' + landmark.landmarkNo);  //랜드마크게시판정보
       })
       .catch(error => console.error(error));
-  }, [landmarkNo]);
+  }, []);
   // 배열안에 landmarkNo 렌더링될떄마다 실행하는기 (?)
 
 
@@ -81,13 +79,13 @@ const Comments = () => {
 
     // 댓글 등록 함수
     const newComment = {
-      "landmarkNo": landmarkNo,
+      "landmarkNo": landmark.landmarkNo,
       "landmarkCommentContent": newCommentContent
     };
 
     try {
       await registerLandmarkComment(newComment);
-      fetchLandmarkComment(landmarkNo)
+      fetchLandmarkComment(landmark.landmarkNo)
         .then(data => setComments(data))
         .catch(error => console.error(error));
       setNewCommentContent('');
@@ -100,7 +98,7 @@ const Comments = () => {
   const handleDeleteComment = async (commentNo) => {
     try {
       await deleteComment(commentNo);
-      fetchLandmarkComment(landmarkNo)
+      fetchLandmarkComment(landmark.landmarkNo)
         .then(data => setComments(data))
         .catch(error => console.error(error));
     } catch (error) {

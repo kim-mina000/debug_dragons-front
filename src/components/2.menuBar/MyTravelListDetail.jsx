@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import SearchMainResult from '../1.searchPage/SearchMainResult';
 import { getLandmarkInfo, getMyTravelListDetail, postShareMyLandmark } from '../../api/myTravelList/myTravelListAPI';
 import MyTravelListCourse from './MyTravelListCourse';
+import { IoIosArrowRoundBack, IoIosArrowRoundForward } from 'react-icons/io';
 
 const WrapContainer = styled.div`
   width: 100vw;
@@ -47,6 +48,18 @@ const BackButton = styled.button`
   z-index: 8;
 `;
 
+const ImgContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  max-width: 1050px;
+  max-height: 500px;
+  background-image: url(${props => props.img});
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  /* overflow: hidden; */
+`;
+
 const DetailsContainer = styled.div`
   flex: 1.5;
   display: flex;
@@ -59,6 +72,7 @@ const ButtonContainer = styled.div`
 `;
 
 const PhotoTextContainer = styled.div`
+
   flex: 3;
   background-color: #f4f4f4;
   padding: 20px;
@@ -127,7 +141,7 @@ const MyTravelListDetail = () => {
     alert('공유되었습니다\n좋은 여행지 추천 감사해요!');
   }
 
-
+  
 
   return (
     <Container >
@@ -148,15 +162,18 @@ const MyTravelListDetail = () => {
       
       <DetailsContainer>
         <PhotoTextContainer>
+          <IoIosArrowRoundBack />
           <div>
             사진 / 글
           </div>
+          {courseList && courseList.map((course, index)=>{
+
+            return <ImgContainer key={index} img={course.landmarkImgPath} />
+          })}
+          <IoIosArrowRoundForward />
         </PhotoTextContainer>
         <RouteContainer>
           <p>경로</p>
-          {/* <div>
-            경로
-          </div> */}
           <MyTravelListCourse courseList={courseList} />
         </RouteContainer>
       </DetailsContainer>

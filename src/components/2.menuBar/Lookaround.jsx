@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { getShareTravelList } from '../../api/lookaround/lookaround';
 import Comments from '../subpage/Comments';
 import LikeLandmark from '../subpage/LikeLandmark';
+import { useSelector } from 'react-redux';
+import { IoBookmark, IoBookmarkOutline } from 'react-icons/io5';
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -59,12 +61,16 @@ const Title = styled.div`
 
 const Footer = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-between;
   font-size: 12px;
-  color: #999;
+  margin-top: 10px;
+  /* color: #999; */
 `;
 
 const RightEmptyContainer = styled.div`
+  width: 100%;
+  height: 100%;
   flex: 1;
   background-color: #e4e4e4;
   /* position: absolute;
@@ -99,28 +105,26 @@ const SearchInput = styled.input`
   margin-left: 10px;
 `;
 
-const Lookaround = ({landamrkNo, userId}) => {
+const TitleContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  `;
+
+const StyledBookmarkContainer = styled.div`
+  font-size: 30px;
+  cursor: pointer;
+  padding: 5px;
+`;
+
+const Lookaround = () => {
 
   // 쉐어랜드마크오리진2번가져오기스테이트
   const [shareTravelList, setShareTravelList] = useState([]);
+  const userInfo = useSelector(state => state.member.userInfo);
+  const [clickBookmark, setClickBookmark] = useState(false);
 
-  // 예시 데이터
-  // const contents = [
-  //   {
-  //     title: '대전 대청호 호수뷰 브런치맛집',
-  //     description:
-  //       '인원 / 여행지 / 날짜 (고정값) \nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to...',
-  //     likes: '♡100',
-  //     author: 'ooo',
-  //   },
-  //   {
-  //     title: '서울 강남역 맛집 투어',
-  //     description:
-  //       '인원 / 여행지 / 날짜 (고정값) \nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to...',
-  //     likes: '♡80',
-  //     author: 'ppp',
-  //   },
-  // ];
 
   // 검색어 상태 관리
   const [searchTerm, setSearchTerm] = useState('');
@@ -151,6 +155,11 @@ const Lookaround = ({landamrkNo, userId}) => {
     fetchShareTravelList();
   },[])
 
+  const handleBookmark = () => {
+    setClickBookmark(!clickBookmark);
+
+  }
+
   return (
     <>
       <Wrapper>
@@ -159,18 +168,24 @@ const Lookaround = ({landamrkNo, userId}) => {
             <LeftContainer>
               <ImageContainer img={content.landmarkImgPath} />
               <TextContainer>
+                <TitleContainer>
                 <Title>{content.landmarkName}</Title>
+                <StyledBookmarkContainer onClick={handleBookmark}>
+                {clickBookmark ? <IoBookmark /> : <IoBookmarkOutline/>}
+                </StyledBookmarkContainer>
+                </TitleContainer>
                 <p>{content.landmarkAddress}</p>
                 <Description>{content.landmarkShortDesc}</Description>
+                <hr />
                 <Footer>
-                  <div>{content.likes}</div>
-                  <div>작성자 {content.writer} 님</div>
+                  <LikeLandmark landmark ={content}  userId = {userInfo?.userId} />
+                  <div style={{color:'#999'}}>작성자 {content.writer} 님</div>
                 </Footer>
-              </TextContainer>
-            <Comments landamrkNo ={landamrkNo} />
-            <LikeLandmark landamrkNo ={landamrkNo} userId = {userId} />
+              </TextContainer> 
             </LeftContainer>
-            <RightEmptyContainer />
+            <RightEmptyContainer>
+            <Comments landmark ={content} />
+            </RightEmptyContainer>
           </Container>
         ))}
         

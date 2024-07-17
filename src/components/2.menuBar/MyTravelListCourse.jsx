@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import route_back_img from '../../image/route_back_img.png'
-import { searchData } from '../../api/map/map';
 
 const Wrap = styled.div`
   width: 100%;
@@ -13,11 +12,13 @@ const Wrap = styled.div`
   position: relative;
   background-image: url(${route_back_img});
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
+  /* background-size: cover; */
+  /* 반응형작업할때 확인해주기! */
   `;
 
 const LineContainer = styled.div`
-  width: 70%;
+  width: 50%;
   flex: 1;
   
   position: absolute;
@@ -116,7 +117,7 @@ const MyTravelListCourse = ({courseList}) => {
       </LineContainer>
       <LineContainer
         style={{
-
+          right:'40%'
         }}
       >
         {secondLine.map(location => 
@@ -132,7 +133,7 @@ const MyTravelListCourse = ({courseList}) => {
       <LineContainer
         style={{
           bottom:0,
-          right:0
+          right:'20%'
         }}
       >
         {firstLine.map(location => 

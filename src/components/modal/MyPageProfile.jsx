@@ -171,49 +171,7 @@ function MyPageProfile(props) {
   const [nickName, setNickName] = useState(Member.nickname);
   const [profileImage, setProfileImage] = useState(Member.userProfileImagePath || null);
   const [ImageEdit, setImageEdit] = useState(null);
-
-  const handleProfileChange = async () => {
-    try {
-      // const formData = new FormData();
-      // formData.append('file', ImageEdit);
-      // console.log(1);
-      
-      // if (ImageEdit) {
-      //   console.log(Member.userId);
-      //   const res = await axios.post(`${BACK_URL}/member/upload?userId=${Member.userId}`, formData);
-      //   console.log(res);
-      // }
-
-      const userData = {
-        userId: userInfo.userId,
-        userName: name,
-        userEmail: email,
-        userRole: userInfo.userRole,
-        userPw: userInfo.userPw,
-        modDate: userInfo.modDate,
-        regDate: userInfo.regDate,
-        nickname: nickName,
-        phone: phone,
-        birth: birth,
-        userProfileImagePath: profileImage
-      };
-
-      const update = await axios.post(`${BACK_URL}/member/update`, userData);
-
-      dispatch(getUserInfo(userData));
-
-      if (update.status === 200) { 
-        closeModal();
-        return navigate('/main/mypage');
-      } else {
-        throw new Error(`api error: ${update.status} ${update.statusText}`);
-      }
-    } catch (error) {
-      console.error(error);
-      return console.error("수정실패");
-    }
-  }
-
+  
   const handleImageChange = async (e) => {
     // 새로입력된 이미지의 바이너리 값을 받아 바로 화면에 보여줌
     const file = e.target.files[0];
@@ -234,8 +192,43 @@ function MyPageProfile(props) {
     formData.append('file', file);
 
     const res = await axios.post(`${BACK_URL}/member/upload?userId=${Member.userId}`, formData);
+    console.log(res.data);
     setProfileImage(res.data);
   };
+
+  const handleProfileChange = async () => {
+    try {
+      const userData = {
+        userId: userInfo.userId,
+        userName: name,
+        userEmail: email,
+        userRole: userInfo.userRole,
+        userPw: userInfo.userPw,
+        modDate: userInfo.modDate,
+        regDate: userInfo.regDate,
+        nickname: nickName,
+        phone: phone,
+        birth: birth,
+        userProfileImagePath: profileImage
+      };
+
+      const update = await axios.post(`${BACK_URL}/member/update`, userData);
+      console.log(update);
+
+      dispatch(getUserInfo(userData));
+
+      if (update.status === 200) { 
+        closeModal();
+        return navigate('/main/mypage');
+      } else {
+        throw new Error(`api error: ${update.status} ${update.statusText}`);
+      }
+    } catch (error) {
+      console.error(error);
+      return console.error("수정실패");
+    }
+  }
+
 
   const regDate = new Date(Member.regDate);
   const year = regDate.getFullYear();

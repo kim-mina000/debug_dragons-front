@@ -238,7 +238,7 @@ function SignUp() {
     }
   };
 
-  // FileReader사용
+  // FileReader사용 -> input으로 받아온 이미지 화면에 띄워주는 역할
   const handleProfileImage = async (e) => {
 
     const file = e.target.files[0];
@@ -258,28 +258,28 @@ function SignUp() {
 
   const handleSignUp = async (e) => {
     try {
-      // 서버에 이미지 정보 전송
-      // setUserInfo({...userInfo,image:uploadFile});
-
-      const formData = new FormData();
-      formData.append('userId', userInfo.userId);
-      formData.append('file', uploadFile);
-
-      if (uploadFile) {
-        await axios.post(`${BACK_URL}/member/upload`, formData);
-      }
-
       // 서버에 유저정보 전송
       const response = await axios.post(`${BACK_URL}/member/register`, userInfo
       );
+      
+      // 서버에 이미지 정보 전송
+      // setUserInfo({...userInfo,image:uploadFile});
+      
+      const formData = new FormData();
+      formData.append('userId', userInfo.userId);
+      formData.append('file', uploadFile);
+      
+      if (uploadFile) {
+        await axios.post(`${BACK_URL}/member/upload`, formData);
+        // setUserProfileImage(response_img);
+      }
 
       if (response.status === 201) { // 응답 코드가 200 OK 일때만 결과를 리턴
         return nevigate('/thanks-for-signup');
-
+        
       } else {
         throw new Error(`api error: ${response.status} ${response.statusText}`);
       }
-
     } catch (err) {
       console.error(err);
     }
