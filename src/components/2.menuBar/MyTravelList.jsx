@@ -21,12 +21,21 @@ const Categories = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
 `;
 
 const Category = styled.div`
   text-align: center;
-  flex: 1; /* flex-grow 설정으로 각 아이템이 동일한 비율로 공간을 차지하게 함 */
-  margin: 0 10px; /* 좌우 여백 설정 */
+  flex: 1; 
+  margin: 0 10px; 
+  
+  @media (max-width: 768px) {
+    margin-bottom: 10px;
+  }
 `;
 
 
@@ -46,14 +55,14 @@ const CategoryButton = styled.button`
   .add-icon {
     width: 80%;
     height: 80%;
-    color: #18188f; /* 아이콘 컬러 설정 */
+    color: #18188f; 
   }
 
   .add-fill-icon {
     display: none;
     width: 80%;
     height: 80%;
-    color: #010175; /* 아이콘 컬러 설정 */
+    color: #010175; 
   }
 
   span {
@@ -61,6 +70,11 @@ const CategoryButton = styled.button`
     cursor: pointer; 
     font-size: 14px;
     font-family: 'MaplestoryOTFBold';
+    text-overflow: ellipsis;
+
+    @media (max-width: 768px) {
+      display: none; /* 768px 이하에서는 텍스트를 숨김 */
+    }
   }
 
   &:hover {
@@ -165,6 +179,31 @@ const DropdownButton = styled.button`
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    background-color: transparent;
+    color: black;
+    padding: 10px;
+    font-size: 21px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span {
+      display: none; 
+    }
+
+    &:after {
+      content: '▼';
+      margin-left: 5px; 
+    }
+  }
 `;
 
 const DropdownContent = styled.div`
@@ -227,6 +266,7 @@ const MyTravelList = () => {
     setDropdownVisible(false);
   };
   
+ 
   // csv 파일 읽어오기
   useEffect(() => {
     // const fetchData = async () => {
@@ -287,9 +327,9 @@ const MyTravelList = () => {
           ))}
         </Categories>
         <DropdownContainer>
-          <DropdownButton onClick={() => setDropdownVisible(!dropdownVisible)}>
-            {sortOption}
-          </DropdownButton>
+        <DropdownButton onClick={() => setDropdownVisible(!dropdownVisible)}>
+          <span>{sortOption}</span>
+        </DropdownButton>
           <DropdownContent show={dropdownVisible}>
             <DropdownOption onClick={() => handleSortOption('최신 순')}>최신 순</DropdownOption>
             <DropdownOption onClick={() => handleSortOption('오래된 순')}>오래된 순</DropdownOption>
