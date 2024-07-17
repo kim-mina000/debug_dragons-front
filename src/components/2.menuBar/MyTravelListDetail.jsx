@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import SearchMainResult from '../1.searchPage/SearchMainResult';
-import { getLandmarkInfo, getMyTravelListDetail } from '../../api/myTravelList/myTravelListAPI';
+import { getLandmarkInfo, getMyTravelListDetail, postShareMyLandmark } from '../../api/myTravelList/myTravelListAPI';
 import MyTravelListCourse from './MyTravelListCourse';
 
 const WrapContainer = styled.div`
@@ -44,6 +44,7 @@ const BackButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+  z-index: 8;
 `;
 
 const DetailsContainer = styled.div`
@@ -91,7 +92,8 @@ const MyTravelListDetail = () => {
   const {no} = useParams();
   // 코스-매핑 리스트 LCMappingList
   const [courseList, setCourseList] = useState(null);
-  const [handleShare, setHandleShare] = useState(false);
+  const [handleShare, setHandleShare] = useState(true);
+  const [selectedShareLandmark, setSelectedShareLandmark] = useState([]);
   
   useEffect(() => {
 
@@ -118,12 +120,16 @@ const MyTravelListDetail = () => {
       <WrapContainer handleShare={handleShare}/>
       <SearchContainer>
         <ButtonContainer>
-          <BackButton onClick={() => navigate('/main/MyTravelList')}>
-            뒤로가기
+          <BackButton onClick={() => (handleShare? navigate('/main/MyTravelList') : postShareMyLandmark(selectedShareLandmark) )}>
+            {handleShare? '뒤로가기' : '공유하기'}
           </BackButton>
           <SaveButton onClick={() => {setHandleShare(!handleShare)}}>{handleShare ? '내 여행지 공유하기' : '공유하지 않기' }</SaveButton>
         </ButtonContainer>
-        {courseList ? <SearchMainResult handleShare={handleShare} formData={courseList} setFormData={setCourseList} /> : <p>Loading...</p>}
+        {courseList ? <SearchMainResult 
+        handleShare={handleShare} formData={courseList} setFormData={setCourseList} 
+        selectedShareLandmark={selectedShareLandmark}
+        setSelectedShareLandmark={setSelectedShareLandmark}
+        /> : <p>Loading...</p>}
       </SearchContainer>
       
       <DetailsContainer>

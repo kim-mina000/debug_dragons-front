@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { getLandmarkResponse, handleDelete, handleSaveAll } from '../../api/map/map-result';
 import { TfiClose } from "react-icons/tfi";
+import { IoIosCheckmarkCircleOutline, IoMdCheckmark } from 'react-icons/io';
 
 // 피그마에 색상 다른것처럼 표현 됬길래 팔레트임... 수정하기만 하면 됨
 const colors = ['#D5ECFA','#D5ECFA', '#a4dcff', '#a4dcff', '#79ccff', '#79ccff', '#2f86ff', '#2f86ff', '#006aff', '#006aff', '#2f44ff', ];
@@ -112,9 +113,21 @@ const ShareContainer = styled.div`
     background-color: #7289a1; 
     color: #8fa4bfc4;
   }
+
+  /* 클릭됐을때 css여기에 추가 */
+  ${props => props.clicked &&
+    css`
+      &:hover {
+      };
+      background-color: #7289a1;
+    `
+  }
+
 ` ;
 
-const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceButtons, selectedDateButtons, selectedPersonButtons, userInfo }) => {
+const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceButtons, selectedDateButtons, selectedPersonButtons, userInfo,
+  setSelectedShareLandmark, selectedShareLandmark
+}) => {
   const [editDayIndex, setEditDayIndex] = useState(null);
   const [editTimeIndex, setEditTimeIndex] = useState(null);
   const [editDay, setEditDay] = useState('');
@@ -123,14 +136,22 @@ const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceBut
   const [editShortDesc, setEditShortDesc] = useState('');
 
   // 공유하기 관련
-  const [selectedShareLandmark, setSelectedShareLandmark] = useState([]);
-  const [isSelected, setIsSelected] = useState(false);
+  // const [selectedShareLandmark, setSelectedShareLandmark] = useState([]);
+  const [isSelected, setIsSelected] = useState([]);
 
-  // 사용자가 저장하지 않은 랜드마크를 불러와서 보여줌 (landmark_origin = 0)
   useEffect(() => {
+    // 사용자가 저장하지 않은 랜드마크를 불러와서 보여줌 (landmark_origin = 0)
     if (userInfo) {
       getLandmarkResponse(userInfo.userId).then(res => setFormData(res));
     }
+    
+    // 사용자가 공유할 컴포넌트를 클릭했을때 css 바꿔주기
+
+    const falseArray = [];
+    for (let index = 0; index < formData.length; index++) {
+      falseArray.push(false); 
+    }
+    setIsSelected(falseArray);
   }, []);
 
 
@@ -197,7 +218,11 @@ const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceBut
     }
   };
 
-  const handleShareClick = (result) => {
+  const handleShareClick = (result, index) => {
+    const copyIsSelected = isSelected;
+    copyIsSelected[index] = !copyIsSelected[index];
+    setIsSelected(copyIsSelected);
+
     if(selectedShareLandmark.find(item => item === result)){
       setSelectedShareLandmark(selectedShareLandmark.filter(item => item !== result));
     } else {
@@ -274,7 +299,7 @@ const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceBut
           <TfiClose style={{ cursor: "pointer" }} onClick={() => { handleDelete(result); setFormData(formData.filter(item => item.landmarkNo !== result.landmarkNo)); }} />
         </Container> )
         :
-        (<ShareContainer onClick={()=>{handleShareClick(result)}} key={index} $bgColor={colors[index % colors.length]}>
+        (<ShareContainer onClick={()=>{handleShareClick(result,index)}} key={index} $bgColor={colors[index % colors.length]} clicked={isSelected[index]}>
         <Info>
           {/* 일자표시 */}
           <Day onClick={() => handleEditDay(index, result.landmarkDay)}>{result.landmarkDay} 일차</Day>
@@ -286,7 +311,6 @@ const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceBut
           {/* 제목 */}
           <Title>{result.landmarkName}</Title>
           {/* 게시물 텍스트 */}
-
           <Description onClick={() => handleEditShortDesc(index, result.landmarkShortDesc)}>
             {result.landmarkShortDesc ? result.landmarkShortDesc : '간단 코멘트 작성해주세요'}
           </Description>
@@ -294,7 +318,11 @@ const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceBut
           {/* t수정중 */}
           <Details>{result.writer} : {selectedPlaceButtons}, {selectedDateButtons}, 인원: {family} </Details>
         </Content>
-        <TfiClose style={{ cursor: "pointer" }} onClick={() => { handleDelete(result); setFormData(formData.filter(item => item.landmarkNo !== result.landmarkNo)); }} />
+        { isSelected[index]?
+          <IoMdCheckmark style={{fontSize:'30px'}} />
+          :
+          <TfiClose style={{ cursor: "pointer" }} onClick={() => { handleDelete(result); setFormData(formData.filter(item => item.landmarkNo !== result.landmarkNo)); }} />
+        }
         </ShareContainer>)
       ))}
       <ButtonContainer>
