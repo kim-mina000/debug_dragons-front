@@ -54,6 +54,7 @@ export const getMyTravelListById = async (userId) => {
 
 // Landmark DB
 export const getLandmarkInfo = async (landmarkNo) => {
+
   try {
     const userToken = localStorage.getItem('userToken');
     const response = await axios.get(`${BACK_URL}/landmark/readPK?landmarkNo=${landmarkNo}`,{
