@@ -189,7 +189,6 @@ function SearchMain({userInfo}) {
 
   
   const handleSaveFormData = (key, selectedInformation)=>{
-    console.log(key);
     if (!key) {
       setIsNeedLogin(true);
     } else {

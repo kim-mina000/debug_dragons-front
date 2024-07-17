@@ -138,7 +138,8 @@ const Lookaround = () => {
   const filteredContents = shareTravelList.filter((content) =>
     content.landmarkName.toLowerCase().includes(searchTerm.toLowerCase()) ||
     content.landmarkAddress.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    content.landmarkShortDesc?.toLowerCase().includes(searchTerm.toLowerCase())
+    content.landmarkShortDesc?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    content.landmarkDesc?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   useEffect(() => {

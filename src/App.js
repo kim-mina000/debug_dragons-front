@@ -87,8 +87,6 @@ const GlobalStyles = createGlobalStyle`
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoginNeed, setIsLoginNeed] = useState(false);
-  const [userName, setUserName] = useState('사용자');
-
 
   const loginProps = {
     isLoginNeed : isLoginNeed,
@@ -96,9 +94,6 @@ function App() {
   };
   
   const userInfo = useSelector(state => state.member.userInfo);
-  const handleLogout = () => {
-    setUserName(null);
-  };
 
   useEffect(() => {
     setTimeout(() => {

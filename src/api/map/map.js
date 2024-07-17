@@ -3,6 +3,7 @@ import { BACK_URL, KAKAO_JSKEY, KAKAO_RESTKEY } from "../config";
 
 
 export const handleMyTripSave = async (data, userId, imgUrl) => {
+  console.log(data);
 
   const xy = await addressToXY(data.address_name);
   const postData = {
@@ -13,7 +14,8 @@ export const handleMyTripSave = async (data, userId, imgUrl) => {
     "landmarkOrigin": 0,
     "longitude": data.x || xy.x,
     "latitude": data.y || xy.y,
-    "landmarkImgPath" : imgUrl
+    "landmarkImgPath" : imgUrl,
+    "landmarkDesc" : data.category_name,
   }
 
   try {
