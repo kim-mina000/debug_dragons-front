@@ -237,7 +237,8 @@ const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceBut
   return (
     <>
       {formData?.map((result, index) => (
-        handleShare?
+
+        handleShare === undefined || handleShare === false ?
         (<Container key={index} $bgColor={colors[index % colors.length]}>
           <Info>
             {/* 일자표시 */}
@@ -297,9 +298,9 @@ const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceBut
             <Details>{result.writer} : {selectedPlaceButtons}, {selectedDateButtons}, 인원: {family} </Details>
           </Content>
           <TfiClose style={{ cursor: "pointer" }} onClick={() => { handleDelete(result); setFormData(formData.filter(item => item.landmarkNo !== result.landmarkNo)); }} />
-        </Container> )
+        </Container>)
         :
-        (<ShareContainer onClick={()=>{handleShareClick(result,index)}} key={index} $bgColor={colors[index % colors.length]} clicked={isSelected[index]}>
+        (<ShareContainer clicked={isSelected[index]} onClick={()=>{handleShareClick(result,index)}} key={index} $bgColor={colors[index % colors.length]} >
         <Info>
           {/* 일자표시 */}
           <Day onClick={() => handleEditDay(index, result.landmarkDay)}>{result.landmarkDay} 일차</Day>
@@ -324,7 +325,9 @@ const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceBut
           <TfiClose style={{ cursor: "pointer" }} onClick={() => { handleDelete(result); setFormData(formData.filter(item => item.landmarkNo !== result.landmarkNo)); }} />
         }
         </ShareContainer>)
+
       ))}
+
       <ButtonContainer>
         <SaveButton onClick={() => { handleSaveAll(formData) }}>모든 데이터 저장</SaveButton>
       </ButtonContainer>
