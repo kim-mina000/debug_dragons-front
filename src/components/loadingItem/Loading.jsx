@@ -27,7 +27,7 @@ function Loading() {
   return (
     <>
       <Container>
-        <Text>잠시만 기다려주세요 !</Text>
+        <Text>아띠버스가 달려가는 중이에요!</Text>
         <Lottie options={defaultOptions} height={400} width={400} />
       </Container>
     </>
