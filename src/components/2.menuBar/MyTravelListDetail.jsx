@@ -106,6 +106,8 @@ const MyTravelListDetail = () => {
         const promises  = await myCourseList.map(landmark => getLandmarkInfo(landmark.landmarkNo));
         const landmarkList = await Promise.all(promises);
         setCourseList(landmarkList);
+        console.log(landmarkList);
+        setSelectedShareLandmark(landmarkList.filter(landmark => landmark.landmarkOrigin === 2));
       } catch (error) {
         console.error(error);
       };
@@ -119,6 +121,12 @@ const MyTravelListDetail = () => {
 
   }, []);
 
+  const handleShareClick = () =>{
+    postShareMyLandmark(selectedShareLandmark);
+    setHandleShare(false);
+    alert('공유되었습니다\n좋은 여행지 추천 감사해요!');
+  }
+
 
 
   return (
@@ -126,7 +134,7 @@ const MyTravelListDetail = () => {
       <WrapContainer handleShare={handleShare}/>
       <SearchContainer>
         <ButtonContainer>
-          <BackButton onClick={() => (handleShare? postShareMyLandmark(selectedShareLandmark) : navigate('/main/MyTravelList') )}>
+          <BackButton onClick={() => (handleShare?  handleShareClick() : navigate('/main/MyTravelList') )}>
             {handleShare? '공유하기' : '뒤로가기'}
           </BackButton>
           <SaveButton onClick={() => {setHandleShare(!handleShare)}}>{handleShare ? '공유하지 않기' : '내 여행지 공유하기' }</SaveButton>
