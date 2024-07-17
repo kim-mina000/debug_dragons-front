@@ -51,6 +51,7 @@ const ProfileImageBox = styled.div`
   border-radius: 50%;
   position: relative;
   margin-bottom: 10px;
+  border: solid 1px gray;
   background-size: cover;
   background-position: center;
   background-image: url(${props => props.image});
