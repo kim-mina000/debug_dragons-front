@@ -11,7 +11,7 @@ const WrapContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  ${props => !props.handleShare &&
+  ${props => props.handleShare &&
   css`
     background: rgba(0, 0, 0, 0.5);
     z-index: 5;
@@ -92,7 +92,7 @@ const MyTravelListDetail = () => {
   const {no} = useParams();
   // 코스-매핑 리스트 LCMappingList
   const [courseList, setCourseList] = useState(null);
-  const [handleShare, setHandleShare] = useState(true);
+  const [handleShare, setHandleShare] = useState(false);
   const [selectedShareLandmark, setSelectedShareLandmark] = useState([]);
   
   useEffect(() => {
@@ -113,17 +113,23 @@ const MyTravelListDetail = () => {
 
     fetchData();
 
+    return ()=>{
+      setHandleShare(false);
+    }
+
   }, []);
+
+
 
   return (
     <Container >
       <WrapContainer handleShare={handleShare}/>
       <SearchContainer>
         <ButtonContainer>
-          <BackButton onClick={() => (handleShare? navigate('/main/MyTravelList') : postShareMyLandmark(selectedShareLandmark) )}>
-            {handleShare? '뒤로가기' : '공유하기'}
+          <BackButton onClick={() => (handleShare? postShareMyLandmark(selectedShareLandmark) : navigate('/main/MyTravelList') )}>
+            {handleShare? '공유하기' : '뒤로가기'}
           </BackButton>
-          <SaveButton onClick={() => {setHandleShare(!handleShare)}}>{handleShare ? '내 여행지 공유하기' : '공유하지 않기' }</SaveButton>
+          <SaveButton onClick={() => {setHandleShare(!handleShare)}}>{handleShare ? '공유하지 않기' : '내 여행지 공유하기' }</SaveButton>
         </ButtonContainer>
         {courseList ? <SearchMainResult 
         handleShare={handleShare} formData={courseList} setFormData={setCourseList} 

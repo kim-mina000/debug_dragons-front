@@ -68,14 +68,15 @@ export const getLandmarkInfo = async (landmarkNo) => {
 }
 
 // 내 landmark 공유하기
-export const postShareMyLandmark = async () => {
+export const postShareMyLandmark = async (landmarkList) => {
   try {
     const userToken = localStorage.getItem('userToken');
-    const response = await axios.get(`${BACK_URL}/landmark/readPK?landmarkNo`,{
+    const response = await axios.post(`${BACK_URL}/landmark/changeOrigin`, landmarkList, {
       headers:{
         Authorization : userToken
       }
-    })
+    }
+  )
     return response.data;
   } catch (error) {
     console.error(error);
