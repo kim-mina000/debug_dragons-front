@@ -148,8 +148,10 @@ const MainModalPerson = ({ closeModal, setSelectedButtons }) => {
       pets: petCount,
     };
     setSelectedButtons(selectedValues);
+    console.log(selectedValues);
     closeModal();
   };
+
 
   return (
     <>

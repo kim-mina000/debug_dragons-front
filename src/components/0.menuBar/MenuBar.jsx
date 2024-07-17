@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 
 const StyledFooter = styled.footer`
