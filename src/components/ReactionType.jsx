@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
-import MenuBar from './MenuBar'; // MenuBar 컴포넌트 경로에 맞게 수정하세요
+import MenuBar from './MenuBar'; 
 
 const ReactionContainer = styled.div`
   display: flex;

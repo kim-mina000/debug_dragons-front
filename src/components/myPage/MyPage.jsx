@@ -1,7 +1,7 @@
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { MdOutlineEdit } from "react-icons/md";
 import { HiStar } from "react-icons/hi2";
-import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Tagify from '@yaireo/tagify';
@@ -9,8 +9,6 @@ import '@yaireo/tagify/dist/tagify.css';
 import MyPageProfile from "../modal/MyPageProfile"; 
 import { USER_IMG, WISH_LIST } from "../../api/config";
 import { getMyTravelListById } from "../../api/myTravelList/myTravelListAPI";
-
-
 
 const Wrap = styled.div`
   width: 100%;
@@ -23,6 +21,13 @@ const TopDiv = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 30px auto 0;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+  }
 `;
 
 const ProfileDiv = styled.div`
@@ -30,6 +35,11 @@ const ProfileDiv = styled.div`
   flex-direction: column;
   align-items: center;
   margin-right: 20px;
+
+  @media (max-width: 768px) {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
   .UserId {
     font-size: 16px;
   }
@@ -90,20 +100,36 @@ const HashTagBox = styled.div`
   .tagify {
     width: 100%;
     max-width: 700px;
-    font-size: 1.6rem;
+    font-size: 1.2rem; 
     border: none;
   }
 `;
 
 const BottomDiv = styled.div`
-  width: 1200px;
+  width: 80%;
+  max-width: 1200px;
   display: flex;
   justify-content: space-between;
   margin: 20px auto 10px;
+  padding: 0 20px; 
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  @media (max-width: 768px) {
+    width: 88%;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px auto;
+    overflow-y: hidden;
+  }
 `;
 
 const UserInfo = styled.div`
   width: 65%; /* Adjust the width as needed */
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const Title = styled.h1`
@@ -115,6 +141,11 @@ const Title = styled.h1`
 
 const CollectionBox = styled.div`
   width: 30%; /* Adjust the width as needed */
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-top: 20px;
+  }
 `;
 
 const MyCollection = styled.div`
@@ -142,6 +173,11 @@ const CustomerServiceBox = styled.div`
     :hover {
       cursor: pointer;
     }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
   }
 `;
 
@@ -177,6 +213,16 @@ const TagifyStyled = styled.input.attrs({ className: 'tagify' })`
     background: lightyellow;
     border-color: gold;
   }
+
+  .tagify__tag {
+    font-size: 14px; /* 크게 수정된 해시태그 크기 */
+    padding: 5px 10px;
+    margin: 3px;
+    background-color: #93beff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 `;
 
 const ScrapAndCourseContainer = styled.div`
@@ -197,13 +243,22 @@ const ScrapAndCourseHeader = styled.div`
 const ScrapAndCourseItems = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 10px 0;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const ScrapAndCourseItem = styled.div`
   width: 19%;
   height: 100px;
   background-color: gray;
+
+  @media (max-width: 768px) {
+    width: 80%;
+    margin-bottom: 10px;
+  }
 `;
 
 function MyPage() {
@@ -219,9 +274,7 @@ function MyPage() {
     setIsProfileEditModalOpen(true);
   };
 
-
   // 고객센터 연결 클릭 핸들러
-
   const handleCustomerServiceClick = () => {
     navigate('/customerservice');
   };
@@ -284,7 +337,6 @@ function MyPage() {
           <ScrapAndCourseContainer>
             <ScrapAndCourseHeader>
               <span>내 스크랩 수</span>
-              <span>00</span>
             </ScrapAndCourseHeader>
             <ScrapAndCourseItems>
             </ScrapAndCourseItems>
@@ -292,7 +344,6 @@ function MyPage() {
           <ScrapAndCourseContainer>
             <ScrapAndCourseHeader>
               <span>내 코스 수</span>
-              <span>00</span>
             </ScrapAndCourseHeader>
             <ScrapAndCourseItems>
               {myCourse?.map(course => <ScrapAndCourseItem />)}
@@ -324,7 +375,6 @@ function MyPage() {
         </span>
       </CustomerServiceBox>
 
-
       {/* MyPageProfile 모달 */}
       {isProfileEditModalOpen && (
         <MyPageProfile
@@ -333,8 +383,6 @@ function MyPage() {
           setHashtags={setHashtags}
         />
       )}
-
-
     </Wrap>
   );
 }
