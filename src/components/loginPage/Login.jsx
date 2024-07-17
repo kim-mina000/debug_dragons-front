@@ -9,7 +9,6 @@ import { getUserInfo, getUserToken } from '../../features/member/memberSlice';
 import axios from 'axios';
 import { BACK_URL } from '../../api/config';
 
-
 // 컨테이너 틀
 const Container = styled.div`
   display: flex;
@@ -18,6 +17,7 @@ const Container = styled.div`
   justify-content: center;
   height: 100vh;
   background-color: #f3fdff;
+  padding: 20px;
 `;
 
 // 아이디 비밀번호 input
@@ -35,8 +35,27 @@ const Input = styled.input`
   }
 
   &:focus {
-    border-color: #007BFF; 
+    border-color: #007BFF;
     outline: none;
+  }
+
+  @media (max-width: 768px) {
+    width: 80%;
+    font-size: 24px;
+
+    &::placeholder {
+      font-size: 20px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    width: 90%;
+    height: 50px;
+    font-size: 18px;
+
+    &::placeholder {
+      font-size: 16px;
+    }
   }
 `;
 
@@ -52,8 +71,21 @@ const Button = styled.button`
   border-radius: 4px;
   font-size: 25px;
   cursor: pointer;
+
   &:hover {
     background-color: #c2d6e2;
+  }
+
+  @media (max-width: 768px) {
+    width: 80%;
+    font-size: 20px;
+    height: 60px;
+  }
+
+  @media (max-width: 480px) {
+    width: 90%;
+    font-size: 16px;
+    height: 50px;
   }
 `;
 
@@ -72,20 +104,52 @@ const LineContainer = styled.div`
     border-bottom: 1px solid #000;
     margin-right: 10px;
   }
-  
+
   &::after {
     content: '';
     flex: 1;
     border-bottom: 1px solid #000;
     margin-left: 10px;
-  }  
+  }
+
+  @media (max-width: 768px) {
+    width: 80%;
+  }
+
+  @media (max-width: 480px) {
+    width: 90%;
+  }
 `;
 
 const Image = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+
   img {
     width: 200px;
     height: 50px;
     cursor: pointer;
+    margin-right: 20px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    @media (max-width: 768px) {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 480px) {
+      width: 120px;
+      height: 30px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
   }
 `;
 
@@ -93,20 +157,29 @@ const Image = styled.div`
 const Links = styled.div`
   margin-top: 20px;
   padding-left: 25px;
+
   a {
     font-size: 20px;
     font-family: 'NEXON Lv1 Gothic OTF', sans-serif;
     color: #555;
     margin: 0 10px;
     text-decoration: none;
+
     &:hover {
       text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 18px;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 16px;
     }
   }
 `;
 
 function Login() {
-
   const [loginForm, setLoginForm] = useState({
     id: '',
     password: ''
@@ -122,7 +195,6 @@ function Login() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
 
   const handleLogin = async () => {
     try {
@@ -147,7 +219,6 @@ function Login() {
     }
   };
 
-
   const { Kakao } = window;
   const kakaoLoginHandler = () => {
     Kakao.Auth.authorize({
@@ -161,39 +232,34 @@ function Login() {
       <Input
         type="text"
         placeholder="아이디를 입력해주세요."
-        name='id'
+        name="id"
         value={loginForm.id}
         onChange={handleChangeLoginForm}
         onKeyPress={handleKeyPress} // Enter 키 이벤트 핸들러 추가
       />
       <Input
         type="password"
-        name='password'
+        name="password"
         placeholder="비밀번호를 입력해주세요."
         value={loginForm.password}
         onChange={handleChangeLoginForm}
         onKeyPress={handleKeyPress} // Enter 키 이벤트 핸들러 추가
       />
       <Button onClick={handleLogin}>시작하기</Button>
-
       <LineContainer>간편 로그인 하기</LineContainer>
-
       <Image>
-        <img src='/btnG_완성형.png' style={{ marginRight: '50px' }} />
+        <img src="/btnG_완성형.png" />
         <img src="/kakao_login_medium_narrow.png" onClick={kakaoLoginHandler} />
       </Image>
-
       <Links>
         <Link to="/find">아이디 찾기 / 비밀번호 찾기</Link>
       </Links>
-
       <Links>
-        <Link to={"/signup"}>회원가입</Link>
+        <Link to="/signup">회원가입</Link>
       </Links>
-
       <MenuBar />
     </Container>
   );
-};
+}
 
 export default Login;
