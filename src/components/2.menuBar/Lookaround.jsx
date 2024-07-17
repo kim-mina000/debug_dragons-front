@@ -3,16 +3,22 @@ import styled from 'styled-components';
 import { getShareTravelList } from '../../api/lookaround/lookaround';
 
 const Wrapper = styled.div`
+  width: 100vw;
   margin: 2% 0 0 10%;
   margin-bottom: 8%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
 `;
 
 const Container = styled.div`
   display: flex;
+  width: 90%;
   height: 50vh;
   box-sizing: border-box;
   margin-bottom: 20px;
-`;
+  `;
 
 const LeftContainer = styled.div`
   flex: 2;
@@ -56,6 +62,8 @@ const Footer = styled.div`
 const RightEmptyContainer = styled.div`
   flex: 1;
   background-color: #e4e4e4;
+  /* position: absolute;
+  right: 0; */
 `;
 
 const SearchContainer = styled.div`
@@ -92,43 +100,43 @@ const Lookaround = () => {
   const [shareTravelList, setShareTravelList] = useState([]);
 
   // 예시 데이터
-  const contents = [
-    {
-      title: '대전 대청호 호수뷰 브런치맛집',
-      description:
-        '인원 / 여행지 / 날짜 (고정값) \nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to...',
-      likes: '♡100',
-      author: 'ooo',
-    },
-    {
-      title: '서울 강남역 맛집 투어',
-      description:
-        '인원 / 여행지 / 날짜 (고정값) \nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to...',
-      likes: '♡80',
-      author: 'ppp',
-    },
-    {
-      title: '부산 해운대 해수욕장',
-      description:
-        '인원 / 여행지 / 날짜 (고정값) \nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to...',
-      likes: '♡120',
-      author: 'qqq',
-    },
-    {
-      title: '제주도 바닷가 산책로',
-      description:
-        '인원 / 여행지 / 날짜 (고정값) \nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to...',
-      likes: '♡150',
-      author: 'rrr',
-    },
-    {
-      title: '경주 역사유적지 탐방',
-      description:
-        '인원 / 여행지 / 날짜 (고정값) \nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to...',
-      likes: '♡90',
-      author: 'sss',
-    },
-  ];
+  // const contents = [
+  //   {
+  //     title: '대전 대청호 호수뷰 브런치맛집',
+  //     description:
+  //       '인원 / 여행지 / 날짜 (고정값) \nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to...',
+  //     likes: '♡100',
+  //     author: 'ooo',
+  //   },
+  //   {
+  //     title: '서울 강남역 맛집 투어',
+  //     description:
+  //       '인원 / 여행지 / 날짜 (고정값) \nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to...',
+  //     likes: '♡80',
+  //     author: 'ppp',
+  //   },
+  //   {
+  //     title: '부산 해운대 해수욕장',
+  //     description:
+  //       '인원 / 여행지 / 날짜 (고정값) \nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to...',
+  //     likes: '♡120',
+  //     author: 'qqq',
+  //   },
+  //   {
+  //     title: '제주도 바닷가 산책로',
+  //     description:
+  //       '인원 / 여행지 / 날짜 (고정값) \nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to...',
+  //     likes: '♡150',
+  //     author: 'rrr',
+  //   },
+  //   {
+  //     title: '경주 역사유적지 탐방',
+  //     description:
+  //       '인원 / 여행지 / 날짜 (고정값) \nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to...',
+  //     likes: '♡90',
+  //     author: 'sss',
+  //   },
+  // ];
 
   // 검색어 상태 관리
   const [searchTerm, setSearchTerm] = useState('');
@@ -139,15 +147,16 @@ const Lookaround = () => {
   };
 
   // 필터링된 컨텐츠를 반환하는 함수 (여기서는 단순 예시로 제목에 포함된 검색어로 필터링)
-  const filteredContents = contents.filter((content) =>
-    content.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredContents = shareTravelList.filter((content) =>
+    content.landmarkName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    content.landmarkAddress.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    content.landmarkShortDesc?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   useEffect(() => {
     const fetchShareTravelList = async ()=>{
       try {
         const response = await getShareTravelList();
-        console.log(response);
         if (response) {
           setShareTravelList(response);
         }
@@ -166,11 +175,12 @@ const Lookaround = () => {
             <LeftContainer>
               <ImageContainer />
               <TextContainer>
-                <Title>{content.title}</Title>
-                <Description>{content.description}</Description>
+                <Title>{content.landmarkName}</Title>
+                <p>{content.landmarkAddress}</p>
+                <Description>{content.landmarkShortDesc}</Description>
                 <Footer>
                   <div>{content.likes}</div>
-                  <div>작성자 {content.author} 님</div>
+                  <div>작성자 {content.writer} 님</div>
                 </Footer>
               </TextContainer>
             </LeftContainer>
@@ -179,6 +189,7 @@ const Lookaround = () => {
         ))}
         
         {/* 검색 입력란 */}
+      </Wrapper>
         <SearchContainer>
           <SearchBox>
             <SearchInput
@@ -188,7 +199,6 @@ const Lookaround = () => {
             />
           </SearchBox>
         </SearchContainer>
-      </Wrapper>
     </>
   );
 };

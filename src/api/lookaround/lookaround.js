@@ -6,7 +6,8 @@ import { BACK_URL } from "../config"
 export const getShareTravelList = async () => {
 
   try {
-    const response = await axios.get(`${BACK_URL}/landmark/lookaround`)
+    const response = await axios.get(`${BACK_URL}/landmark/lookaround`);
+    console.log(response);
     return response.data;
   } catch (error) {
     console.error(error);
