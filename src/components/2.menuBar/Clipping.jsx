@@ -182,6 +182,8 @@ const HeartIcon = styled.div`
 `;
 
 const DraggableFile = ({ file, index, toggleLike, inFolder }) => {
+
+  const [like, setLike] = useState();
   const [{ isDragging }, drag] = useDrag({
     type: 'FILE',
     item: { index },
@@ -190,14 +192,19 @@ const DraggableFile = ({ file, index, toggleLike, inFolder }) => {
     }),
   });
 
-  // const getLike = async (landmarkNo) => {
-  //   const result = await readBookmarkByLandmarkNo(landmarkNo);    
-  //   if(result){
-  //     return result.length;
-  //   } else {
-  //     return 0;
-  //   }
-  // };
+
+
+  const getLike = async (landmarkNo) => {
+    const result = await readBookmarkByLandmarkNo(landmarkNo);    
+    console.log(result);
+    if(result){
+      return result;
+    } else {
+      return 0;
+    }
+
+  };
+
 
 
   return (
@@ -212,7 +219,7 @@ const DraggableFile = ({ file, index, toggleLike, inFolder }) => {
             ) : (
               <PiHeartStraightBreak onClick={() => toggleLike(index)} />
             )}
-            {/* {getLike(file.landmarkNo)} */}
+            {/* {getLike(file.landmarkNo).then(res => res)} */}
           </div>
           <div style={{ fontSize: '0.7rem' }}>작성자 {file.writer}님</div> 
         </div>
@@ -242,7 +249,7 @@ const DroppableFolder = ({ folder, onDrop, handleFolderClick, handleInputChange,
         />
       ) : (
         <>
-          <div>{folder.name}</div>
+          <div style={{textAlign:'center', wordBreak:'break-word', width:'70%'}}>{folder.name}</div>
           <div>저장된 페이지 수: {folder.pages.length}개</div>
         </>
       )}
@@ -294,15 +301,14 @@ const Clipping = () => {
   ]);
 
   const [folders, setFolders] = useState([
-    { id: 1, name: "강아지랑 같이 가야만...", pages: [] },
-    { id: 2, name: "제목을 내게.......", pages: [] },
+    { id: 1, name: "클릭으로 제목을 변경해주세요!", pages: [] },
+    // { id: 2, name: "제목을 내게.......", pages: [] },
   ]);
 
-  const userInfo = useSelector(state => state.member.userInfo);
   const [openFolder, setOpenFolder] = useState(null);
-
+  const userInfo = useSelector(state => state.member.userInfo);
+  
   useEffect(() => {
-
     const fetchData = async ()=>{
       const res = await readBookmark(userInfo.userId);
       if(res){

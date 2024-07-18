@@ -8,10 +8,13 @@ import { useSelector } from 'react-redux';
 
 const Container = styled.div`
   width: 80%;
+  max-height: 400px;
   margin: 20px auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  overflow: hidden;
+  overflow-y: scroll;
 `;
 
 const CommentList = styled.ul`
@@ -66,11 +69,11 @@ const Comments = ({ landmark }) => {
 
   const userInfoRedux = useSelector(state => state.member.userInfo);
 
-  console.log(currentUser.userId);
   useEffect(() => {
     setCurrentUser(userInfoRedux);  // 리덕스 스토어에서 받아서 유저정보 넣어줌
     if (!currentUser) {  // 새로고침이 일어나면 로컬스토리지에서 받아줌
       setCurrentUser(JSON.parse(localStorage.getItem('userInfo')));
+      // console.log(currentUser.userId);
     }
   }, [setCurrentUser]);
 

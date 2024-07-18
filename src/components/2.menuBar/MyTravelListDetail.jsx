@@ -51,26 +51,38 @@ const BackButton = styled.button`
 const ImgContainer = styled.div`
   width: 100%;
   height: 100%;
-  max-width: 1050px;
-  max-height: 500px;
+  /* max-width: 772px; */
+  max-height: 472px;
   background-image: url(${props => props.img});
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;
   cursor: pointer;
+  margin-top: 15px;
   `;
 
 const Img = styled.div`
   backdrop-filter: blur(10px);
   width: 100%;
   height: 100%;
-  max-width: 1050px;
-  max-height: 485px;
+  /* max-width: 1050px;
+  max-height: 500px; */
   background-image: url(${props => props.img});
   background-repeat: no-repeat;
   background-size: contain;
   position: absolute;
   text-align: center;
+`;
+
+const PleaseChangeImg = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  
 `;
 
 const DetailsContainer = styled.div`
@@ -139,7 +151,6 @@ const MyTravelListDetail = () => {
         const promises = await myCourseList.map(landmark => getLandmarkInfo(landmark.landmarkNo));
         const landmarkList = await Promise.all(promises);
         setCourseList(landmarkList);
-        console.log(landmarkList);
         setSelectedShareLandmark(landmarkList.filter(landmark => landmark.landmarkOrigin === 2));
       } catch (error) {
         console.error(error);
@@ -172,11 +183,11 @@ const MyTravelListDetail = () => {
 
     if (file) {
       reader.readAsDataURL(file);
-
     }
     
     const img_url = uploadMyImg(file,landmarkNo);
-    setShowClickedLandmark({...showClickedLandmark,'landmarkImgPath': img_url})      
+    setShowClickedLandmark({...showClickedLandmark,'landmarkImgPath': img_url});
+
     
   };
 
@@ -203,7 +214,6 @@ const MyTravelListDetail = () => {
 
       <DetailsContainer>
         <PhotoTextContainer>
-          <IoIosArrowRoundBack />
           <div>
             사진 / 글
           </div>
@@ -212,9 +222,9 @@ const MyTravelListDetail = () => {
           <label htmlFor="profileImageUpload">
           <ImgContainer img={showClickedLandmark.landmarkImgPath}>
           {imgClicked ? (
-            <Img src={imgClicked} alt="Profile" />
+            <Img src={imgClicked} alt="Profile">클릭해서 사진 바꾸기</Img>
             ) : (
-            "클릭해서 내 사진으로 바꾸기"
+            <PleaseChangeImg>클릭해서 사진 바꾸기</PleaseChangeImg>
           )}
           <Img img={showClickedLandmark.landmarkImgPath}/>
           </ImgContainer>
@@ -223,11 +233,10 @@ const MyTravelListDetail = () => {
             type="file"
             id="profileImageUpload"
             style={{ display: 'none' }}
-            onChange={handleImgClicked}
+            onChange={(e)=>{handleImgClicked(e,showClickedLandmark.landmarkNo)}}
             />
           </>
 
-          <IoIosArrowRoundForward />
         </PhotoTextContainer>
         <RouteContainer>
           <p>경로</p>

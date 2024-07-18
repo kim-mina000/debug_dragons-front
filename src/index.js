@@ -11,7 +11,6 @@ import { getUserInfo, getUserToken } from './features/member/memberSlice';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 (() => {
-
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     const userToken = localStorage.getItem('userToken');
     if (!userInfo) return;      // 로그인 정보가 없다면 여기서 멈춤
