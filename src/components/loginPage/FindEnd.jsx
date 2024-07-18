@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import MenuBar from "../0.menuBar/MenuBar";
-
 import styled from 'styled-components';
 import 'react-tabs/style/react-tabs.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
@@ -96,13 +95,13 @@ function FindEnd() {
       setErrorMessage('비밀번호가 일치하지 않습니다. 동일한 값을 입력해주세요.');
     } else {
       setErrorMessage('');
-      window.location.href = '/login'; 
+      window.location.href = '/login';
     }
   };
 
   return (
     <>
-    <TitleLogo/>
+      <TitleLogo />
       <StyledTabs>
         <StyledTabList>
           <StyledTab>아이디 찾기</StyledTab>
@@ -110,7 +109,7 @@ function FindEnd() {
         </StyledTabList>
         <TabPanel>
           <TabContent>
-            { id ? (
+            {id ? (
               <>
                 <h2>아이디 찾기 완료</h2>
                 <p>아이디 찾기가 완료되었습니다.</p>
