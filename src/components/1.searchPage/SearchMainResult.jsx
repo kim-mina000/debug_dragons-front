@@ -156,13 +156,12 @@ const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceBut
     setIsSelected(falseArray);
   }, []);
 
-
-  useEffect(() => {
+  const handleSort = () => {
     if (formData) {
-      const sortResult = formData.sort((a, b) => {
+      const sortedData = [...formData].sort((a, b) => {
         const dayA = (typeof a.landmarkDay === 'number') ? a.landmarkDay : Number(a.landmarkDay);
         const dayB = (typeof b.landmarkDay === 'number') ? b.landmarkDay : Number(b.landmarkDay);
-
+  
         if (dayA !== dayB) {
           return dayA - dayB;
         } else {
@@ -171,25 +170,30 @@ const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceBut
           return timeA.localeCompare(timeB);
         }
       });
-      setFormData(sortResult);
+      setFormData(sortedData);
     }
-  }, [formData]);
-
-  const sortFormData = () => {
-    const sortedData = [...formData].sort((a, b) => {
-      const dayA = (typeof a.landmarkDay === 'number') ? a.landmarkDay : Number(a.landmarkDay);
-      const dayB = (typeof b.landmarkDay === 'number') ? b.landmarkDay : Number(b.landmarkDay);
-
-      if (dayA !== dayB) {
-        return dayA - dayB;
-      } else {
-        const timeA = (typeof a.landmarkTime === 'string') ? a.landmarkTime : String(a.landmarkTime);
-        const timeB = (typeof b.landmarkTime === 'string') ? b.landmarkTime : String(b.landmarkTime);
-        return timeA.localeCompare(timeB);
-      }
-    });
-    setFormData(sortedData);
   };
+
+
+  // useEffect(() => {
+  //   if (formData) {
+  //     const sortResult = formData.sort((a, b) => {
+  //       const dayA = (typeof a.landmarkDay === 'number') ? a.landmarkDay : Number(a.landmarkDay);
+  //       const dayB = (typeof b.landmarkDay === 'number') ? b.landmarkDay : Number(b.landmarkDay);
+
+  //       if (dayA !== dayB) {
+  //         return dayA - dayB;
+  //       } else {
+  //         const timeA = (typeof a.landmarkTime === 'string') ? a.landmarkTime : String(a.landmarkTime);
+  //         const timeB = (typeof b.landmarkTime === 'string') ? b.landmarkTime : String(b.landmarkTime);
+  //         return timeA.localeCompare(timeB);
+  //       }
+  //     });
+  //     setFormData(sortResult);
+  //   }
+  // }, [formData]);
+
+
 
   const handleEditDay = (index, day) => {
     setEditDayIndex(index);
@@ -347,6 +351,7 @@ const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceBut
       ))}
 
       <ButtonContainer>
+        <SaveButton onClick={handleSort}>일차 순 정렬</SaveButton>
         <SaveButton onClick={() => { handleSaveAll(formData) }}>모든 데이터 저장</SaveButton>
       </ButtonContainer>
     </>
