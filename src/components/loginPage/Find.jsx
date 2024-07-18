@@ -61,24 +61,13 @@ const Input = styled.input`
   width: 100%;
   padding: 20px 0;
   border: 1px solid #ccc;
-  font-size: 20px; /* 입력 필드의 기본 폰트 크기 */
+  font-size: 20px;
 
   &::placeholder {
-    font-size: 18px; /* 플레이스홀더의 폰트 크기 */
-    color: #888; /* 플레이스홀더의 색상 */
-    padding-left: 10px; /* 플레이스홀더의 왼쪽 패딩 */
+    font-size: 18px;
+    color: #888;
+    padding-left: 10px;
   }
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 10px;
-`;
-
-const PhoneInput = styled(Input)`
-  flex-grow: 1;
 `;
 
 const Button = styled.button`
@@ -95,14 +84,6 @@ const Button = styled.button`
   }
 `;
 
-const VerifyButton = styled(Button)`
-  width: 120px;
-  margin-left: 10px;
-  margin-top: 0;
-  padding: 10px;
-  margin-bottom: 0;
-`;
-
 const SubmitButton = styled(Button)`
   width: 100%;
   margin: 20px 0;
@@ -110,29 +91,22 @@ const SubmitButton = styled(Button)`
 `;
 
 const Find = () => {
-  // const [pwName, setPwName] = useState(''); // 비밀번호 찾기용 이름 상태 추가
-  // const [pwId, setPwId] = useState(''); // 비밀번호 찾기용 아이디 상태 추가
-  // const [email, setEmail] = useState('');
-
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [userId, setUserId] = useState('');
-  
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     const id = await findId(userName, userEmail);
-    console.log(id);
     if (id) {
-      setUserId(id);
-    }else{
+      navigate('/findend', { state: { id } });
+    } else {
       alert('아이디를 찾을 수 없어요');
     }
-  }
+  };
 
   return (
     <>
-      <TitleLogo/>
+      <TitleLogo />
       <StyledTabs>
         <StyledTabList>
           <StyledTab>아이디 찾기</StyledTab>
@@ -141,7 +115,6 @@ const Find = () => {
 
         <TabPanel>
           <TabContent>
-            {/* 아이디 찾기 내용 */}
             <h2>아이디 찾기</h2>
             <FormField>
               <Label>이름을 입력해주세요:</Label>
@@ -161,8 +134,9 @@ const Find = () => {
                 onChange={(e) => setUserEmail(e.target.value)}
               />
             </FormField>
-            <SubmitButton type="button" onClick={handleSubmit}>아이디 찾기</SubmitButton>
-            {userId && <p>찾은 아이디: {userId}</p>}
+            <SubmitButton type="button" onClick={handleSubmit}>
+              아이디 찾기
+            </SubmitButton>
           </TabContent>
         </TabPanel>
         <TabPanel>
@@ -174,8 +148,6 @@ const Find = () => {
               <Input
                 type="text"
                 placeholder="아이디를 입력해주세요."
-                value={userId}
-                onChange={(e) => setUserId(e.target.value)}
               />
             </FormField>
             <FormField>
@@ -183,8 +155,6 @@ const Find = () => {
               <Input
                 type="text"
                 placeholder="이름을 입력해주세요."
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
               />
             </FormField>
             <FormField>
@@ -192,11 +162,11 @@ const Find = () => {
               <Input
                 type="text"
                 placeholder="abc123@email.com"
-                value={userEmail}
-                onChange={(e) => setUserEmail(e.target.value)}
               />
             </FormField>
-            <SubmitButton type="button" onClick={handleSubmit}>비밀번호 찾기</SubmitButton>
+            <SubmitButton type="button">
+              비밀번호 찾기
+            </SubmitButton>
           </TabContent>
         </TabPanel>
       </StyledTabs>

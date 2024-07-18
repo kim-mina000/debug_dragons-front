@@ -205,6 +205,9 @@ const TagifyStyled = styled.input.attrs({ className: 'tagify' })`
     color: black;
     transition: 0s;
   }
+  .tag-bg{
+    background-color: none;
+  }
 
   .tags-look .tagify__dropdown__item--active {
     color: black;
@@ -225,6 +228,7 @@ const TagifyStyled = styled.input.attrs({ className: 'tagify' })`
     cursor: pointer;
   }
 `;
+
 
 const ScrapAndCourseContainer = styled.div`
   width: 100%;
