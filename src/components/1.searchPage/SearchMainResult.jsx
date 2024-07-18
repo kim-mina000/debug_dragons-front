@@ -135,6 +135,8 @@ const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceBut
   const [editShortDescIndex, setEditShortDescIndex] = useState(null);
   const [editShortDesc, setEditShortDesc] = useState('');
 
+  const [state, setstate] = useState();
+
   // 공유하기 관련
   // const [selectedShareLandmark, setSelectedShareLandmark] = useState([]);
   const [isSelected, setIsSelected] = useState([]);
@@ -171,7 +173,23 @@ const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceBut
       });
       setFormData(sortResult);
     }
-  }, [formData, setFormData]);
+  }, [formData]);
+
+  const sortFormData = () => {
+    const sortedData = [...formData].sort((a, b) => {
+      const dayA = (typeof a.landmarkDay === 'number') ? a.landmarkDay : Number(a.landmarkDay);
+      const dayB = (typeof b.landmarkDay === 'number') ? b.landmarkDay : Number(b.landmarkDay);
+
+      if (dayA !== dayB) {
+        return dayA - dayB;
+      } else {
+        const timeA = (typeof a.landmarkTime === 'string') ? a.landmarkTime : String(a.landmarkTime);
+        const timeB = (typeof b.landmarkTime === 'string') ? b.landmarkTime : String(b.landmarkTime);
+        return timeA.localeCompare(timeB);
+      }
+    });
+    setFormData(sortedData);
+  };
 
   const handleEditDay = (index, day) => {
     setEditDayIndex(index);
@@ -239,7 +257,7 @@ const SearchMainResult = ({ handleShare, formData, setFormData, selectedPlaceBut
       {formData?.map((result, index) => (
 
         handleShare === undefined || handleShare === false ?
-        (<Container key={index} $bgColor={colors[index % colors.length]} onClick={()=>setShowClickedLandmark(result)}>
+        (<Container key={index} $bgColor={colors[index % colors.length]} onClick={()=>setShowClickedLandmark && setShowClickedLandmark(result)}>
           <Info>
             {/* 일자표시 */}
             {editDayIndex === index ? (
