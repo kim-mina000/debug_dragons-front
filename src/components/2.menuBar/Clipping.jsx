@@ -204,7 +204,6 @@ const DraggableFile = ({ file, index, toggleLike, inFolder }) => {
     }
 
   };
-  console.log(getLike(file.landmarkNo));
 
 
 
@@ -250,7 +249,7 @@ const DroppableFolder = ({ folder, onDrop, handleFolderClick, handleInputChange,
         />
       ) : (
         <>
-          <div>{folder.name}</div>
+          <div style={{textAlign:'center', wordBreak:'break-word', width:'70%'}}>{folder.name}</div>
           <div>저장된 페이지 수: {folder.pages.length}개</div>
         </>
       )}
@@ -302,8 +301,8 @@ const Clipping = () => {
   ]);
 
   const [folders, setFolders] = useState([
-    { id: 1, name: "강아지랑 같이 가야만...", pages: [] },
-    { id: 2, name: "제목을 내게.......", pages: [] },
+    { id: 1, name: "클릭으로 제목을 변경해주세요!", pages: [] },
+    // { id: 2, name: "제목을 내게.......", pages: [] },
   ]);
 
   const [openFolder, setOpenFolder] = useState(null);
