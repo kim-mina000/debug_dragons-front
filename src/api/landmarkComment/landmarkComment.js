@@ -13,12 +13,10 @@ export const fetchLandmarkComment = async (landmarkNo) => {
   };
 };
 
-// const token = localStorage.getItem('userToken');
-const token = localStorage.getItem('userToken');
-
 // 댓글등록
 export const registerLandmarkComment = async (newComment) => {
   try {
+    const token = localStorage.getItem('userToken');
     const response = await axios.post(`${BACK_URL}/landmarkComment/register`, newComment, {
       headers: {
         Authorization: token
@@ -34,6 +32,7 @@ export const registerLandmarkComment = async (newComment) => {
 // 댓글삭제
 export const deleteComment = async (commentNo) => {
   try {
+    const token = localStorage.getItem('userToken');
     const response = await axios.delete(`${BACK_URL}/landmarkComment/remove?landmarkcommentNo=${commentNo}`, {
       headers: {
         Authorization: token
