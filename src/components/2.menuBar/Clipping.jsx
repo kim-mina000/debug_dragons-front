@@ -209,6 +209,7 @@ const DraggableFile = ({ file, index, toggleLike, inFolder }) => {
 
   return (
     <File ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
+  
       <FileThumbnail src={file.landmarkImgPath} alt="썸네일 이미지" inFolder={inFolder} />
       <FileLabel inFolder={inFolder}>
         <h3>{file.landmarkName}</h3>

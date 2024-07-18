@@ -85,12 +85,12 @@ export const postShareMyLandmark = async (landmarkList) => {
 }
 
 // img 업로드
-// controller만들어야함
 export const uploadMyImg = async (file, landmarkNo) => {
 
   const formData = new FormData();
   formData.append('landmarkNo', landmarkNo);
   formData.append('file', file);
+  console.log(file);
 
   try {
     const userToken = localStorage.getItem('userToken');

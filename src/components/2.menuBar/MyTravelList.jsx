@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 
 import { getMyTravelList } from '../../api/myTravelList/myTravelListAPI';
 import { useSelector } from 'react-redux';
+import imges from '../csvFile/images.csv';
+import { images } from "../csvFile/csv";
 
 
 const TravelListContainer = styled.div`
@@ -134,7 +136,7 @@ const BoxesContainer = styled.div`
 const BoxLink = styled(Link)`
   width: 22rem;
   height: 22rem;
-  background-image: url('http://via.placeholder.com/250x250');
+  background-image: url(${props => props.img ? props.img : 'http://via.placeholder.com/250x250' });
   background-size: cover;
   background-position: center;
   margin: 10px;
@@ -265,42 +267,7 @@ const MyTravelList = () => {
     setSortOption(option);
     setDropdownVisible(false);
   };
-  
- 
-  // csv 파일 읽어오기
-  useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await fetch('images.csv');
-    //     if (!response.ok) {
-    //       throw new Error('Failed to fetch CSV');
-    //     }
-    //     const csvData = await response.text();
-    
-    //     // CSV를 JSON으로 파싱하기
-    //     const parsedData = Papa.parse(csvData, { header: true }); // header: true는 첫 줄을 헤더로 사용함을 의미
-    
-    //     console.log(parsedData.data); // 파싱된 데이터 확인
-    
-    //     // 여기서 parsedData.data를 처리하거나 필요한 작업 수행
-    
-    //   } catch (error) {
-    //     console.error('Error fetching or parsing CSV:', error);
-    //   }
-    // };
-    
-    // fetchData();
 
-    // const fs = require('fs');
-    // const Papa = require('papaparse');
-
-    // const csvFile = fs.readFileSync(
-    //   'C:\0.김민아\debug-dragons\debug_dragons-front\src\components\csvFile\images.csv',
-    //   'utf-8'
-    // );
-    // https://deadsimplechat.com/blog/csv-files-with-nodejs-papaparse/ 이거 
-
-  }, []);
 
   return (
     <>
@@ -339,7 +306,7 @@ const MyTravelList = () => {
         </DropdownContainer>
         <BoxesContainer>
           {myList &&
-            myList.map(list => {return <BoxLink to={`/main/detail/${list.courseNo}`} key={list.courseNo}></BoxLink>})}
+            myList.map((list,index) => {return <BoxLink to={`/main/detail/${list.courseNo}`} key={list.courseNo} img={images[index]}></BoxLink>})}
         </BoxesContainer>
       </TravelListContainer>
     </>

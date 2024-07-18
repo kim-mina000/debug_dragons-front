@@ -162,7 +162,6 @@ function SearchMain({userInfo}) {
   const [categoryIndex, setCategoryIndex] = useState("가볼만한 곳");
   
   const [formData, setFormData] = useState([]);
-  const dispatch =  useDispatch();
   
   // 각 모달의 open/close 상태 관리
   const [isDateModalOpen, setIsDateModalOpen] = useState(false);
