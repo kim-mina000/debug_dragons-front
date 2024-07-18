@@ -65,7 +65,7 @@ const Img = styled.div`
   width: 100%;
   height: 100%;
   max-width: 1050px;
-  max-height: 500px;
+  max-height: 485px;
   background-image: url(${props => props.img});
   background-repeat: no-repeat;
   background-size: contain;
