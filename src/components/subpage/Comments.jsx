@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { deleteComment, fetchLandmarkComment, registerLandmarkComment } from '../../api/landmarkComment/landmarkComment';
-import { useParams } from 'react-router-dom';
-import { currentUser, currentUserWriter } from '../../api/member/member';
 import { useSelector } from 'react-redux';
+import { TfiClose } from 'react-icons/tfi';
 
 
 const Container = styled.div`
   width: 80%;
-  max-height: 400px;
+  max-height: 380px;
   margin: 20px auto;
   padding: 20px;
   border: 1px solid #ccc;
@@ -36,7 +35,7 @@ const CommentText = styled.div`
 
 const InputContainer = styled.div`
   display: flex;
-  margin-top: 20px;
+  margin-bottom: 10px;
 `;
 
 const Input = styled.input`
@@ -48,7 +47,8 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  padding: 10px 20px;
+  padding: 5px;
+  margin-left: 5px;
   background-color: #007bff;
   color: white;
   border: none;
@@ -125,17 +125,6 @@ const Comments = ({ landmark }) => {
 
   return (
     <Container>
-      <h2>댓글</h2>
-      <CommentList>
-        {comments && comments.map(comment => (
-          <CommentItem key={comment.landmarkCommentNo}>
-            {comment.landmarkCommentContent} <p>작성자: </p> {comment.writer}
-            {comment.writer == currentUser.userId && (
-              <Button onClick={() => handleDeleteComment(comment.landmarkCommentNo)}>삭제</Button>
-            )}
-          </CommentItem>
-        ))}
-      </CommentList>
       <form onSubmit={handleCommentSubmit}> {/* 폼 제출 시 handleCommentSubmit 함수 호출 */}
         <InputContainer>
           <Input
@@ -147,6 +136,17 @@ const Comments = ({ landmark }) => {
           {/* type="submit"으로 설정하여 폼 제출 */}
         </InputContainer>
       </form>
+      <CommentList>
+        {comments && comments.map(comment => (
+          <CommentItem key={comment.landmarkCommentNo}>
+            {comment.landmarkCommentContent}<p style={{fontSize:"15px", color:"#777"}}>{comment.writer}{comment.writer == currentUser.userId && (
+              <Button onClick={() => handleDeleteComment(comment.landmarkCommentNo)}><TfiClose /></Button>
+            )}</p>
+            
+          </CommentItem>
+        ))}
+      </CommentList>
+
     </Container >
   );
 };
