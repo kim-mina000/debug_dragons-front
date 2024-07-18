@@ -34,26 +34,51 @@ const LeftContainer = styled.div`
 `;
 
 const ImageContainer = styled.div`
-
   flex: 3;
   background-color: #4a4a4a;
   margin-bottom: 20px;
   background-image: url(${props => props.img});
   background-repeat: no-repeat;
   background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  @media (max-width: 768px) {
+    height: 200px;  /* 화면이 줄어들 때 높이를 조정 */
+  }
+
+  @media (max-width: 480px) {
+    height: 150px;  /* 더 작은 화면일 때 높이를 더 줄입니다 */
+  }
 `;
 
 const Img = styled.div`
   backdrop-filter: blur(10px);
   width: 100%;
   height: 100%;
-  max-width: 1033px;
-  max-height: 323px;
+  max-width: 1007px;
+  max-height: 335px;
   background-image: url(${props => props.img});
   background-repeat: no-repeat;
   background-size: contain;
-  position: absolute;
+  background-position: center;
+  display: flex;
+  position: relative;  /* position을 relative로 수정함 */
   text-align: center;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    max-width: 90%;  
+    max-height: 300px;
+  }
+
+  @media (max-width: 480px) {
+    max-width: 80%;  
+    max-height: 250px;
+  }
 `;
 
 const TextContainer = styled.div`
