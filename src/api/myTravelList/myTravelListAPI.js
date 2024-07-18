@@ -95,7 +95,7 @@ export const uploadMyImg = async (file, landmarkNo) => {
 
   try {
     const userToken = localStorage.getItem('userToken');
-    const response = await axios.post(`${BACK_URL}/landmark/upload`, formData, {
+    const response = await axios.post(`${BACK_URL}/landmark/upload?no=${landmarkNo}`, formData, {
       headers:{
         Authorization : userToken
       }

@@ -182,6 +182,8 @@ const HeartIcon = styled.div`
 `;
 
 const DraggableFile = ({ file, index, toggleLike, inFolder }) => {
+
+  const [like, setLike] = useState();
   const [{ isDragging }, drag] = useDrag({
     type: 'FILE',
     item: { index },
@@ -190,14 +192,20 @@ const DraggableFile = ({ file, index, toggleLike, inFolder }) => {
     }),
   });
 
-  // const getLike = async (landmarkNo) => {
-  //   const result = await readBookmarkByLandmarkNo(landmarkNo);    
-  //   if(result){
-  //     return result.length;
-  //   } else {
-  //     return 0;
-  //   }
-  // };
+
+
+  const getLike = async (landmarkNo) => {
+    const result = await readBookmarkByLandmarkNo(landmarkNo);    
+    console.log(result);
+    if(result){
+      return result;
+    } else {
+      return 0;
+    }
+
+  };
+  console.log(getLike(file.landmarkNo));
+
 
 
   return (
@@ -212,7 +220,7 @@ const DraggableFile = ({ file, index, toggleLike, inFolder }) => {
             ) : (
               <PiHeartStraightBreak onClick={() => toggleLike(index)} />
             )}
-            {/* {getLike(file.landmarkNo)} */}
+            {/* {getLike(file.landmarkNo).then(res => res)} */}
           </div>
           <div style={{ fontSize: '0.7rem' }}>작성자 {file.writer}님</div> 
         </div>
@@ -298,11 +306,10 @@ const Clipping = () => {
     { id: 2, name: "제목을 내게.......", pages: [] },
   ]);
 
-  const userInfo = useSelector(state => state.member.userInfo);
   const [openFolder, setOpenFolder] = useState(null);
-
+  const userInfo = useSelector(state => state.member.userInfo);
+  
   useEffect(() => {
-
     const fetchData = async ()=>{
       const res = await readBookmark(userInfo.userId);
       if(res){

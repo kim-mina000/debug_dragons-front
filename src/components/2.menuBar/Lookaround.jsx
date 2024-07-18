@@ -30,6 +30,7 @@ const LeftContainer = styled.div`
   background-color: #f4f4f4;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 `;
 
 const ImageContainer = styled.div`
@@ -46,8 +47,8 @@ const Img = styled.div`
   backdrop-filter: blur(10px);
   width: 100%;
   height: 100%;
-  max-width: 653px;
-  max-height: 280px;
+  max-width: 1033px;
+  max-height: 323px;
   background-image: url(${props => props.img});
   background-repeat: no-repeat;
   background-size: contain;

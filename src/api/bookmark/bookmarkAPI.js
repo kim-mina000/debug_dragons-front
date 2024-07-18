@@ -34,7 +34,6 @@ export const readBookmark = async (userId) => {
   }
 }
 
-// 컨트롤러만들어줘야함
 export const readBookmarkByLandmarkNo = async (landmarkNo)=>{
   const userToken = localStorage.getItem('userToken');
   try {
@@ -43,6 +42,7 @@ export const readBookmarkByLandmarkNo = async (landmarkNo)=>{
         Authorization: userToken
       }
     });
+    console.log(response.data);
     return response.data;
 
   } catch (error) {

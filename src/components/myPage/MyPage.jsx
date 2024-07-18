@@ -282,6 +282,7 @@ function MyPage() {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log(userInfo.userId);
       const response = await getMyTravelListById(userInfo.userId);
       setMyCourse(response);
     }

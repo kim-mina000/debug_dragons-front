@@ -139,7 +139,6 @@ const MyTravelListDetail = () => {
         const promises = await myCourseList.map(landmark => getLandmarkInfo(landmark.landmarkNo));
         const landmarkList = await Promise.all(promises);
         setCourseList(landmarkList);
-        console.log(landmarkList);
         setSelectedShareLandmark(landmarkList.filter(landmark => landmark.landmarkOrigin === 2));
       } catch (error) {
         console.error(error);
@@ -172,11 +171,11 @@ const MyTravelListDetail = () => {
 
     if (file) {
       reader.readAsDataURL(file);
-
     }
     
     const img_url = uploadMyImg(file,landmarkNo);
-    setShowClickedLandmark({...showClickedLandmark,'landmarkImgPath': img_url})      
+    setShowClickedLandmark({...showClickedLandmark,'landmarkImgPath': img_url});
+
     
   };
 
@@ -223,7 +222,7 @@ const MyTravelListDetail = () => {
             type="file"
             id="profileImageUpload"
             style={{ display: 'none' }}
-            onChange={handleImgClicked}
+            onChange={(e)=>{handleImgClicked(e,showClickedLandmark.landmarkNo)}}
             />
           </>
 
